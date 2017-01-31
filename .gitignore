@@ -1,2 +1,2 @@
-andes/mysite/*pyc
-andes/*.sqlite3
+*pyc
+*.sqlite3
