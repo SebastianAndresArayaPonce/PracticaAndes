@@ -27,11 +27,11 @@ class Inventory(models.Model):
     subfamily = models.ForeignKey(Subfamily, on_delete=models.PROTECT)
     purchase_value = models.IntegerField(default=0)
     up_date = models.DateField(default=date.today)
-    down_date = models.DateField(null=True)
+    down_date = models.DateField(blank=True)
     airport = models.ForeignKey(Airport, on_delete=models.PROTECT)
     annex = models.FileField(null=True)
     def __str__(self):
-        return self.machine_number
+        return str(self.machine_number)
 
 class Status(models.Model):
     name = models.CharField(max_length=100)
@@ -46,7 +46,7 @@ class History(models.Model):
     date = models.DateField(default=date.today)
     status = models.ForeignKey(Status, on_delete=models.PROTECT)
     def __str__(self):
-        return self.machine_number
+        return str(self.machine_number)
 
 class Area(models.Model):
     name = models.CharField(max_length=100)
@@ -63,7 +63,7 @@ class WorkOrder(models.Model):
     date = models.DateField(default=date.today)
     #mechanic = models.ForeignKey(User, on_delete=models.PROTECT)
     def __str(self):
-        return self.work_type
+        return str(self.work_type)
 
 class SparePart(models.Model):
     name = models.CharField(max_length=50)
@@ -75,7 +75,7 @@ class SparePartHistoricPrice(models.Model):
     date = models.DateField(default=date.today)
     price = models.IntegerField(default=0)
     def __str__(self):
-        return self.spare_part
+        return str(self.spare_part)
 
 class PurchaseOrder(models.Model):
     work_order = models.ForeignKey(WorkOrder, on_delete=models.PROTECT)
@@ -83,4 +83,4 @@ class PurchaseOrder(models.Model):
     unit_cost = models.IntegerField(default=0)
     quantity = models.IntegerField(default=0)
     def __str__(self):
-        return self.work_order
+        return str(self.work_order)
