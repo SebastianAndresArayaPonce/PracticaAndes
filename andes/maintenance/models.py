@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractBaseUser
 from datetime import date
 
 # Create your models here.
@@ -38,6 +38,9 @@ class Status(models.Model):
     def __str__(self):
         return self.name
 
+'''class User(AbstractBaseUser):
+    bp = models.'''
+
 class History(models.Model):
     machine_number = models.IntegerField(default=0)
     date = models.DateField(default=date.today)
@@ -49,3 +52,35 @@ class Area(models.Model):
     name = models.CharField(max_length=100)
     def __str__(self):
         return self.name
+
+class WorkType(models.Model):
+    name = models.CharField(max_length=50)
+    def __str__(self):
+        return self.name
+
+class WorkOrder(models.Model):
+    work_type = models.ForeignKey(WorkType, on_delete=models.PROTECT)
+    date = models.DateField(default=date.today)
+    #mechanic = models.ForeignKey(User, on_delete=models.PROTECT)
+    def __str(self):
+        return self.work_type
+
+class SparePart(models.Model):
+    name = models.CharField(max_length=50)
+    def __str__(self):
+        return self.name
+
+class SparePartHistoricPrice(models.Model):
+    spare_part = models.ForeignKey(SparePart, on_delete=models.PROTECT)
+    date = models.DateField(default=date.today)
+    price = models.IntegerField(default=0)
+    def __str__(self):
+        return self.spare_part
+
+class PurchaseOrder(models.Model):
+    work_order = models.ForeignKey(WorkOrder, on_delete=models.PROTECT)
+    spare_part = models.ForeignKey(SparePart, on_delete=models.PROTECT)
+    unit_cost = models.IntegerField(default=0)
+    quantity = models.IntegerField(default=0)
+    def __str__(self):
+        return self.work_order
