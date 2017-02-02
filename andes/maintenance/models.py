@@ -26,6 +26,10 @@ class Airport(models.Model):
 class Machine(models.Model):
     machine_number = models.PositiveIntegerField(primary_key=True)
     airport = models.ForeignKey(Airport, on_delete=models.PROTECT)
+    hour_base = models.PositiveIntegerField()
+    hour_now = models.PositiveIntegerField()
+    km_base = models.PositiveIntegerField()
+    km_now = models.PositiveIntegerField()
     def __str__(self):
         return str(self.machine_number)
 
@@ -33,7 +37,7 @@ class Inventory(models.Model):
     machine_number = models.ForeignKey(Machine, on_delete=models.PROTECT)
     family = models.ForeignKey(Family, on_delete=models.PROTECT)
     subfamily = models.ForeignKey(Subfamily, on_delete=models.PROTECT)
-    purchase_value = models.DecimalField(max_digits=15, decimal_places=2)
+    purchase_value = models.DecimalField(max_digits=9, decimal_places=2)
     up_date = models.DateField()
     down_date = models.DateField(null=True, blank=True)
     airport = models.ForeignKey(Airport, on_delete=models.PROTECT)
@@ -100,14 +104,14 @@ class SparePart(models.Model):
 class SparePartHistoricPrice(models.Model):
     spare_part = models.ForeignKey(SparePart, on_delete=models.PROTECT)
     date = models.DateField(default=date.today)
-    price = models.DecimalField(max_digits=15, decimal_places=2)
+    price = models.DecimalField(max_digits=9, decimal_places=2)
     def __str__(self):
         return str(self.spare_part)
 
 class PurchaseOrder(models.Model):
     work_order = models.ForeignKey(WorkOrder, on_delete=models.PROTECT)
     spare_part = models.ForeignKey(SparePart, on_delete=models.PROTECT)
-    unit_cost = models.DecimalField(max_digits=15, decimal_places=2)
+    unit_cost = models.DecimalField(max_digits=9, decimal_places=2)
     quantity = models.PositiveIntegerField()
     def __str__(self):
         return str(self.work_order)
