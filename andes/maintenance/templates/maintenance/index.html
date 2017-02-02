@@ -1,0 +1,9 @@
+{% if airport_list %}
+    <ul>
+    {% for airport in airport_list %}
+        <li><a href="/maintenance/{{ airport.id }}/">{{ airport.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No airports are available.</p>
+{% endif %}
