@@ -2,12 +2,13 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
 
-from .models import Family, Subfamily, Airport, Inventory, Status, History, Area, Profile, WorkType, WorkOrder, SparePart, SparePartHistoricPrice, PurchaseOrder
+from .models import Family, Subfamily, Airport, Machine, Inventory, Status, History, Area, Profile, WorkType, WorkOrder, SparePart, SparePartHistoricPrice, PurchaseOrder
 
 # Register your models here.
 admin.site.register(Family)
 admin.site.register(Subfamily)
 admin.site.register(Airport)
+admin.site.register(Machine)
 admin.site.register(Inventory)
 admin.site.register(Status)
 admin.site.register(History)
