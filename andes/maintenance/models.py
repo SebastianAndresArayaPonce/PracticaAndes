@@ -35,6 +35,19 @@ class Machine(models.Model):
     def __str__(self):
         return str(self.machine_number)
 
+class WorkType(models.Model):
+    name = models.CharField(max_length=50, primary_key=True)
+    def __str__(self):
+        return self.name
+
+class WorkOrder(models.Model):
+    work_type = models.ForeignKey(WorkType, on_delete=models.PROTECT)
+    datetime = models.DateTimeField()
+    mechanic = models.ForeignKey(User, on_delete=models.PROTECT, related_name='mechanic')
+    team_leader = models.ForeignKey(User, on_delete=models.PROTECT, related_name='team_leader')
+    def __str(self):
+        return str(self.work_type)
+
 class SparePart(models.Model):
     factory_number = models.PositiveIntegerField(null=True, blank=True)
     sage_number = models.PositiveIntegerField(null=True, blank=True)
@@ -55,9 +68,16 @@ class SparePartHistoricPrice(models.Model):
     def __str__(self):
         return str(self.spare_part)
 
+class InputType(models.Model):
+    input_type = models.CharField(max_length=50, primary_key=True)
+    def __str__(self):
+        return self.input_type
+
 class Input(models.Model):
-    input_type = models.CharField(max_length=50)
+    input_type = models.ForeignKey(InputType, on_delete=models.PROTECT)
     description = models.CharField(max_length=100)
+    def __str__(self):
+        return self.input_type
 
 class MachineInput(models.Model):
     machine_number = models.ForeignKey(Machine, on_delete=models.PROTECT)
@@ -65,9 +85,16 @@ class MachineInput(models.Model):
     level = models.PositiveIntegerField()
     quantity = models.PositiveIntegerField()
 
+class InstructionType(models.Model):
+    instruction_type = models.CharField(max_length=50, primary_key=True)
+    def __str__(self):
+        return self.instruction_type
+
 class Instruction(models.Model):
-    instruction_type = CharField(max_length=50)
+    instruction_type = models.ForeignKey(InstructionType, on_delete=models.PROTECT)
     description = models.CharField(max_length=100)
+    def __str__(self):
+        return self.instruction_type
 
 class MachineInstruction(models.Model):
     machine_number = models.ForeignKey(Machine, on_delete=models.PROTECT)
@@ -131,19 +158,6 @@ class Profile(models.Model):
 #def save_user_profile(sender, instance, **kwargs):
     #print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
     #instance.profile.save()
-
-class WorkType(models.Model):
-    name = models.CharField(max_length=50, primary_key=True)
-    def __str__(self):
-        return self.name
-
-class WorkOrder(models.Model):
-    work_type = models.ForeignKey(WorkType, on_delete=models.PROTECT)
-    datetime = models.DateTimeField()
-    mechanic = models.ForeignKey(User, on_delete=models.PROTECT, related_name='mechanic')
-    team_leader = models.ForeignKey(User, on_delete=models.PROTECT, related_name='team_leader')
-    def __str(self):
-        return str(self.work_type)
 
 class History(models.Model):
     machine_number = models.ForeignKey(Machine, on_delete=models.PROTECT)
