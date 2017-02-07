@@ -16,7 +16,7 @@ class Family(models.Model):
 
 class Subfamily(models.Model):
     code = models.CharField(max_length=10, primary_key=True)
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=100)
     def __str__(self):
         return self.code
 
@@ -25,12 +25,6 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-class Airport(models.Model):
-    code = models.CharField(max_length=10, primary_key=True)
-    name = models.CharField(max_length=100)
-    def __str__(self):
-        return self.code
-
 class Machine(models.Model):
     machine_number = models.PositiveIntegerField(primary_key=True)
     family = models.ForeignKey(Family, on_delete=models.PROTECT)
@@ -38,6 +32,61 @@ class Machine(models.Model):
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
     hourmeter_base = models.PositiveIntegerField()
     odometer_base = models.PositiveIntegerField()
+    def __str__(self):
+        return str(self.machine_number)
+
+class SparePart(models.Model):
+    factory_number = models.PositiveIntegerField(null=True, blank=True)
+    sage_number = models.PositiveIntegerField(null=True, blank=True)
+    name = models.CharField(max_length=50, primary_key=True)
+    def __str__(self):
+        return self.name
+
+class MachineSparePart(models.Model):
+    machine_number = models.ForeignKey(Machine, on_delete=models.PROTECT)
+    spare_part = models.ForeignKey(SparePart, on_delete=models.PROTECT)
+    level = models.PositiveIntegerField()
+    quantity = models.PositiveIntegerField()
+
+class SparePartHistoricPrice(models.Model):
+    spare_part = models.ForeignKey(SparePart, on_delete=models.PROTECT)
+    date = models.DateField()
+    price = models.DecimalField(max_digits=9, decimal_places=2)
+    def __str__(self):
+        return str(self.spare_part)
+
+class Input(models.Model):
+    input_type = models.CharField(max_length=50)
+    description = models.CharField(max_length=100)
+
+class MachineInput(models.Model):
+    machine_number = models.ForeignKey(Machine, on_delete=models.PROTECT)
+    input_number = models.ForeignKey(Input, on_delete=models.PROTECT)
+    level = models.PositiveIntegerField()
+    quantity = models.PositiveIntegerField()
+
+class Instruction(models.Model):
+    instruction_type = CharField(max_length=50)
+    description = models.CharField(max_length=100)
+
+class MachineInstruction(models.Model):
+    machine_number = models.ForeignKey(Machine, on_delete=models.PROTECT)
+    instruction_number = models.ForeignKey(Instruction, on_delete=models.PROTECT)
+    level = models.PositiveIntegerField()
+
+class Airport(models.Model):
+    code = models.CharField(max_length=10, primary_key=True)
+    name = models.CharField(max_length=100)
+    def __str__(self):
+        return self.code
+
+class Inventory(models.Model):
+    machine_number = models.ForeignKey(Machine, on_delete=models.PROTECT)
+    purchase_value = models.DecimalField(max_digits=9, decimal_places=2)
+    up_date = models.DateField()
+    down_date = models.DateField(null=True, blank=True)
+    airport = models.ForeignKey(Airport, on_delete=models.PROTECT)
+    annex = models.FileField(blank=True)
     def __str__(self):
         return str(self.machine_number)
 
@@ -50,16 +99,6 @@ class Odometer(models.Model):
     machine_number = models.ForeignKey(Machine, on_delete=models.PROTECT)
     datetime = models.DateTimeField()
     odometer_to_date = models.PositiveIntegerField()
-
-class Inventory(models.Model):
-    machine_number = models.ForeignKey(Machine, on_delete=models.PROTECT)
-    purchase_value = models.DecimalField(max_digits=9, decimal_places=2)
-    up_date = models.DateField()
-    down_date = models.DateField(null=True, blank=True)
-    airport = models.ForeignKey(Airport, on_delete=models.PROTECT)
-    annex = models.FileField(blank=True)
-    def __str__(self):
-        return str(self.machine_number)
 
 class Status(models.Model):
     name = models.CharField(max_length=100, primary_key=True)
@@ -114,18 +153,7 @@ class History(models.Model):
     def __str__(self):
         return '%s | %s' % (self.machine_number, self.date)
 
-class SparePart(models.Model):
-    name = models.CharField(max_length=50, primary_key=True)
-    def __str__(self):
-        return self.name
-
-class SparePartHistoricPrice(models.Model):
-    spare_part = models.ForeignKey(SparePart, on_delete=models.PROTECT)
-    date = models.DateField()
-    price = models.DecimalField(max_digits=9, decimal_places=2)
-    def __str__(self):
-        return str(self.spare_part)
-
+'''
 class PurchaseOrder(models.Model):
     work_order = models.ForeignKey(WorkOrder, on_delete=models.PROTECT)
     spare_part = models.ForeignKey(SparePart, on_delete=models.PROTECT)
@@ -133,3 +161,4 @@ class PurchaseOrder(models.Model):
     quantity = models.PositiveIntegerField()
     def __str__(self):
         return str(self.work_order)
+'''
