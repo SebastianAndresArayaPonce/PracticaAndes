@@ -42,7 +42,7 @@
 	<tr>
 		<td width="598" valign="top" style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
 			<p align="center" style="margin-bottom: 0in"><font face="Arial, serif"><b>***Inspección Preventiva – Anual***</b></font></p>
-			<p align="center"><font face="Arial, serif"><b>{{ machine.machine_number }}</b></font></p>
+			<p align="center"><font face="Arial, serif"><b>Familia {{ machine.family.code }} - {{ machine.subfamily.name }}</b></font></p>
 		</td>
 	</tr>
 </table>
@@ -54,7 +54,7 @@
 	<col width="292">
 	<tr valign="top">
 		<td width="292" style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0in">
-			<p>N° Equipo:</p>
+			<p>N° Equipo: {{ machine.machine_number }}</p>
 		</td>
 		<td width="292" style="border: 1px solid #000000; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
 			<p>Fecha de Ingreso:</p>
@@ -88,7 +88,7 @@ Necesarios</b></font></p>
 	<col width="43">
 	<col width="147">
 	<col width="127">
-	<tr valign="top">
+	<tr>
 		<td width="240" style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
 			<p align="center"><font face="Arial, serif"><b>Tipo</b></font></p>
 		</td>
@@ -103,29 +103,28 @@ Necesarios</b></font></p>
 			<p align="center"><font face="Arial, serif"><b>P/N SAGE</b></font></p>
 		</td>
 	</tr>
-
-	<tr valign="top">
+{% if machine_spare_part_list %}
+	{% for machine_spare_part in machine_spare_part_list %}
+	<tr>
 		<td width="240" style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-			<p align="center"><font face="Arial, serif">***Filtro secador de
-			malla de alambre***</font>
-			</p>
-		</td>
+			<p align="center"><font face="Arial, serif">{{ machine_spare_part.spare_part.name }}</font></p></td>
 		<td width="43" style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-			<p align="center"><font face="Arial, serif">***1***</font></p>
+			<p align="center"><font face="Arial, serif">{{ machine_spare_part.quantity }}</font></p>
 		</td>
 		<td width="147" style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-			<p align="center"><font face="Arial, serif">***1001839***</font></p>
+			<p align="center"><font face="Arial, serif">{{ machine_spare_part.spare_part.factory_number }}</font></p>
 		</td>
 		<td width="127" style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-			<p align="center"><br/></p>
+			<p align="center"><font face="Arial, serif">{{ machine_spare_part.spare_part.sage_number }}</font></p>
 		</td>
 	</tr>
+	{% endfor %}
+{% endif %}
 </table>
 <p style="margin-bottom: 0in; line-height: 100%"><br/>
 
 </p>
-<p style="margin-bottom: 0in; line-height: 100%"><font face="Arial, serif"><b>Herramientas
-a utilizar</b></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font face="Arial, serif"><b>Herramientas a utilizar</b></font></p>
 <table width="614" cellpadding="7" cellspacing="0">
 	<col width="17">
 	<col width="445">
@@ -160,30 +159,32 @@ a utilizar</b></font></p>
 	<col width="162">
 	<tr valign="top">
 		<td width="260" style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-			<p align="center"><font face="Arial, serif"><b>***Tipo***</b></font></p>
+			<p align="center"><font face="Arial, serif"><b>Tipo</b></font></p>
 		</td>
 		<td width="148" style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-			<p align="center"><font face="Arial, serif"><b>***Descripción***</b></font></p>
+			<p align="center"><font face="Arial, serif"><b>Descripción</b></font></p>
 		</td>
 		<td width="162" style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-			<p align="center"><font face="Arial, serif"><b>***Cantidad(Lt)***</b></font></p>
+			<p align="center"><font face="Arial, serif"><b>Cantidad(Lt)</b></font></p>
 		</td>
 	</tr>
+{% if machine_input_list %}
+	{% for machine_input in machine_input_list %}
 	<tr valign="top">
 		<td width="260" style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-			<p align="center"><font face="Arial, serif">***15W40***</font></p>
+			<p align="center"><font face="Arial, serif">{{ machine_input.input_number.input_type }}</font></p>
 		</td>
 		<td width="148" style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-			<p align="center"><font face="Arial, serif">***Aceite motor***</font></p>
+			<p align="center"><font face="Arial, serif">{{ machine_input.input_number.description }}</font></p>
 		</td>
 		<td width="162" style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-			<p align="center"><font face="Arial, serif">***25***</font></p>
+			<p align="center"><font face="Arial, serif">{{ machine_input.quantity }}</font></p>
 		</td>
 	</tr>
+	{% endfor %}
+{% endif %}
 </table>
-<p style="margin-bottom: 0in; line-height: 100%"><br/>
-
-</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/></p>
 <p style="margin-bottom: 0in; line-height: 100%"><font face="Arial, serif"><b>Observaciones</b></font></p>
 <table width="614" cellpadding="7" cellspacing="0">
 	<col width="598">
