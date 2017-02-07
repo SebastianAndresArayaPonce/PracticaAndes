@@ -7,11 +7,11 @@ from .models import *
 # Register your models here.
 admin.site.register(Family)
 admin.site.register(Subfamily)
+admin.site.register(Category)
 admin.site.register(Machine)
 admin.site.register(SparePart)
 admin.site.register(MachineSparePart)
 admin.site.register(SparePartHistoricPrice)
-admin.site.register(InputType)
 admin.site.register(Input)
 admin.site.register(MachineInput)
 admin.site.register(InstructionType)
