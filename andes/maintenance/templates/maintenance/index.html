@@ -1,9 +1,13 @@
-{% if airport_list %}
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'maintenance/style.css' %}" />
+
+{% if machine_list %}
     <ul>
-    {% for airport in airport_list %}
-        <li><a href="/maintenance/{{ airport.id }}/">{{ airport.name }}</a></li>
+    {% for machine in machine_list %}
+        <li>{{ machine.machine_number }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
-    <p>No airports are available.</p>
+    <p>No machines are available.</p>
 {% endif %}

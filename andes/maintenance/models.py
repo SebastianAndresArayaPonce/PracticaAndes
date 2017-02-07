@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.contrib.auth.models import User
+from django import forms
 #from django.db.models.signals import post_save
 #from django.dispatch import receiver
 #from datetime import date
@@ -50,9 +51,12 @@ class WorkOrder(models.Model):
         return u'%s for %s by %s %s' % (self.work_type.name, self.machine_number, self.mechanic, self.datetime)
 
 class SparePart(models.Model):
-    factory_number = models.PositiveIntegerField(null=True, blank=True)
-    sage_number = models.PositiveIntegerField(null=True, blank=True)
+    factory_number = models.PositiveIntegerField(null=True, blank=True, unique=True)
+    sage_number = models.PositiveIntegerField(null=True, blank=True, unique=True)
     name = models.CharField(max_length=50, primary_key=True)
+    def clean(self):
+        if self.factory_number == None and self.sage_number is None:
+            raise forms.ValidationError('Field factory_number or sage_number required.')
     def __unicode__(self):
         return u'%s | P/N Fabrica: %s | P/N Sage: %s' % (self.name, self.factory_number, self.sage_number)
 
