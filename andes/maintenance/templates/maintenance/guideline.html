@@ -11,8 +11,8 @@
 		<div title="header">
 			<table>
 				<tr>
-					<tdcolspan="2"></td>
-					<td></td>
+					<td class="header-top" colspan="2"></td>
+					<td class="header-top"></td>
 				</tr>
 				<tr>
 					<td>
@@ -30,17 +30,11 @@
 		<div>
 			<table>
 				<tr>
-					<td>
-						<p>
-							<b>***Inspección Preventiva – Anual***</b>
-						</p>
-						<p>
-							<b>Familia {{ machine.family.code }} - {{ machine.subfamily.name }}</b>
-						</p>
-					</td>
+					<th colspan="2">
+						<p>***Inspección Preventiva – Anual***</p>
+						<p>Familia {{ machine.family.code }} - {{ machine.subfamily.name }}</p>
+					</th>
 				</tr>
-			</table>
-			<table>
 				<tr>
 					<td>
 						<p>N° Equipo: {{ machine.machine_number }}</p>

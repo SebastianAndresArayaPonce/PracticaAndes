@@ -1,339 +1,342 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML5>
+
+{% load static %}
 
 <html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+		<style type="text/css">
+			body,div,table,thead,tbody,tfoot,tr,th,td,p { font-family:"Liberation Sans"; font-size:small }
+			a.comment-indicator:hover + comment { background:#ffd; position:absolute; display:block; border:1px solid black; padding:0.5em;  }
+			a.comment-indicator { background:red; display:inline-block; border:1px solid black; width:0.5em; height:0.5em;  }
+			comment { display:none;  }
+		</style>
+		<link rel="stylesheet" type="text/css" href="{% static 'maintenance/stylesheet.css' %}" />
+	</head>
 
-<head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-	<style type="text/css">
-		body,div,table,thead,tbody,tfoot,tr,th,td,p { font-family:"Liberation Sans"; font-size:small }
-		a.comment-indicator:hover + comment { background:#ffd; position:absolute; display:block; border:1px solid black; padding:0.5em;  }
-		a.comment-indicator { background:red; display:inline-block; border:1px solid black; width:0.5em; height:0.5em;  }
-		comment { display:none;  }
-	</style>
-</head>
-
-<body>
-<table cellspacing="0" border="0">
-	<colgroup width="141"></colgroup>
-	<colgroup width="185"></colgroup>
-	<colgroup width="94"></colgroup>
-	<colgroup width="140"></colgroup>
-	<colgroup width="141"></colgroup>
-	<colgroup width="96"></colgroup>
-	<tr>
-		<td rowspan=2 height="49" align="left"><img src="andes.png" width=121 height=48 hspace=2 vspace=2></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="left" valign=middle bgcolor="#4F81BD"><b><font face="Verdana" size=3 color="#FFFFFF">N° Orden </font></b></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-right: 1px solid #000000" colspan=2 align="left" valign=middle><br></td>
-		</tr>
-	<tr>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-	</tr>
-	<tr>
-		<td colspan=6 height="30" align="center" valign=bottom><b><font face="Verdana" size=5 color="#000000">Orden de Trabajo</font></b></td>
-		</tr>
-	<tr>
-		<td height="12" align="left"><br></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-	</tr>
-	<tr>
-		<td style="border-top: 2px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" height="18" align="left" bgcolor="#4F81BD"><font face="Calibri" color="#FFFFFF">Familia</font></td>
-		<td style="border-top: 2px solid #000000; border-right: 1px solid #000000" align="left"></td>
-		<td style="border-top: 2px solid #000000" align="left"><br></td>
-		<td style="border-top: 2px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="left" bgcolor="#4F81BD"><font face="Calibri" color="#FFFFFF">Horómetro</font></td>
-		<td style="border-top: 2px solid #000000; border-bottom: 1px solid #000000; border-right: 1px solid #000000" align="left"><br></td>
-		<td style="border-top: 2px solid #000000; border-right: 2px solid #000000" align="left"><br></td>
-	</tr>
-	<tr>
-		<td style="border-top: 1px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" height="18" align="left" bgcolor="#4F81BD"><font face="Calibri" color="#FFFFFF">Modelo</font></td>
-		<td style="border-top: 1px solid #000000; border-right: 1px solid #000000" align="left"></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-		<td style="border-right: 2px solid #000000" align="left"><br></td>
-	</tr>
-	<tr>
-		<td style="border-top: 1px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" height="18" align="left" bgcolor="#4F81BD"><font face="Calibri" color="#FFFFFF">N° Equipo</font></td>
-		<td style="border-top: 1px solid #000000; border-right: 1px solid #000000" align="right" valign=bottom sdval="5718" sdnum="1033;"></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-		<td style="border-right: 2px solid #000000" align="left"><br></td>
-	</tr>
-	<tr>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" height="18" align="left" bgcolor="#4F81BD"><font face="Calibri" color="#FFFFFF">ATO</font></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-right: 1px solid #000000" align="left"></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-		<td style="border-right: 2px solid #000000" align="left"><br></td>
-	</tr>
-	<tr>
-		<td style="border-left: 2px solid #000000" height="12" align="left"><br></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-		<td style="border-right: 2px solid #000000" align="left"><br></td>
-	</tr>
-	<tr>
-		<td style="border-top: 1px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" height="18" align="left" bgcolor="#4F81BD"><font face="Calibri" color="#FFFFFF">Tipo de trabajo</font></td>
-		<td style="border-top: 1px solid #000000; border-right: 1px solid #000000" align="left" bgcolor="#4F81BD"><font face="Calibri" color="#FFFFFF">Preventivo</font></td>
-		<td style="border-top: 1px solid #000000; border-right: 1px solid #000000" align="center" valign=middle><br></td>
-		<td style="border-right: 1px solid #000000" align="left"><br></td>
-		<td style="border-top: 1px solid #000000; border-right: 1px solid #000000" align="left" bgcolor="#4F81BD"><font face="Calibri" color="#FFFFFF">Fecha</font></td>
-		<td style="border-top: 1px solid #000000; border-right: 2px solid #000000" align="left" bgcolor="#4F81BD"><font face="Calibri" color="#FFFFFF">Hora</font></td>
-	</tr>
-	<tr>
-		<td style="border-left: 2px solid #000000; border-right: 1px solid #000000" height="18" align="left" bgcolor="#4F81BD"><font face="Calibri" color="#FFFFFF">(Marcar con una X)</font></td>
-		<td style="border-top: 1px solid #000000; border-right: 1px solid #000000" align="left" bgcolor="#4F81BD"><font face="Calibri" color="#FFFFFF">Correctivo</font></td>
-		<td style="border-top: 1px solid #000000; border-right: 1px solid #000000" align="center" valign=bottom><br></td>
-		<td style="border-top: 1px solid #000000; border-right: 1px solid #000000" align="left" valign=bottom bgcolor="#4F81BD"><font face="Calibri" color="#FFFFFF">Ingreso</font></td>
-		<td style="border-top: 1px solid #000000; border-right: 1px solid #000000" align="left" valign=bottom sdnum="1033;1033;M/D/YYYY"><br></td>
-		<td style="border-top: 1px solid #000000; border-right: 2px solid #000000" align="left" sdnum="1033;1033;H:MM"><br></td>
-	</tr>
-	<tr>
-		<td style="border-top: 1px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" height="18" align="left"><br></td>
-		<td style="border-top: 1px solid #000000; border-right: 1px solid #000000" align="left" bgcolor="#4F81BD"><font face="Calibri" color="#FFFFFF">Falla</font></td>
-		<td style="border-top: 1px solid #000000; border-right: 1px solid #000000" align="center" valign=bottom><br></td>
-		<td style="border-top: 1px solid #000000; border-right: 1px solid #000000" align="left" bgcolor="#4F81BD"><font face="Calibri" color="#FFFFFF">Salida est</font></td>
-		<td style="border-top: 1px solid #000000; border-right: 1px solid #000000" align="left" sdnum="1033;1033;M/D/YYYY"><br></td>
-		<td style="border-top: 1px solid #000000; border-right: 2px solid #000000" align="left" sdnum="1033;1033;H:MM"><br></td>
-	</tr>
-	<tr>
-		<td style="border-left: 2px solid #000000; border-right: 1px solid #000000" height="18" align="left"><br></td>
-		<td style="border-top: 1px solid #000000; border-right: 1px solid #000000" align="left" bgcolor="#4F81BD"><font face="Calibri" color="#FFFFFF">Daños</font></td>
-		<td style="border-top: 1px solid #000000; border-right: 1px solid #000000" align="center" valign=bottom><br></td>
-		<td style="border-top: 1px solid #000000" align="left"><br></td>
-		<td style="border-top: 1px solid #000000" align="left"><br></td>
-		<td style="border-top: 1px solid #000000; border-right: 2px solid #000000" align="left"><br></td>
-	</tr>
-	<tr>
-		<td style="border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" height="18" align="left"><br></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 2px solid #000000; border-right: 1px solid #000000" align="left" bgcolor="#4F81BD"><font face="Calibri" color="#FFFFFF">Modificacion</font></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 2px solid #000000; border-right: 1px solid #000000" align="center" valign=bottom><br></td>
-		<td style="border-bottom: 2px solid #000000" align="left"><br></td>
-		<td style="border-bottom: 2px solid #000000" align="left"><br></td>
-		<td style="border-bottom: 2px solid #000000; border-right: 2px solid #000000" align="left"><br></td>
-	</tr>
-	<tr>
-		<td height="29" align="left"><br></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-	</tr>
-	<tr>
-		<td colspan=6 height="20" align="left"><b><font face="Verdana" size=3 color="#000000">Diagnóstico / Intervención.</font></b></td>
-	</tr>
-	<tr>
-		<td style="border-top: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan=6 height="18" align="left" valign=bottom bgcolor="#4F81BD"><font face="Calibri" color="#FFFFFF">Descripción de trabajo / falla</font></td>
-	</tr>
-	<tr>
-		<td style="border-top: 1px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan=6 height="18" align="center" valign=bottom><font face="Calibri" color="#000000"><br></font></td>
-	</tr>
-	<tr>
-		<td style="border-top: 1px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan=6 height="18" align="center" valign=bottom><font face="Calibri" color="#000000"><br></font></td>
-	</tr>
-	<tr>
-		<td style="border-top: 1px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan=6 height="18" align="center" valign=bottom><font face="Calibri" color="#000000"><br></font></td>
-	</tr>
-	<tr>
-		<td style="border-top: 1px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan=6 height="18" align="center" valign=bottom><font face="Calibri" color="#000000"><br></font></td>
-	</tr>
-	<tr>
-		<td style="border-top: 1px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan=6 height="18" align="left" valign=bottom bgcolor="#4F81BD"><font face="Calibri" color="#FFFFFF">Trabajo desarrollado</font></td>
-	</tr>
-	<tr>
-		<td style="border-top: 1px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan=6 height="18" align="center" valign=bottom><font face="Calibri" color="#000000"><br></font></td>
-	</tr>
-	<tr>
-		<td style="border-top: 1px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan=6 height="18" align="center" valign=bottom><font face="Calibri" color="#000000"><br></font></td>
-	</tr>
-	<tr>
-		<td style="border-top: 1px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan=6 height="18" align="center" valign=bottom><font face="Calibri" color="#000000"><br></font></td>
-	</tr>
-	<tr>
-		<td style="border-top: 1px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan=6 height="18" align="center" valign=bottom><font face="Calibri" color="#000000"><br></font></td>
-	</tr>
-	<tr>
-		<td style="border-top: 1px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan=6 height="18" align="left" valign=bottom bgcolor="#4F81BD"><font face="Calibri" color="#FFFFFF">Trabajo pendiente</font></td>
-	</tr>
-	<tr>
-		<td style="border-top: 1px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan=6 height="18" align="center" valign=bottom><font face="Calibri" color="#000000"><br></font></td>
-	</tr>
-	<tr>
-		<td style="border-top: 1px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan=6 height="18" align="center" valign=bottom><font face="Calibri" color="#000000"><br></font></td>
-	</tr>
-	<tr>
-		<td style="border-top: 1px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan=6 height="18" align="center" valign=bottom><font face="Calibri" color="#000000"><br></font></td>
-	</tr>
-	<tr>
-		<td style="border-top: 1px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan=6 height="17" align="center" valign=bottom><br></td>
-	</tr>
-	<tr>
-		<td height="20" align="center" valign=bottom><br></td>
-		<td align="center" valign=bottom><br></td>
-		<td align="center" valign=bottom><br></td>
-		<td align="center" valign=bottom><br></td>
-		<td align="center" valign=bottom><br></td>
-		<td align="center" valign=bottom><br></td>
-	</tr>
-	<tr>
-		<td colspan=6 height="20" align="left"><b><font face="Verdana" size=3 color="#000000">Repuestos Empleados.</font></b></td>
-		</tr>
-	<tr>
-		<td style="border-top: 2px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" height="18" align="center" bgcolor="#4F81BD"><font face="Calibri" color="#FFFFFF">N° Parte</font></td>
-		<td style="border-top: 2px solid #000000; border-right: 1px solid #000000" align="center" valign=bottom bgcolor="#4F81BD"><font face="Calibri" color="#FFFFFF">Descripción</font></td>
-		<td style="border-top: 2px solid #000000" align="center" valign=bottom bgcolor="#4F81BD"><font face="Calibri" color="#FFFFFF">Cantidad</font></td>
-		<td style="border-top: 2px solid #000000; border-left: 3px double #000000; border-right: 1px solid #000000" align="center" bgcolor="#4F81BD"><font face="Calibri" color="#FFFFFF">N° Parte</font></td>
-		<td style="border-top: 2px solid #000000; border-right: 1px solid #000000" align="center" valign=bottom bgcolor="#4F81BD"><font face="Calibri" color="#FFFFFF">Descripción</font></td>
-		<td style="border-top: 2px solid #000000; border-right: 2px solid #000000" align="center" valign=bottom bgcolor="#4F81BD"><font face="Calibri" color="#FFFFFF">Cantidad</font></td>
-	</tr>
-	<tr>
-		<td style="border-top: 1px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" height="17" align="left"><br></td>
-		<td style="border-top: 1px solid #000000; border-right: 1px solid #000000" align="left"><br></td>
-		<td style="border-top: 1px solid #000000" align="center" valign=bottom><br></td>
-		<td style="border-top: 1px solid #000000; border-left: 3px double #000000; border-right: 1px solid #000000" align="left"><br></td>
-		<td style="border-top: 1px solid #000000; border-right: 1px solid #000000" align="left"><br></td>
-		<td style="border-top: 1px solid #000000; border-right: 2px solid #000000" align="center" valign=bottom><br></td>
-	</tr>
-	<tr>
-		<td style="border-top: 1px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" height="17" align="left"><br></td>
-		<td style="border-top: 1px solid #000000; border-right: 1px solid #000000" align="left"><br></td>
-		<td style="border-top: 1px solid #000000" align="center" valign=bottom><br></td>
-		<td style="border-top: 1px solid #000000; border-left: 3px double #000000; border-right: 1px solid #000000" align="left"><br></td>
-		<td style="border-top: 1px solid #000000; border-right: 1px solid #000000" align="left"><br></td>
-		<td style="border-top: 1px solid #000000; border-right: 2px solid #000000" align="center" valign=bottom><br></td>
-	</tr>
-	<tr>
-		<td style="border-top: 1px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" height="17" align="left"><br></td>
-		<td style="border-top: 1px solid #000000; border-right: 1px solid #000000" align="left"><br></td>
-		<td style="border-top: 1px solid #000000" align="center" valign=bottom><br></td>
-		<td style="border-top: 1px solid #000000; border-left: 3px double #000000; border-right: 1px solid #000000" align="left"><br></td>
-		<td style="border-top: 1px solid #000000; border-right: 1px solid #000000" align="left"><br></td>
-		<td style="border-top: 1px solid #000000; border-right: 2px solid #000000" align="center" valign=bottom><br></td>
-	</tr>
-	<tr>
-		<td style="border-top: 1px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" height="17" align="left"><br></td>
-		<td style="border-top: 1px solid #000000; border-right: 1px solid #000000" align="left"><br></td>
-		<td style="border-top: 1px solid #000000" align="center" valign=bottom><br></td>
-		<td style="border-top: 1px solid #000000; border-left: 3px double #000000; border-right: 1px solid #000000" align="left"><br></td>
-		<td style="border-top: 1px solid #000000; border-right: 1px solid #000000" align="left"><br></td>
-		<td style="border-top: 1px solid #000000; border-right: 2px solid #000000" align="center" valign=bottom><br></td>
-	</tr>
-	<tr>
-		<td style="border-top: 1px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" height="17" align="left"><br></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 2px solid #000000; border-right: 1px solid #000000" align="left"><br></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 2px solid #000000" align="center" valign=bottom><br></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 2px solid #000000; border-left: 3px double #000000; border-right: 1px solid #000000" align="left"><br></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 2px solid #000000; border-right: 1px solid #000000" align="left"><br></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 2px solid #000000; border-right: 2px solid #000000" align="center" valign=bottom><br></td>
-	</tr>
-	<tr>
-		<td colspan=6 height="20" align="left"><b><font face="Verdana" size=3 color="#000000">Lubricantes Empleados.</font></b></td>
-		</tr>
-	<tr>
-		<td style="border-top: 2px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" height="20" align="center" valign=bottom bgcolor="#4F81BD"><font face="Calibri" color="#FFFFFF">Descripción</font></td>
-		<td style="border-top: 2px solid #000000; border-right: 2px solid #000000" align="center" valign=bottom bgcolor="#4F81BD"><font face="Calibri" color="#FFFFFF">Cantidad</font></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-	</tr>
-	<tr>
-		<td style="border-top: 1px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" height="20" align="left"><br></td>
-		<td style="border-top: 1px solid #000000; border-right: 2px solid #000000" align="left"><br></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-	</tr>
-	<tr>
-		<td style="border-top: 1px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" height="20" align="left"><br></td>
-		<td style="border-top: 1px solid #000000; border-right: 2px solid #000000" align="left"><br></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-	</tr>
-	<tr>
-		<td style="border-top: 1px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" height="20" align="left"><br></td>
-		<td style="border-top: 1px solid #000000; border-right: 2px solid #000000" align="left"><br></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-	</tr>
-	<tr>
-		<td style="border-top: 1px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" height="20" align="left"><br></td>
-		<td style="border-top: 1px solid #000000; border-right: 2px solid #000000" align="left"><br></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-	</tr>
-	<tr>
-		<td style="border-top: 1px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" height="20" align="left"><br></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 2px solid #000000; border-right: 2px solid #000000" align="left"><br></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-	</tr>
-	<tr>
-		<td height="40" align="left"><br></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-		<td align="left"><br></td>
-	</tr>
-	<tr>
-		<td colspan=6 height="20" align="left"><b><font face="Verdana" size=3 color="#000000">Control de Salida.</font></b></td>
-		</tr>
-	<tr>
-		<td style="border-top: 2px solid #000000; border-left: 2px solid #000000" height="20" align="left"><br></td>
-		<td style="border-top: 2px solid #000000" align="left"><br></td>
-		<td style="border-top: 2px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="left" bgcolor="#4F81BD"><font face="Calibri" color="#FFFFFF">Fecha salida</font></td>
-		<td style="border-top: 2px solid #000000; border-right: 1px solid #000000" align="left"><br></td>
-		<td style="border-top: 2px solid #000000; border-right: 1px solid #000000" align="left" bgcolor="#4F81BD"><font face="Calibri" color="#FFFFFF">Hora salida</font></td>
-		<td style="border-top: 2px solid #000000; border-right: 2px solid #000000" align="left"><br></td>
-	</tr>
-	<tr>
-		<td style="border-left: 2px solid #000000" height="20" align="left"><br></td>
-		<td align="left"><br></td>
-		<td style="border-top: 1px solid #000000" align="left"><br></td>
-		<td style="border-top: 1px solid #000000" align="left"><br></td>
-		<td style="border-top: 1px solid #000000" align="left"><br></td>
-		<td style="border-top: 1px solid #000000; border-right: 2px solid #000000" align="left"><br></td>
-	</tr>
-	<tr>
-		<td style="border-left: 2px solid #000000" height="20" align="left">Nombre Mecánico</td>
-		<td align="left">_________________________</td>
-		<td align="left"><br></td>
-		<td align="right" valign=bottom>Firma</td>
-		<td align="left">____________________</td>
-		<td style="border-right: 2px solid #000000" align="left"><br></td>
-	</tr>
-	<tr>
-		<td style="border-bottom: 2px solid #000000; border-left: 2px solid #000000" height="17" align="left">Nombre Team Leader</td>
-		<td style="border-bottom: 2px solid #000000" colspan=2 align="left" valign=bottom>Carlos Orellana / Esteban Morales</td>
-		<td style="border-bottom: 2px solid #000000" align="right" valign=bottom>Firma</td>
-		<td style="border-bottom: 2px solid #000000" align="left">____________________</td>
-		<td style="border-bottom: 2px solid #000000; border-right: 2px solid #000000" align="left"><br></td>
-	</tr>
-</table>
-</body>
-
+	<body>
+		<table>
+<!--
+			<colgroup width="141"></colgroup>
+			<colgroup width="185"></colgroup>
+			<colgroup width="94"></colgroup>
+			<colgroup width="140"></colgroup>
+			<colgroup width="141"></colgroup>
+			<colgroup width="96"></colgroup>
+-->
+			<tr>
+				<td rowspan=2><img src="{% static 'maintenance/images/andes.png' %}" width=121 height=48></td>
+				<td><br></td>
+				<td><br></td>
+				<td><b>N° Orden</b></td>
+				<td colspan=2><br></td>
+			</tr>
+			<tr>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+			</tr>
+			<tr>
+				<td colspan=6><b>Orden de Trabajo</b></td>
+			</tr>
+			<tr>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+			</tr>
+			<tr>
+				<td>Familia</td>
+				<td></td>
+				<td><br></td>
+				<td>Horómetro</td>
+				<td><br></td>
+				<td><br></td>
+			</tr>
+			<tr>
+				<td>Modelo</td>
+				<td></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+			</tr>
+			<tr>
+				<td>N° Equipo</td>
+				<td></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+			</tr>
+			<tr>
+				<td>ATO</td>
+				<td></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+			</tr>
+			<tr>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+			</tr>
+			<tr>
+				<td>Tipo de trabajo</td>
+				<td>Preventivo</td>
+				<td><br></td>
+				<td><br></td>
+				<td>Fecha</td>
+				<td>Hora</td>
+			</tr>
+			<tr>
+				<td>(Marcar con una X)</td>
+				<td>Correctivo</td>
+				<td><br></td>
+				<td>Ingreso</td>
+				<td><br></td>
+				<td><br></td>
+			</tr>
+			<tr>
+				<td><br></td>
+				<td>Falla</td>
+				<td><br></td>
+				<td>Salida est</td>
+				<td><br></td>
+				<td><br></td>
+			</tr>
+			<tr>
+				<td><br></td>
+				<td>Daños</td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+			</tr>
+			<tr>
+				<td><br></td>
+				<td>Modificacion</td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+			</tr>
+			<tr>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+			</tr>
+			<tr>
+				<td colspan=6><b>Diagnóstico / Intervención.</b></td>
+			</tr>
+			<tr>
+				<td colspan=6>Descripción de trabajo / falla</td>
+			</tr>
+			<tr>
+				<td colspan=6><br></td>
+			</tr>
+			<tr>
+				<td colspan=6><br></td>
+			</tr>
+			<tr>
+				<td colspan=6><br></td>
+			</tr>
+			<tr>
+				<td colspan=6><br></td>
+			</tr>
+			<tr>
+				<td colspan=6>Trabajo desarrollado</td>
+			</tr>
+			<tr>
+				<td colspan=6><br></td>
+			</tr>
+			<tr>
+				<td colspan=6><br></td>
+			</tr>
+			<tr>
+				<td colspan=6><br></td>
+			</tr>
+			<tr>
+				<td colspan=6><br></td>
+			</tr>
+			<tr>
+				<td colspan=6>Trabajo pendiente</td>
+			</tr>
+			<tr>
+				<td colspan=6><br></td>
+			</tr>
+			<tr>
+				<td colspan=6><br></td>
+			</tr>
+			<tr>
+				<td colspan=6><br></td>
+			</tr>
+			<tr>
+				<td colspan=6><br></td>
+			</tr>
+			<tr>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+			</tr>
+			<tr>
+				<td colspan=6><b>Repuestos Empleados.</b></td>
+			</tr>
+			<tr>
+				<td>N° Parte</td>
+				<td>Descripción</td>
+				<td>Cantidad</td>
+				<td>N° Parte</td>
+				<td>Descripción</td>
+				<td>Cantidad</td>
+			</tr>
+			<tr>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+			</tr>
+			<tr>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+			</tr>
+			<tr>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+			</tr>
+			<tr>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+			</tr>
+			<tr>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+			</tr>
+			<tr>
+				<td colspan=6><b>Lubricantes Empleados.</b></td>
+				</tr>
+			<tr>
+				<td>Descripción</td>
+				<td>Cantidad</td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+			</tr>
+			<tr>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+			</tr>
+			<tr>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+			</tr>
+			<tr>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+			</tr>
+			<tr>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+			</tr>
+			<tr>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+			</tr>
+			<tr>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+			</tr>
+			<tr>
+				<td colspan=6><b>Control de Salida.</b></td>
+			</tr>
+			<tr>
+				<td><br></td>
+				<td><br></td>
+				<td>Fecha salida</td>
+				<td><br></td>
+				<td>Hora salida</td>
+				<td><br></td>
+			</tr>
+			<tr>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+				<td><br></td>
+			</tr>
+			<tr>
+				<td>Nombre Mecánico</td>
+				<td>_________________________</td>
+				<td><br></td>
+				<td>Firma</td>
+				<td>____________________</td>
+				<td><br></td>
+			</tr>
+			<tr>
+				<td>Nombre Team Leader</td>
+				<td colspan=2>Carlos Orellana / Esteban Morales</td>
+				<td>Firma</td>
+				<td>____________________</td>
+				<td><br></td>
+			</tr>
+		</table>
+	</body>
 </html>

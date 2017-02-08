@@ -5,10 +5,23 @@ div {
 
 table {
   border-collapse: collapse;
+  width: 100%;
+  column-rule-width:
 }
 
 table tr td {
   border-style: solid;
   border-color: black;
   border-width: 1px;
+}
+
+table tr th {
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+}
+
+.header-top {
+  padding: 10px 0px 10px 0px;;
+  margin: 100px;
 }
