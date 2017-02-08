@@ -1,0 +1,14 @@
+div {
+  padding: 10px 0px 10px 0px;
+  margin: 0px;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+table tr td {
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+}
