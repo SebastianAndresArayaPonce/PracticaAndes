@@ -20,5 +20,5 @@ def guideline(request, machine_number, level):
     context = {'machine': machine, 'machine_spare_part_list': machine_spare_part_list, 'machine_input_list': machine_input_list, 'machine_instruction_list': machine_instruction_list}
     return render(request, 'maintenance/guideline.html', context)
 
-def ot(request):
-    return render(request, 'maintenance/OT.html', {})
+def workorder(request):
+    return render(request, 'maintenance/workorder.html', {})

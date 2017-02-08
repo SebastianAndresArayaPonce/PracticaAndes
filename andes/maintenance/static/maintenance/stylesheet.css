@@ -14,13 +14,17 @@ table tr th, table tr td {
   border-width: 1px;
 }
 
-.header-top {
-  padding: 10px wox 10px 0px;;
+.gl-header-top {
+  padding: 10px 0px 10px 0px;;
   margin: 100px;
 }
 
+.gl-table {
+  width: 720px;
+}
+
 .wo-table {
-  width: 795;
+  width: 800px;
 }
 
 .wo-col-1, .wo-col-4, .wo-col-5 {
@@ -28,7 +32,7 @@ table tr th, table tr td {
 }
 
 .wo-col-2 {
-  width: 185px;
+  width: 190px;
 }
 
 .wo-col-3, .wo-col-6 {
