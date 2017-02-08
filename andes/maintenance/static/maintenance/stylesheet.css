@@ -5,17 +5,10 @@ div {
 
 table {
   border-collapse: collapse;
-  width: 100%;
-  column-rule-width:
+/*  width: 100%;*/
 }
 
-table tr td {
-  border-style: solid;
-  border-color: black;
-  border-width: 1px;
-}
-
-table tr th {
+table tr th, table tr td {
   border-style: solid;
   border-color: black;
   border-width: 1px;
@@ -24,4 +17,55 @@ table tr th {
 .header-top {
   padding: 10px 0px 10px 0px;;
   margin: 100px;
+}
+
+.ot-table {
+  width: 795;
+}
+
+.col-1-ot, .col-4-ot, .col-5-ot {
+  width: 140px;
+}
+
+.col-2-ot {
+  width: 185px;
+}
+
+.col-3-ot, .col-6-ot {
+  width: 95px;
+}
+
+.ot-blank {
+  border-width: 0px 0px 0px 0px;
+}
+
+.ot-solid-top {
+  border-top-width: 2px;
+}
+
+.ot-solid-right {
+  border-right-width: 2px;
+}
+
+.ot-solid-bottom {
+  border-bottom-width: 2px;
+}
+
+.ot-solid-left {
+  border-left-width: 2px;
+}
+
+.ot-double-right {
+  border-right-width: 3px;
+  border-right-style: double;
+}
+
+.ot-double-left {
+  border-left-width: 3px;
+  border-left-style: double;
+}
+
+.ot-bg {
+  color: white;
+  background-color: #4F81BD;
 }

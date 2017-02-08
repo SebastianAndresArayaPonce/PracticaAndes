@@ -15,327 +15,253 @@
 	</head>
 
 	<body>
-		<table>
-<!--
-			<colgroup width="141"></colgroup>
-			<colgroup width="185"></colgroup>
-			<colgroup width="94"></colgroup>
-			<colgroup width="140"></colgroup>
-			<colgroup width="141"></colgroup>
-			<colgroup width="96"></colgroup>
--->
+		<table class="ot-table">
+			<colgroup>
+				<col class="col-1-ot">
+				<col class="col-2-ot">
+				<col class="col-3-ot">
+				<col class="col-4-ot">
+				<col class="col-5-ot">
+				<col class="col-6-ot">
+			</colgroup>
 			<tr>
-				<td rowspan=2><img src="{% static 'maintenance/images/andes.png' %}" width=121 height=48></td>
-				<td><br></td>
-				<td><br></td>
-				<td><b>N° Orden</b></td>
-				<td colspan=2><br></td>
+				<td rowspan=2 class="ot-blank"><img src="{% static 'maintenance/images/andes.png' %}" width=121 height=48></td>
+				<td colspan="2" class="ot-blank"><br></td>
+				<td class="ot-bg"><b>N° Orden</b></td>
+				<td colspan="2"><br></td>
 			</tr>
 			<tr>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
+				<td colspan="5" class="ot-blank"><br></td>
 			</tr>
 			<tr>
-				<td colspan=6><b>Orden de Trabajo</b></td>
+				<th colspan="6" class="ot-blank">Orden de Trabajo</td>
 			</tr>
 			<tr>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
+				<td colspan="6" class="ot-blank"><br></td>
 			</tr>
 			<tr>
-				<td>Familia</td>
+				<td class="ot-solid-top ot-solid-left ot-bg">Familia</td>
+				<td class="ot-solid-top"></td>
+				<td class="ot-blank ot-solid-top"><br></td>
+				<td class="ot-solid-top ot-bg">Horómetro</td>
+				<td class="ot-solid-top"></td>
+				<td class="ot-blank ot-solid-top ot-solid-right"><br></td>
+			</tr>
+			<tr>
+				<td class="ot-solid-left ot-bg">Modelo</td>
 				<td></td>
-				<td><br></td>
-				<td>Horómetro</td>
-				<td><br></td>
-				<td><br></td>
+				<td colspan="4" class="ot-blank ot-solid-right"><br></td>
 			</tr>
 			<tr>
-				<td>Modelo</td>
+				<td class="ot-solid-left ot-bg">N° Equipo</td>
 				<td></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
+				<td colspan="4" class="ot-blank ot-solid-right"><br></td>
 			</tr>
 			<tr>
-				<td>N° Equipo</td>
+				<td class="ot-solid-left ot-bg">ATO</td>
 				<td></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
+				<td colspan="4" class="ot-blank ot-solid-right"><br></td>
 			</tr>
 			<tr>
-				<td>ATO</td>
+				<td colspan="6" class="ot-blank ot-solid-left ot-solid-right"><br></td>
+			</tr>
+			<tr>
+				<td rowspan="2" class="ot-solid-left ot-bg">Tipo de trabajo<br>(Marcar con una X)</td>
+				<td class="ot-bg">Preventivo</td>
 				<td></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
+				<td class="ot-blank"><br></td>
+				<td class="ot-bg">Fecha</td>
+				<td class="ot-solid-right ot-bg">Hora</td>
 			</tr>
 			<tr>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
+				<td class="ot-bg">Correctivo</td>
+				<td></td>
+				<td class="ot-bg">Ingreso</td>
+				<td></td>
+				<td class="ot-solid-right"></td>
 			</tr>
 			<tr>
-				<td>Tipo de trabajo</td>
-				<td>Preventivo</td>
-				<td><br></td>
-				<td><br></td>
-				<td>Fecha</td>
-				<td>Hora</td>
+				<td class="ot-blank ot-solid-left"><br></td>
+				<td class="ot-bg">Falla</td>
+				<td></td>
+				<td class="ot-bg">Salida est</td>
+				<td></td>
+				<td class="ot-solid-right"></td>
 			</tr>
 			<tr>
-				<td>(Marcar con una X)</td>
-				<td>Correctivo</td>
-				<td><br></td>
-				<td>Ingreso</td>
-				<td><br></td>
-				<td><br></td>
+				<td class="ot-blank ot-solid-left"><br></td>
+				<td class="ot-bg">Daños</td>
+				<td></td>
+				<td colspan="3" class="ot-blank ot-solid-right"><br></td>
 			</tr>
 			<tr>
-				<td><br></td>
-				<td>Falla</td>
-				<td><br></td>
-				<td>Salida est</td>
-				<td><br></td>
-				<td><br></td>
+				<td class="ot-blank ot-solid-bottom ot-solid-left"><br></td>
+				<td class="ot-solid-bottom ot-bg">Modificacion</td>
+				<td class="ot-solid-bottom"></td>
+				<td colspan="3" class="ot-blank ot-solid-right ot-solid-bottom"><br></td>
 			</tr>
 			<tr>
-				<td><br></td>
-				<td>Daños</td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
+				<td colspan="6" class="ot-blank"><br></td>
 			</tr>
 			<tr>
-				<td><br></td>
-				<td>Modificacion</td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
+				<td colspan="6" class="ot-blank"><b>Diagnóstico / Intervención.</b></td>
 			</tr>
 			<tr>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
+				<td colspan="6" class="ot-solid-top ot-solid-right ot-solid-left ot-bg">Descripción de trabajo / falla</td>
 			</tr>
 			<tr>
-				<td colspan=6><b>Diagnóstico / Intervención.</b></td>
+				<td colspan="6" class="ot-solid-right ot-solid-left"><br></td>
 			</tr>
 			<tr>
-				<td colspan=6>Descripción de trabajo / falla</td>
+				<td colspan="6" class="ot-solid-right ot-solid-left"><br></td>
 			</tr>
 			<tr>
-				<td colspan=6><br></td>
+				<td colspan="6" class="ot-solid-right ot-solid-left"><br></td>
 			</tr>
 			<tr>
-				<td colspan=6><br></td>
+				<td colspan="6" class="ot-solid-right ot-solid-left"><br></td>
 			</tr>
 			<tr>
-				<td colspan=6><br></td>
+				<td colspan="6" class="ot-solid-right ot-solid-left ot-bg">Trabajo desarrollado</td>
 			</tr>
 			<tr>
-				<td colspan=6><br></td>
+				<td colspan="6" class="ot-solid-right ot-solid-left"><br></td>
 			</tr>
 			<tr>
-				<td colspan=6>Trabajo desarrollado</td>
+				<td colspan="6" class="ot-solid-right ot-solid-left"><br></td>
 			</tr>
 			<tr>
-				<td colspan=6><br></td>
+				<td colspan="6" class="ot-solid-right ot-solid-left"><br></td>
 			</tr>
 			<tr>
-				<td colspan=6><br></td>
+				<td colspan="6" class="ot-solid-right ot-solid-left"><br></td>
 			</tr>
 			<tr>
-				<td colspan=6><br></td>
+				<td colspan="6" class="ot-solid-right ot-solid-left ot-bg">Trabajo pendiente</td>
 			</tr>
 			<tr>
-				<td colspan=6><br></td>
+				<td colspan="6" class="ot-solid-right ot-solid-left"><br></td>
 			</tr>
 			<tr>
-				<td colspan=6>Trabajo pendiente</td>
+				<td colspan="6" class="ot-solid-right ot-solid-left"><br></td>
 			</tr>
 			<tr>
-				<td colspan=6><br></td>
+				<td colspan="6" class="ot-solid-right ot-solid-left"><br></td>
 			</tr>
 			<tr>
-				<td colspan=6><br></td>
+				<td colspan="6" class="ot-solid-right ot-solid-bottom ot-solid-left"><br></td>
 			</tr>
 			<tr>
-				<td colspan=6><br></td>
+				<td colspan="6" class="ot-blank"><br></td>
 			</tr>
 			<tr>
-				<td colspan=6><br></td>
+				<td colspan="6" class="ot-blank"><b>Repuestos Empleados.</b></td>
 			</tr>
 			<tr>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
+				<td class="ot-solid-top ot-solid-left ot-bg">N° Parte</td>
+				<td class="ot-solid-top ot-bg">Descripción</td>
+				<td class="ot-solid-top ot-double-right ot-bg">Cantidad</td>
+				<td class="ot-solid-top ot-double-left ot-bg">N° Parte</td>
+				<td class="ot-solid-top ot-bg">Descripción</td>
+				<td class="ot-solid-top ot-solid-right ot-bg">Cantidad</td>
 			</tr>
 			<tr>
-				<td colspan=6><b>Repuestos Empleados.</b></td>
+				<td class="ot-solid-left"><br></td>
+				<td><br></td>
+				<td class="ot-double-right"><br></td>
+				<td class="ot-double-left"><br></td>
+				<td><br></td>
+				<td class="ot-solid-right"><br></td>
 			</tr>
 			<tr>
-				<td>N° Parte</td>
-				<td>Descripción</td>
-				<td>Cantidad</td>
-				<td>N° Parte</td>
-				<td>Descripción</td>
-				<td>Cantidad</td>
+				<td class="ot-solid-left"><br></td>
+				<td><br></td>
+				<td class="ot-double-right"><br></td>
+				<td class="ot-double-left"><br></td>
+				<td><br></td>
+				<td class="ot-solid-right"><br></td>
 			</tr>
 			<tr>
+				<td class="ot-solid-left"><br></td>
 				<td><br></td>
+				<td class="ot-double-right"><br></td>
+				<td class="ot-double-left"><br></td>
 				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
+				<td class="ot-solid-right"><br></td>
 			</tr>
 			<tr>
+				<td class="ot-solid-left"><br></td>
 				<td><br></td>
+				<td class="ot-double-right"><br></td>
+				<td class="ot-double-left"><br></td>
 				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
+				<td class="ot-solid-right"><br></td>
 			</tr>
 			<tr>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
+				<td class="ot-solid-bottom ot-solid-left"><br></td>
+				<td class="ot-solid-bottom"><br></td>
+				<td class="ot-solid-bottom ot-double-right"><br></td>
+				<td class="ot-solid-bottom ot-double-left"><br></td>
+				<td class="ot-solid-bottom"><br></td>
+				<td class="ot-solid-right ot-solid-bottom ot-solid-right"><br></td>
 			</tr>
 			<tr>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-			</tr>
-			<tr>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-			</tr>
-			<tr>
-				<td colspan=6><b>Lubricantes Empleados.</b></td>
+				<td colspan="6" class="ot-blank"><b>Lubricantes Empleados.</b></td>
 				</tr>
 			<tr>
-				<td>Descripción</td>
-				<td>Cantidad</td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
+				<td class="ot-solid-top ot-solid-left ot-bg">Descripción</td>
+				<td class="ot-solid-top ot-solid-right ot-bg">Cantidad</td>
+				<td colspan="4" class="ot-blank"><br></td>
 			</tr>
 			<tr>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
+				<td class="ot-solid-left"><br></td>
+				<td class="ot-solid-right"><br></td>
+				<td colspan="4" class="ot-blank"><br></td>
 			</tr>
 			<tr>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
+				<td class="ot-solid-left"><br></td>
+				<td class="ot-solid-right"><br></td>
+				<td colspan="4" class="ot-blank"><br></td>
 			</tr>
 			<tr>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
+				<td class="ot-solid-left"><br></td>
+				<td class="ot-solid-right"><br></td>
+				<td colspan="4" class="ot-blank"><br></td>
 			</tr>
 			<tr>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
+				<td class="ot-solid-left"><br></td>
+				<td class="ot-solid-right"><br></td>
+				<td colspan="4" class="ot-blank"><br></td>
 			</tr>
 			<tr>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
+				<td class="ot-solid-bottom ot-solid-left"><br></td>
+				<td class="ot-solid-right ot-solid-bottom"><br></td>
+				<td colspan="4" class="ot-blank"><br></td>
 			</tr>
 			<tr>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
+				<td colspan="6" class="ot-blank"><b>Control de Salida.</b></td>
 			</tr>
 			<tr>
-				<td colspan=6><b>Control de Salida.</b></td>
+				<td colspan="2" class="ot-blank ot-solid-top ot-solid-left"><br></td>
+				<td class="ot-solid-top ot-bg">Fecha salida</td>
+				<td class="ot-solid-top"><br></td>
+				<td class="ot-solid-top ot-bg">Hora salida</td>
+				<td class="ot-solid-top ot-solid-right"><br></td>
 			</tr>
 			<tr>
-				<td><br></td>
-				<td><br></td>
-				<td>Fecha salida</td>
-				<td><br></td>
-				<td>Hora salida</td>
-				<td><br></td>
+				<td colspan="6" class="ot-blank ot-solid-right ot-solid-left"><br></td>
 			</tr>
 			<tr>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
-				<td><br></td>
+				<td class="ot-blank ot-solid-left">Nombre Mecánico</td>
+				<td colspan="2" class="ot-blank">_________________________</td>
+				<td class="ot-blank">Firma</td>
+				<td colspan="2" class="ot-blank ot-solid-right">____________________</td>
 			</tr>
 			<tr>
-				<td>Nombre Mecánico</td>
-				<td>_________________________</td>
-				<td><br></td>
-				<td>Firma</td>
-				<td>____________________</td>
-				<td><br></td>
-			</tr>
-			<tr>
-				<td>Nombre Team Leader</td>
-				<td colspan=2>Carlos Orellana / Esteban Morales</td>
-				<td>Firma</td>
-				<td>____________________</td>
-				<td><br></td>
+				<td class="ot-blank ot-solid-bottom ot-solid-left">Nombre Team Leader</td>
+				<td colspan="2" class="ot-blank ot-solid-bottom">Carlos Orellana / Esteban Morales</td>
+				<td class="ot-blank ot-solid-bottom">Firma</td>
+				<td colspan="2" class="ot-blank ot-solid-right ot-solid-bottom">____________________</td>
 			</tr>
 		</table>
 	</body>
