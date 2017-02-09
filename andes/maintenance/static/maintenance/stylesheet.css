@@ -14,13 +14,38 @@ table tr th, table tr td {
   border-width: 1px;
 }
 
+.blank {
+  border-width: 0px 0px 0px 0px;
+}
+
+.gl-table {
+  width: 720px;
+}
+
 .gl-header-top {
   padding: 10px 0px 10px 0px;;
   margin: 100px;
 }
 
-.gl-table {
-  width: 720px;
+.gl-title {
+  border-bottom-width: 4px;
+  border-bottom-style: double;
+}
+
+.gl-exit-col-1, .gl-exit-col-5 {
+  width: 29px;
+}
+
+.gl-exit-col-2, .gl-exit-col-4 {
+  width: 246px;
+}
+
+.gl-exit-col-3 {
+  width: 170px;
+}
+
+.gl-solid-top {
+  border-top-width: 1px;
 }
 
 .wo-table {
@@ -37,10 +62,6 @@ table tr th, table tr td {
 
 .wo-col-3, .wo-col-6 {
   width: 95px;
-}
-
-.wo-blank {
-  border-width: 0px 0px 0px 0px;
 }
 
 .wo-solid-top {
