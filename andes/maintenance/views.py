@@ -1,7 +1,8 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.http import Http404
 
-from .models import Machine, MachineSparePart, MachineInput, MachineInstruction
+from .models import Machine, MachineSparePart, MachineInput, MachineInstruction, WorkOrder, Inventory, Airport
 
 # Create your views here.
 def index(request):
@@ -9,6 +10,7 @@ def index(request):
     context = {'machine_list': machine_list}
     return render(request, 'maintenance/index.html', context)
 
+@login_required
 def guideline(request, machine_number, level):
     try:
         machine = Machine.objects.get(pk=machine_number)
@@ -20,5 +22,11 @@ def guideline(request, machine_number, level):
     context = {'machine': machine, 'machine_spare_part_list': machine_spare_part_list, 'machine_input_list': machine_input_list, 'machine_instruction_list': machine_instruction_list}
     return render(request, 'maintenance/guideline.html', context)
 
-def workorder(request):
-    return render(request, 'maintenance/workorder.html', {})
+@login_required
+def workorder(request, workorder_number):
+    try:
+        workorder = WorkOrder.objects.get(pk=workorder_number)
+    except WorkOrder.DoesNotExist:
+        raise Http404("WorkOrder does not exist")
+    ato = Airport.objects.get(pk=Inventory.objects.filter(machine_number=workorder.machine_number.machine_number).latest('up_date').airport)
+    return render(request, 'maintenance/workorder.html', {'workorder': workorder, 'ato': ato})

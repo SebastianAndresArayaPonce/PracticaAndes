@@ -42,11 +42,12 @@ class WorkType(models.Model):
         return self.name
 
 class WorkOrder(models.Model):
+    order_number = models.PositiveIntegerField(primary_key=True)
     machine_number = models.ForeignKey(Machine, on_delete=models.PROTECT)
     work_type = models.ForeignKey(WorkType, on_delete=models.PROTECT)
     datetime = models.DateTimeField()
-    mechanic = models.ForeignKey(User, on_delete=models.PROTECT, related_name='mechanic')
-    team_leader = models.ForeignKey(User, on_delete=models.PROTECT, related_name='team_leader')
+    mechanic = models.ForeignKey(User, on_delete=models.PROTECT, null=True, blank=True, related_name='mechanic')
+    team_leader = models.ForeignKey(User, on_delete=models.PROTECT, null=True, blank=True, related_name='team_leader')
     def __unicode__(self):
         return u'%s for %s by %s %s' % (self.work_type.name, self.machine_number, self.mechanic, self.datetime)
 
