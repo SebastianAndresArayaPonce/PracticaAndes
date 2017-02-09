@@ -12,6 +12,9 @@
 		<link rel="stylesheet" type="text/css" href="{% static 'maintenance/stylesheet.css' %}" />
 	</head>
 	<body>
+		{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+		<form action="{% url 'maintenance:process_workorder' workorder.order_number%}" method="post">
+			{% csrf_token %}
 			<table class="wo-table">
 				<colgroup>
 					<col class="wo-col-1">
@@ -41,7 +44,7 @@
 					<td class="wo-solid-top">{{ workorder.machine_number.family.name }}</td>
 					<td class="blank wo-solid-top"><br></td>
 					<td class="wo-solid-top wo-bg">Horómetro</td>
-					<td class="wo-solid-top"><!--<input type="number" name="hourmeter_to_date">--></td>
+					<td class="wo-solid-top"><input type="number" name="hourmeter_to_date"></td>
 					<td class="blank wo-solid-top wo-solid-right"><br></td>
 				</tr>
 				<tr>
@@ -268,6 +271,6 @@
 				</tr>
 			</table>
 			<input type="submit" value="Process order">
-		<!--</form>-->
+		</form>
 	</body>
 </html>

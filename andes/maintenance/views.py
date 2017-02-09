@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
+from django.urls import reverse
 
 from .models import Machine, MachineSparePart, MachineInput, MachineInstruction, WorkOrder, Inventory, Airport
 
@@ -22,7 +23,6 @@ def guideline(request, machine_number, level):
     context = {'machine': machine, 'machine_spare_part_list': machine_spare_part_list, 'machine_input_list': machine_input_list, 'machine_instruction_list': machine_instruction_list}
     return render(request, 'maintenance/guideline.html', context)
 
-@login_required
 def workorder(request, workorder_number):
     try:
         workorder = WorkOrder.objects.get(pk=workorder_number)
@@ -30,3 +30,6 @@ def workorder(request, workorder_number):
         raise Http404("WorkOrder does not exist")
     ato = Airport.objects.get(pk=Inventory.objects.filter(machine_number=workorder.machine_number.machine_number).latest('up_date').airport)
     return render(request, 'maintenance/workorder.html', {'workorder': workorder, 'ato': ato})
+
+def process_workorder(request, workorder_number):
+    return HttpResponseRedirect(reverse('maintenance:index'))
