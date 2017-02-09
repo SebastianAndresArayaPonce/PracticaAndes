@@ -32,4 +32,11 @@ def workorder(request, workorder_number):
     return render(request, 'maintenance/workorder.html', {'workorder': workorder, 'ato': ato})
 
 def process_workorder(request, workorder_number):
-    return HttpResponseRedirect(reverse('maintenance:index'))
+    try:
+        form = request.POST
+        print form
+    except ObjectDoesNotExist:
+        # Redisplay the question voting form.
+        return render(request, 'maintenance/workorder.html', {'workorder': workorder, 'error_message': "You should not be there.", 'ato': ato})
+    else:
+        return HttpResponseRedirect(reverse('maintenance:index'))

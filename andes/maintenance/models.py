@@ -45,7 +45,8 @@ class WorkOrder(models.Model):
     order_number = models.PositiveIntegerField(primary_key=True)
     machine_number = models.ForeignKey(Machine, on_delete=models.PROTECT)
     work_type = models.ForeignKey(WorkType, on_delete=models.PROTECT)
-    datetime = models.DateTimeField()
+    in_datetime = models.DateTimeField()
+    out_datetime = models.DateTimeField(null=True, blank=True)
     mechanic = models.ForeignKey(User, on_delete=models.PROTECT, null=True, blank=True, related_name='mechanic')
     team_leader = models.ForeignKey(User, on_delete=models.PROTECT, null=True, blank=True, related_name='team_leader')
     def __unicode__(self):
