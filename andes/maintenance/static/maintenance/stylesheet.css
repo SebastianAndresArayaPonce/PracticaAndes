@@ -28,6 +28,16 @@ input[type=number] {
   border-width: 0px 0px 0px 0px;
 }
 
+.center {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.center-left {
+  text-align: left;
+  vertical-align: middle;
+}
+
 .gl-table {
   width: 720px;
 }
@@ -105,12 +115,7 @@ input[type=number] {
   background-color: #4F81BD;
 }
 
-.wo-form-textarea, .wo-form-text {
+.wo-form-textarea, .wo-form-text, .wo-form-select {
   height: 100%;
   width: 100%;
-}
-
-.wo-center {
-  text-align: center;
-  vertical-align: middle;
 }

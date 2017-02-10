@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import Http404, HttpResponseRedirect
 from django.urls import reverse
 
-from .models import Machine, MachineSparePart, MachineInput, MachineInstruction, WorkOrder, Inventory, Airport
+from .models import Machine, SparePart, MachineSparePart, Input, MachineInput, MachineInstruction, WorkOrder, Inventory, Airport
 
 # Create your views here.
 def index(request):
@@ -23,20 +23,23 @@ def guideline(request, machine_number, level):
     context = {'machine': machine, 'machine_spare_part_list': machine_spare_part_list, 'machine_input_list': machine_input_list, 'machine_instruction_list': machine_instruction_list}
     return render(request, 'maintenance/guideline.html', context)
 
+@login_required
 def workorder(request, workorder_number):
     try:
         workorder = WorkOrder.objects.get(pk=workorder_number)
     except WorkOrder.DoesNotExist:
         raise Http404("WorkOrder does not exist")
-    ato = Airport.objects.get(pk=Inventory.objects.filter(machine_number=workorder.machine_number.machine_number).latest('up_date').airport)
-    return render(request, 'maintenance/workorder.html', {'workorder': workorder, 'ato': ato})
+    airport = Airport.objects.get(pk=Inventory.objects.filter(machine_number=workorder.machine_number.machine_number).latest('up_date').airport)
+    inputs = Input.objects.all()
+    spare_parts = SparePart.objects.all()
+    return render(request, 'maintenance/workorder.html', {'workorder': workorder, 'airport': airport, 'inputs': inputs, 'spare_parts': spare_parts})
 
-def process_workorder(request, workorder_number):
+@login_required
+def confirm_workorder(request, workorder_number):
     try:
         form = request.POST
         print form
     except ObjectDoesNotExist:
-        # Redisplay the question voting form.
         return render(request, 'maintenance/workorder.html', {'workorder': workorder, 'error_message': "You should not be there.", 'ato': ato})
     else:
         return HttpResponseRedirect(reverse('maintenance:index'))
