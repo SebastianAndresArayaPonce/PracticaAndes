@@ -37,9 +37,13 @@ def workorder(request, workorder_number):
 @login_required
 def confirm_workorder(request, workorder_number):
     try:
-        form = request.POST
-        print form
-    except ObjectDoesNotExist:
-        return render(request, 'maintenance/workorder.html', {'workorder': workorder, 'error_message': "You should not be there.", 'ato': ato})
-    else:
-        return HttpResponseRedirect(reverse('maintenance:index'))
+        workorder = WorkOrder.objects.get(pk=workorder_number)
+    except WorkOrder.DoesNotExist:
+        raise Http404("WorkOrder does not exist")
+    form = request.POST
+    airport_code = (Airport.objects.get(pk=Inventory.objects.filter(machine_number=workorder.machine_number.machine_number).latest('up_date').airport)).code
+    return render(request, 'maintenance/confirm_workorder.html', {'workorder': workorder, 'airport_code': airport_code, 'form': form })
+
+@login_required
+def process_workorder(request):
+    return render(request, 'maintenance/index.html', {})

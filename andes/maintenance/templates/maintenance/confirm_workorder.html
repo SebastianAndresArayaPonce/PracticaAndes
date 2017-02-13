@@ -13,7 +13,7 @@
 	</head>
 	<body>
 		{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-		<form action="{% url 'maintenance:process_workorder' workorder.order_number%}" method="post">
+		<form action="{% url 'maintenance:process_workorder' %}" method="post">
 			{% csrf_token %}
 			<table class="wo-table">
 				<colgroup>
@@ -44,7 +44,7 @@
 					<td class="wo-solid-top">{{ workorder.machine_number.family.name }}</td>
 					<td class="blank wo-solid-top"><br></td>
 					<td class="wo-solid-top wo-bg">Horómetro</td>
-					<td class="wo-solid-top"><input class="wo-form-text" type="number" min="0" name="hourmeter_to_date" required></td>
+					<td class="wo-solid-top">{{ form.hourmeter_to_date }}</td>
 					<td class="blank wo-solid-top wo-solid-right"><br></td>
 				</tr>
 				<tr>
@@ -59,7 +59,7 @@
 				</tr>
 				<tr>
 					<td class="wo-solid-left wo-bg">ATO</td>
-					<td>{{ airport.code }}</td>
+					<td>{{ airport_code }}</td>
 					<td colspan="4" class="blank wo-solid-right"><br></td>
 				</tr>
 				<tr>
@@ -69,11 +69,9 @@
 					<td rowspan="2" class="wo-solid-left wo-bg">Tipo de trabajo<br>(Marcar con una X)</td>
 					<td class="wo-bg">Preventivo</td>
 					<td class="center">
-						<input type="checkbox"
 							{% if workorder.work_type.name == "Preventivo" %}
-								checked
+								<b>X</b>
 							{% endif %}
-						readonly onclick="return false">
 					</td>
 					<td class="blank"><br></td>
 					<td class="wo-bg">Fecha</td>
@@ -82,11 +80,9 @@
 				<tr>
 					<td class="wo-bg">Correctivo</td>
 					<td class="center">
-						<input type="checkbox"
 							{% if workorder.work_type.name == "Correctivo" %}
-								checked
+								<b>X</b>
 							{% endif %}
-						readonly onclick="return false">
 					</td>
 					<td class="wo-bg">Ingreso</td>
 					<td>{{ workorder.in_datetime|date:"Y-m-d"}}</td>
@@ -95,21 +91,33 @@
 				<tr>
 					<td class="blank wo-solid-left"><br></td>
 					<td class="wo-bg">Falla</td>
-					<td class="center"><input type="checkbox" name="is_falla"></td>
+					<td class="center">
+						{% if form.is_falla %}
+							<b>X</b>
+						{% endif %}
+					</td>
 					<td class="wo-bg">Salida est</td>
-					<td><input type="date" name="output_date" required placeholder='YYYY-MM-DD' pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))"></td>
-					<td class="wo-solid-right"><input type="time" name="output_time" required placeholder='HH:MM' pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9])"></td>
+					<td>{{ form.output_date }}</td>
+					<td class="wo-solid-right">{{ form.output_time }}</td>
 				</tr>
 				<tr>
 					<td class="blank wo-solid-left"><br></td>
 					<td class="wo-bg">Daños</td>
-					<td class="center"><input type="checkbox" name="is_daños"></td>
+					<td class="center">
+						{% if form.is_dannos %}
+							<b>X</b>
+						{% endif %}
+					</td>
 					<td colspan="3" class="blank wo-solid-right"><br></td>
 				</tr>
 				<tr>
 					<td class="blank wo-solid-bottom wo-solid-left"><br></td>
 					<td class="wo-solid-bottom wo-bg">Modificacion</td>
-					<td class="wo-solid-bottom center"><input type="checkbox" name="is_modificaciones"></td>
+					<td class="wo-solid-bottom center">
+						{% if form.is_modificacion %}
+							<b>X</b>
+						{% endif %}
+					</td>
 					<td colspan="3" class="blank wo-solid-right wo-solid-bottom"><br></td>
 				</tr>
 				<tr>
@@ -122,25 +130,19 @@
 					<td colspan="6" class="wo-solid-top wo-solid-right wo-solid-left wo-bg">Descripción de trabajo / falla</td>
 				</tr>
 				<tr>
-					<td colspan="6" class="wo-solid-right wo-solid-left">
-						<input class="wo-form-text" type="text" name="work_description_1">
-					</td>
+					<td colspan="6" class="wo-solid-right wo-solid-left">{{ form.work_description_1 }}</td>
 				</tr>
 				<tr>
 					<td colspan="6" class="wo-solid-right wo-solid-left wo-bg">Trabajo desarrollado</td>
 				</tr>
 				<tr>
-					<td colspan="6" class="wo-solid-right wo-solid-left">
-						<textarea class="wo-form-textarea" name="developed_work" rows="4" required></textarea>
-					</td>
+					<td colspan="6" class="wo-solid-right wo-solid-left">{{ form.developed_work }}</td>
 				</tr>
 				<tr>
 					<td colspan="6" class="wo-solid-right wo-solid-left wo-bg">Trabajo pendiente</td>
 				</tr>
 				<tr>
-					<td colspan="6" class="wo-solid-right wo-solid-left wo-solid-bottom">
-						<textarea class="wo-form-textarea" name="pending_job" rows="4" required></textarea>
-					</td>
+					<td colspan="6" class="wo-solid-right wo-solid-left wo-solid-bottom">{{ form.pending_job }}</td>
 				</tr>
 				<tr>
 					<td colspan="6" class="blank"><br></td>
@@ -157,26 +159,26 @@
 					<td class="wo-solid-top wo-solid-right wo-bg">Cantidad</td>
 				</tr>
 				<tr>
-					<td class="wo-solid-left"><select class="wo-form-select" name="spare_part_number_1">
-						<option disabled selected value> -- select an option -- </option>
-						{% for entry in spare_parts %}
-							<option value="{{ entry.id }}">F: {{ entry.factory_number }} / S: {{ entry.sage_number }}</option>
-						{% endfor %}
-					</select></td>
-					<td><br></td>
-					<td class="wo-double-right">
-						<input class="wo-form-text" type="text" name="spare_part_quantity_1">
-					</td>
-					<td class="wo-double-left"><select class="wo-form-select" name="spare_part_number_2">
-						<option disabled selected value> -- select an option -- </option>
-						{% for entry in spare_parts %}
-							<option value="{{ entry.id }}" default>F: {{ entry.factory_number }} / S: {{ entry.sage_number }}</option>
-						{% endfor %}
-					</select></td>
-					<td><br></td>
-					<td class="wo-solid-right">
-						<input class="wo-form-text" type="text" name="spare_part_quantity_2">
-					</td>
+					<td class="wo-solid-left">
+					{% if form.spare_part_number_1 %}
+						{{ form.spare_part_number_1 }}</td>
+						<td>{{ form.spare_part_description_1 }}</td>
+						<td class="wo-double-right">{{ form.spare_part_quantity_1 }}</td>
+					{% else %}
+						<br></td>
+						<td><br></td>
+						<td class="wo-double-right"><br></td>
+					{% endif %}
+					<td class="wo-double-left">
+					{% if form.spare_part_number_2 %}
+						{{ form.spare_part_number_2 }}</td>
+						<td>{{ form.spare_part_description_2 }}</td>
+						<td class="wo-soli-right">{{ form.spare_part_quantity_2 }}</td>
+					{% else %}
+						<br></td>
+						<td><br></td>
+						<td class="wo-solid-right"><br></td>
+					{% endif %}
 				</tr>
 				<tr>
 					<td colspan="6" class="blank wo-solid-top"><br></td>
@@ -190,13 +192,14 @@
 					<td colspan="4" class="blank"><br></td>
 				</tr>
 				<tr>
-					<td class="wo-solid-left"><select class="wo-form-select" name="input_1">
-						<option disabled selected value> -- select an option -- </option>
-						{% for entry in inputs %}
-							<option value="{{ entry.input_type }}">{{ entry.input_type }}</option>
-						{% endfor %}
-					</select></td>
-					<td class="wo-solid-right"><input type="number" class="wo-form-text" name="input_quantity_1" min="0"></td>
+					<td class="wo-solid-left">
+					{% if form.input_1 %}
+						{{ form.input_1 }}</td>
+						<td class="wo-solid-right">{{ form.input_quantity_1}}</td>
+					{% else %}
+						<br></td>
+						<td class="wo-solid-right"><br></td>
+					{% endif %}
 					<td colspan="4" class="blank"><br></td>
 				</tr>
 				<tr>
@@ -208,9 +211,9 @@
 				<tr>
 					<td colspan="2" class="blank wo-solid-top wo-solid-left"><br></td>
 					<td class="wo-solid-top wo-bg">Fecha salida</td>
-					<td class="wo-solid-top"><br></td>
+					<td class="wo-solid-top">{{ form.output_date }}</td>
 					<td class="wo-solid-top wo-bg">Hora salida</td>
-					<td class="wo-solid-top wo-solid-right"><br></td>
+					<td class="wo-solid-top wo-solid-right">{{ form.output_time }}</td>
 				</tr>
 				<tr>
 					<td colspan="6" class="blank wo-solid-right wo-solid-left"><br></td>
@@ -229,7 +232,7 @@
 				</tr>
 			</table>
 			<p></p>
-			<input type="submit" value="Process order">
+			<input type="submit" value="Confirm order">
 		</form>
 		<script src="{% static 'maintenance/js/jquery-3.1.1.js' %}"></script>
 		<script src="{% static 'maintenance/js/workorder-jquery.js' %}"></script>
