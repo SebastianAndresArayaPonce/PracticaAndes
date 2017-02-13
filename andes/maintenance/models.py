@@ -50,17 +50,17 @@ class WorkOrder(models.Model):
     mechanic = models.ForeignKey(User, on_delete=models.PROTECT, null=True, blank=True, related_name='mechanic')
     team_leader = models.ForeignKey(User, on_delete=models.PROTECT, null=True, blank=True, related_name='team_leader')
     def __unicode__(self):
-        return u'%s for %s by %s %s' % (self.work_type.name, self.machine_number, self.mechanic, self.datetime)
+        return u'%s for %s by %s %s' % (self.work_type.name, self.machine_number, self.mechanic, self.out_datetime)
 
 class SparePart(models.Model):
     factory_number = models.PositiveIntegerField(null=True, blank=True, unique=True)
     sage_number = models.PositiveIntegerField(null=True, blank=True, unique=True)
-    name = models.CharField(max_length=50, primary_key=True)
+    spare_part_type = models.CharField(max_length=100)
     def clean(self):
         if self.factory_number == None and self.sage_number is None:
             raise forms.ValidationError('Field factory_number or sage_number required.')
     def __unicode__(self):
-        return u'%s | P/N Fabrica: %s | P/N Sage: %s' % (self.name, self.factory_number, self.sage_number)
+        return u'%s | P/N Fabrica: %s | P/N Sage: %s' % (self.spare_part_type, self.factory_number, self.sage_number)
 
 class MachineSparePart(models.Model):
     machine_number = models.ForeignKey(Machine, on_delete=models.PROTECT)
@@ -70,7 +70,7 @@ class MachineSparePart(models.Model):
     class Meta:
         unique_together = ('machine_number', 'spare_part', 'level')
     def __unicode__(self):
-        return '%s Level %s: %s x%s' % (self.machine_number, self.level, self.spare_part.name, self.quantity)
+        return '%s Level %s: %s x%s' % (self.machine_number, self.level, self.spare_part.spare_part_type, self.quantity)
 
 class SparePartHistoricPrice(models.Model):
     spare_part = models.ForeignKey(SparePart, on_delete=models.PROTECT)
