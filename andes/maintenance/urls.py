@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^workorder/(?P<workorder_number>[0-9]+)$', views.workorder, name="workorder"),
     url(r'^workorder/(?P<workorder_number>[0-9]+)/confirm$', views.confirm_workorder, name="confirm_workorder"),
     url(r'^workorder$', views.process_workorder, name="process_workorder"),
+    url(r'^sparepartlist/(?P<suffix>[0-9]+)$', views.get_spare_part_list, name="spare_part_list"),
 ]

@@ -47,3 +47,9 @@ def confirm_workorder(request, workorder_number):
 @login_required
 def process_workorder(request):
     return render(request, 'maintenance/index.html', {})
+
+@login_required
+def get_spare_part_list(request, suffix):
+    spare_part_list = SparePart.objects.all()
+    new_suffix = str(int(suffix) + 1)
+    return render(request, 'maintenance/spare_part_list.html', {'spare_part_list': spare_part_list, 'suffix': new_suffix })
