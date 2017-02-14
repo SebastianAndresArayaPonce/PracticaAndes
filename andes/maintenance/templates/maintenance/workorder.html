@@ -160,14 +160,14 @@
 					<td colspan="3" class="blank"><br></td>
 				</tr>
 				<tr class="spare_part_row">
-					<td class="wo-solid-left"><select class="wo-form-select" name="spare_part_number_1">
+					<td class="wo-solid-left"><select class="wo-form-select wo-spare-part-select" id="spare_part_number_1" name="spare_part_number_1">
 						<option selected value> -- select an option -- </option>
 						{% for entry in spare_parts %}
-							<option value="{{entry.id}}">{{entry.spare_part_type}} F: {{ entry.factory_number }} / S: {{ entry.sage_number }}</option>
+							<option value="{{entry.id}}">F: {{ entry.factory_number }} / S: {{ entry.sage_number }}</option>
 						{% endfor %}
 					</select></td>
-					<td><br></td>
-					<td class="wo-solid-right">
+					<td class="wo-spare-part-description" id="spare_part_description_1"><br></td>
+					<td class="wo-solid-right wo-spare-part-quantity" id="spare_part_quantity_1">
 						<input class="wo-form-text" type="text" name="spare_part_quantity_1">
 					</td>
 					<td colspan="3" class="blank"><br></td>
