@@ -97,8 +97,8 @@
 					<td class="wo-bg">Falla</td>
 					<td class="center"><input type="checkbox" name="is_falla" value=True></td>
 					<td class="wo-bg">Salida est</td>
-					<td><input type="date" name="output_date" required placeholder='YYYY-MM-DD' pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))"></td>
-					<td class="wo-solid-right"><input type="time" name="output_time" required placeholder='HH:MM' pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9])"></td>
+					<td><input id="out-date" type="date" name="output_date" required placeholder='YYYY-MM-DD' pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))"></td>
+					<td class="wo-solid-right"><input id="out-time" type="time" name="output_time" required placeholder='HH:MM' pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9])"></td>
 				</tr>
 				<tr>
 					<td class="blank wo-solid-left"><br></td>
@@ -149,14 +149,17 @@
 					<td colspan="6" class="blank"><b>Repuestos Empleados.</b></td>
 				</tr>
 				<tr>
-					<td class="wo-solid-top wo-solid-left wo-bg">N° Parte</td>
-					<td class="wo-solid-top wo-bg">Descripción</td>
-					<td class="wo-solid-top wo-double-right wo-bg">Cantidad</td>
-					<td class="wo-solid-top wo-double-left wo-bg">N° Parte</td>
-					<td class="wo-solid-top wo-bg">Descripción</td>
-					<td class="wo-solid-top wo-solid-right wo-bg">Cantidad</td>
+					<td colspan="6" class="blank">
+						<button type="button" name="add_row" id="spare_part_add_row">Add another Spare Part</button>
+					</td>
 				</tr>
 				<tr>
+					<td class="wo-solid-top wo-solid-left wo-bg">N° Parte</td>
+					<td class="wo-solid-top wo-bg">Descripción</td>
+					<td class="wo-solid-top wo-solid-right wo-bg">Cantidad</td>
+					<td colspan="3" class="blank"><br></td>
+				</tr>
+				<tr class="spare_part_row">
 					<td class="wo-solid-left"><select class="wo-form-select" name="spare_part_number_1">
 						<option selected value> -- select an option -- </option>
 						{% for entry in spare_parts %}
@@ -164,22 +167,19 @@
 						{% endfor %}
 					</select></td>
 					<td><br></td>
-					<td class="wo-double-right">
+					<td class="wo-solid-right">
 						<input class="wo-form-text" type="text" name="spare_part_quantity_1">
 					</td>
-					<td class="wo-double-left"><select class="wo-form-select" name="spare_part_number_2">
-						<option selected value> -- select an option -- </option>
-						{% for entry in spare_parts %}
-							<option value="{{ entry.id }}">{{entry.spare_part_type}} F: {{ entry.factory_number }} / S: {{ entry.sage_number }}</option>
-						{% endfor %}
-					</select></td>
-					<td><br></td>
-					<td class="wo-solid-right">
-						<input class="wo-form-text" type="text" name="spare_part_quantity_2">
-					</td>
+					<td colspan="3" class="blank"><br></td>
 				</tr>
 				<tr>
-					<td colspan="6" class="blank wo-solid-top"><br></td>
+					<td colspan="3" class="blank wo-solid-top"><br></td>
+					<td colspan="3" class="blank"><br></td>
+				</tr>
+				<tr>
+					<td colspan="6" class="blank">
+						<button type="button" name="DelRow" id="spare_part_del_row">Remove last Spare Part</button>
+					</td>
 				</tr>
 				<tr>
 					<td colspan="6" class="blank"><b>Lubricantes Empleados.</b></td>
