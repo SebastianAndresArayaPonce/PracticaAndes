@@ -42,37 +42,43 @@ def confirm_workorder(request, workorder_number):
     airport_code = (Airport.objects.get(pk=Inventory.objects.filter(machine_number=workorder.machine_number.machine_number).latest('up_date').airport)).code
     form = request.POST
 
-    w_entries = dict((s,form[s]) for s in form.keys() if "work_description" in s)
+    w_entries = dict((s,form[s]) for s in form.keys() if "work_description" in s and form[s] != "")
     w_order = sorted(w_entries)
     is_w_len_greater_than_0 = len(w_entries) > 0
     work_descriptions = {'entries': w_entries, 'order': w_order, 'validator': is_w_len_greater_than_0}
 
-    sp_all = SparePart.objects.all()
-    sp_numbers = dict((s,form[s]) for s in form.keys() if "spare_part_number" in s)
-    sp_quantitys = dict((s,form[s]) for s in form.keys() if "spare_part_quantity" in s)
-    sp_order = sorted(sp_numbers)
-    is_sp_len_greater_than_0 = len(sp_numbers) > 0
-    is_sp_even = len(sp_numbers)%2 == 1
-    range_sp = [(sp_order[i], sp_order[i+1]) for i in xrange(0, len(sp_numbers)/2+1, 2)]
+    sp_ids = dict((s,form[s]) for s in form.keys() if "spare_part_number" in s and form[s] != "")
+    sp_numbers = {}
+    sp_descriptions = {}
+    sp_quantitys = dict((s,form[s]) for s in form.keys() if "spare_part_quantity" in s and form[s] != "")
+    for key in sp_ids:
+        item = SparePart.objects.get(pk=form[key])
+        sp_numbers[key]="F:%s S:%s" % (item.factory_number, item.sage_number)
+        sp_descriptions[key]=item.spare_part_type
+    sp_order_numbers = sorted(sp_numbers)
+    sp_order_quantitys = sorted(sp_quantitys)
+    sp_order_descriptions = sorted(sp_descriptions)
+    is_sp_len_greater_than_0 = len(sp_ids) > 0
+    is_sp_even = len(sp_ids)%2 == 1
     if is_sp_even:
-        range_sp.append((sp_order[len(sp_numbers)], ""))
-    spare_parts = {'all': sp_all, 'numbers': sp_numbers, 'quantitys': sp_quantitys, 'range': range_sp, 'validator': is_sp_len_greater_than_0}
+        range_sp = [(sp_order_numbers[i], sp_order_descriptions[i], sp_order_quantitys[i], sp_order_numbers[i+1], sp_order_descriptions[i+1], sp_order_quantitys[i+1]) for i in xrange(0, len(sp_ids)-1, 2)]
+        range_sp.append((sp_order_numbers[len(sp_ids)-1], sp_order_descriptions[len(sp_ids)-1], sp_order_quantitys[len(sp_ids)-1], "", "", ""))
+    else:
+        range_sp = [(sp_order_numbers[i], sp_order_quantitys[i], sp_order_descriptions[i], sp_order_numbers[i+1], sp_order_quantitys[i+1], sp_order_descriptions[i+1]) for i in xrange(0, len(sp_ids), 2)]
+    spare_parts = {'numbers': sp_numbers, 'descriptions': sp_descriptions, 'quantitys': sp_quantitys, 'range': range_sp, 'validator': is_sp_len_greater_than_0}
 
-    i_entries = dict((s,form[s]) for s in form.keys() if "input_description" in s)
-    i_quantitys = dict((s,form[s]) for s in form.keys() if "input_quantity" in s)
+    i_entries = dict((s,form[s]) for s in form.keys() if "input_description" in s and form[s] != "")
+    i_quantitys = dict((s,form[s]) for s in form.keys() if "input_quantity" in s and form[s] != "")
+    i_order_entries = sorted(i_entries)
+    i_order_quantitys = sorted(i_quantitys)
     is_i_len_greater_than_0 = len(i_entries)
-    i_order = sorted(i_entries)
-    input_descriptions = {'entries': i_entries, 'quantitys': i_quantitys, 'order': i_order, 'validator': is_i_len_greater_than_0}
+    range_i = [(i_order_entries[i], i_order_quantitys[i]) for i in xrange(len(i_entries))]
+    input_descriptions = {'entries': i_entries, 'quantitys': i_quantitys, 'range': range_i, 'validator': is_i_len_greater_than_0}
 
-    context = {'workorder': workorder, 'airport_code': airport_code, 'work_descriptions': work_descriptions, 'spare_parts': spare_parts, 'input_descriptions': input_descriptions, 'form': form }
-    print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
-    #print form
-    for key in work_descriptions['order']:
-        print key
-    #print spare_parts['numbers'][x]
-    #print range_sp
+    context = {'workorder': workorder, 'airport_code': airport_code, 'work_descriptions': work_descriptions, 'spare_parts': spare_parts, 'input_descriptions': input_descriptions}
     #print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
-    #print sp_numbers
+
+    #print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
     return render(request, 'maintenance/confirm_workorder.html', context)
 
 @login_required

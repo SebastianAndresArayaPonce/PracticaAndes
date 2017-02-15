@@ -1,6 +1,7 @@
 <!DOCTYPE HTML5>
 
 {% load static %}
+{% load workorder_extras %}
 
 <html>
 	<head>
@@ -39,7 +40,7 @@
 					<td class="wo-solid-top">{{ workorder.machine_number.family.name }}</td>
 					<td class="blank wo-solid-top"><br></td>
 					<td class="wo-solid-top wo-bg">Horómetro</td>
-					<td class="wo-solid-top">{{ form.hourmeter_to_date }}</td>
+					<td class="wo-solid-top">{{ request.POST.hourmeter_to_date }}</td>
 					<td class="blank wo-solid-top wo-solid-right"><br></td>
 				</tr>
 				<tr>
@@ -87,19 +88,19 @@
 					<td class="blank wo-solid-left"><br></td>
 					<td class="wo-bg">Falla</td>
 					<td class="center">
-						{% if form.is_falla %}
+						{% if request.POST.is_falla %}
 						<b>X</b>
 						{% endif %}
 					</td>
 					<td class="wo-bg">Salida est</td>
-					<td>{{ form.output_date }}</td>
-					<td class="wo-solid-right">{{ form.output_time }}</td>
+					<td>{{ request.POST.output_date }}</td>
+					<td class="wo-solid-right">{{ request.POST.output_time }}</td>
 				</tr>
 				<tr>
 					<td class="blank wo-solid-left"><br></td>
 					<td class="wo-bg">Daños</td>
 					<td class="center">
-						{% if form.is_dannos %}
+						{% if request.POST.is_dannos %}
 						<b>X</b>
 						{% endif %}
 					</td>
@@ -109,7 +110,7 @@
 					<td class="blank wo-solid-bottom wo-solid-left"><br></td>
 					<td class="wo-solid-bottom wo-bg">Modificacion</td>
 					<td class="wo-solid-bottom center">
-						{% if form.is_modificacion %}
+						{% if request.POST.is_modificacion %}
 							<b>X</b>
 						{% endif %}
 					</td>
@@ -127,7 +128,7 @@
 				{% if work_descriptions.validator %}
 					{% for key in work_descriptions.order %}
 					<tr>
-						<td colspan="6" class="wo-solid-right wo-solid-left">{{ work_descriptions.entries.key }}</td>
+						<td colspan="6" class="wo-solid-right wo-solid-left">{{ work_descriptions.entries|key:key }}</td>
 					</tr>
 					{% endfor %}
 				{% else %}
@@ -139,14 +140,14 @@
 					<td colspan="6" class="wo-solid-right wo-solid-left wo-bg">Trabajo desarrollado</td>
 				</tr>
 				<tr>
-					<td colspan="6" class="wo-solid-right wo-solid-left">{{ form.developed_work }}</td>
+					<td colspan="6" class="wo-solid-right wo-solid-left">{{ request.POST.developed_work }}</td>
 				</tr>
 				<tr>
 					<td colspan="6" class="wo-solid-right wo-solid-left wo-bg">Trabajo pendiente</td>
 				</tr>
-				{% if form.pending_job %}
+				{% if request.POST.pending_job %}
 				<tr>
-					<td colspan="6" class="wo-solid-right wo-solid-left wo-solid-bottom">{{ form.pending_job }}</td>
+					<td colspan="6" class="wo-solid-right wo-solid-left wo-solid-bottom">{{ request.POST.pending_job }}</td>
 				</tr>
 				{% else %}
 				<tr>
@@ -168,15 +169,15 @@
 					<td class="wo-solid-top wo-solid-right wo-bg">Cantidad</td>
 				</tr>
 				{% if spare_parts.validator %}
-					{% for x,y in spare_parts.range %}
+					{% for x1,y1,z1,x2,y2,z2 in spare_parts.range %}
 					<tr>
-						<td class="wo-solid-left">{{ spare_parts.numbers.x }}</td>
-						<td>{{ spare_parts.all.x.spare_part_type }}</td>
-						<td class="wo-double-right">{{ spare_parts.quantitys.x }}</td>
-						{% if y != "" %}
-						<td class="wo-double-left">{{ spare_parts.numbers.y }}</td>
-						<td>{{ spare_parts.all.y.spare_part_type }}</td>
-						<td class="wo-soli-right">{{ spare_parts.quantitys.y }}</td>
+						<td class="wo-solid-left">{{ spare_parts.numbers|key:x1 }}</td>
+						<td>{{ spare_parts.descriptions|key:y1 }}</td>
+						<td class="wo-double-right">{{ spare_parts.quantitys|key:z1 }}</td>
+						{% if x2 != "" and y2 != "" and z2 != "" %}
+						<td class="wo-double-left">{{ spare_parts.numbers|key:x2 }}</td>
+						<td>{{ spare_parts.descriptions|key:y2 }}</td>
+						<td class="wo-soli-right">{{ spare_parts.quantitys|key:z2 }}</td>
 						{% else %}
 						<td class="wo-double-left"><br></td>
 						<td><br></td>
@@ -208,8 +209,8 @@
 				{% if input_descriptions.validator %}
 					{% for key in input_descriptions.order %}
 					<tr>
-						<td class="wo-solid-left">{{ input_descriptions.entries.key }}</td>
-						<td class="wo-solid-right">{{ input_descriptions.quantitys.key }}</td>
+						<td class="wo-solid-left">{{ input_descriptions.entries|key:key }}</td>
+						<td class="wo-solid-right">{{ input_descriptions.quantitys|key:key }}</td>
 						<td colspan="4" class="blank"><br></td>
 					</tr>
 					{% endfor %}
@@ -229,9 +230,9 @@
 				<tr>
 					<td colspan="2" class="blank wo-solid-top wo-solid-left"><br></td>
 					<td class="wo-solid-top wo-bg">Fecha salida</td>
-					<td class="wo-solid-top">{{ form.output_date }}</td>
+					<td class="wo-solid-top">{{ request.POST.output_date }}</td>
 					<td class="wo-solid-top wo-bg">Hora salida</td>
-					<td class="wo-solid-top wo-solid-right">{{ form.output_time }}</td>
+					<td class="wo-solid-top wo-solid-right">{{ request.POST.output_time }}</td>
 				</tr>
 				<tr>
 					<td colspan="6" class="blank wo-solid-right wo-solid-left"><br></td>
