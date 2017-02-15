@@ -41,22 +41,38 @@ def confirm_workorder(request, workorder_number):
         raise Http404("WorkOrder does not exist")
     airport_code = (Airport.objects.get(pk=Inventory.objects.filter(machine_number=workorder.machine_number.machine_number).latest('up_date').airport)).code
     form = request.POST
-    work_descriptions = dict((s,form[s]) for s in form.keys() if "work_description" in s)
-    len_w = len(work_descriptions)
-    spare_parts = SparePart.objects.all()
-    spare_part_numbers = dict((s,form[s]) for s in form.keys() if "spare_part_number" in s)
-    spare_part_quantitys = dict((s,form[s]) for s in form.keys() if "spare_part_quantity" in s)
-    len_sp = len(spare_part_numbers)
-    len_sp2 = len_sp/2
-    len_spmod2 = len_sp%2
-    range_sp = range(len_sp)
-    input_descriptions = dict((s,form[s]) for s in form.keys() if "input_description" in s)
-    input_quantitys = dict((s,form[s]) for s in form.keys() if "input_quantity" in s)
-    len_i = len(input_descriptions)
-    range_i = range(len_i)
-    context = {'workorder': workorder, 'airport_code': airport_code, 'work_descriptions': work_descriptions, 'len_w': len_w, 'spare_parts': spare_parts, 'spare_part_numbers': spare_part_numbers, 'spare_part_quantitys': spare_part_quantitys, 'len_sp': len_sp, 'len_sp2': len_sp2, 'len_spmod2': len_spmod2, 'range_sp': range_sp, 'input_descriptions': input_descriptions, 'input_quantitys': input_quantitys, 'len_i': len_i, 'range_i': range_i, 'form': form }
-    #print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+
+    w_entries = dict((s,form[s]) for s in form.keys() if "work_description" in s)
+    w_order = sorted(w_entries)
+    is_w_len_greater_than_0 = len(w_entries) > 0
+    work_descriptions = {'entries': w_entries, 'order': w_order, 'validator': is_w_len_greater_than_0}
+
+    sp_all = SparePart.objects.all()
+    sp_numbers = dict((s,form[s]) for s in form.keys() if "spare_part_number" in s)
+    sp_quantitys = dict((s,form[s]) for s in form.keys() if "spare_part_quantity" in s)
+    sp_order = sorted(sp_numbers)
+    is_sp_len_greater_than_0 = len(sp_numbers) > 0
+    is_sp_even = len(sp_numbers)%2 == 1
+    range_sp = [(sp_order[i], sp_order[i+1]) for i in xrange(0, len(sp_numbers)/2+1, 2)]
+    if is_sp_even:
+        range_sp.append((sp_order[len(sp_numbers)], ""))
+    spare_parts = {'all': sp_all, 'numbers': sp_numbers, 'quantitys': sp_quantitys, 'range': range_sp, 'validator': is_sp_len_greater_than_0}
+
+    i_entries = dict((s,form[s]) for s in form.keys() if "input_description" in s)
+    i_quantitys = dict((s,form[s]) for s in form.keys() if "input_quantity" in s)
+    is_i_len_greater_than_0 = len(i_entries)
+    i_order = sorted(i_entries)
+    input_descriptions = {'entries': i_entries, 'quantitys': i_quantitys, 'order': i_order, 'validator': is_i_len_greater_than_0}
+
+    context = {'workorder': workorder, 'airport_code': airport_code, 'work_descriptions': work_descriptions, 'spare_parts': spare_parts, 'input_descriptions': input_descriptions, 'form': form }
+    print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
     #print form
+    for key in work_descriptions['order']:
+        print key
+    #print spare_parts['numbers'][x]
+    #print range_sp
+    #print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+    #print sp_numbers
     return render(request, 'maintenance/confirm_workorder.html', context)
 
 @login_required

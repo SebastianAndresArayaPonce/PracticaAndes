@@ -124,10 +124,10 @@
 				<tr>
 					<td colspan="6" class="wo-solid-top wo-solid-right wo-solid-left wo-bg">Descripción de trabajo / falla</td>
 				</tr>
-				{% if len_w > 0 %}
-					{% for key in work_descriptions %}
+				{% if work_descriptions.validator %}
+					{% for key in work_descriptions.order %}
 					<tr>
-						<td colspan="6" class="wo-solid-right wo-solid-left">work_descriptions[key]</td>
+						<td colspan="6" class="wo-solid-right wo-solid-left">{{ work_descriptions.entries.key }}</td>
 					</tr>
 					{% endfor %}
 				{% else %}
@@ -167,27 +167,23 @@
 					<td class="wo-solid-top wo-bg">Descripción</td>
 					<td class="wo-solid-top wo-solid-right wo-bg">Cantidad</td>
 				</tr>
-				{% if len_sp > 0}
-					{% for i in range_sp %}
+				{% if spare_parts.validator %}
+					{% for x,y in spare_parts.range %}
 					<tr>
-						<td class="wo-solid-left">{{ spare_part_numbers['spare_part_number_'|add: i|add: 1] }}</td>
-						<td>{{ spare_parts['spare_part_number_' + str(i+1)].spare_part_type }}</td>
-						<td class="wo-double-right">{{ spare_part_quantitys['spare_part_quantity_' + str(i+1)] }}</td>
-						<td class="wo-double-left">{{ spare_part_numbers['spare_part_number_' + str(len_sp2 + len_spmod2 +i+1)] }}</td>
-						<td>{{ spare_parts['spare_part_number_' + str(len_sp2 + len_spmod2 +i+1)].spare_part_type }}</td>
-						<td class="wo-soli-right">{{ spare_part_quantitys['spare_part_quantity_' + str(len_sp2 + len_spmod2 +i+1)] }}</td>
-					</tr>
-					{% endfor %}
-					{% if len_sp % 2 == 1 %}
-					<tr>
-						<td class="wo-solid-left">{{ spare_part_numbers['spare_part_number_' + str(len_sp2 +i+1)] }}</td>
-						<td>{{ spare_parts['spare_part_number_' + str(len_sp2 +i+1)].spare_part_type }}</td>
-						<td class="wo-double-right">{{ spare_part_quantitys['spare_part_quantity_' + str(len_sp2 +i+1)] }}</td>
+						<td class="wo-solid-left">{{ spare_parts.numbers.x }}</td>
+						<td>{{ spare_parts.all.x.spare_part_type }}</td>
+						<td class="wo-double-right">{{ spare_parts.quantitys.x }}</td>
+						{% if y != "" %}
+						<td class="wo-double-left">{{ spare_parts.numbers.y }}</td>
+						<td>{{ spare_parts.all.y.spare_part_type }}</td>
+						<td class="wo-soli-right">{{ spare_parts.quantitys.y }}</td>
+						{% else %}
 						<td class="wo-double-left"><br></td>
 						<td><br></td>
 						<td class="wo-soli-right"><br></td>
+						{% endif %}
 					</tr>
-					{% endif %}
+					{% endfor %}
 				{% else %}
 				<tr>
 					<td class="wo-solid-left"><br></td>
@@ -209,11 +205,11 @@
 					<td class="wo-solid-top wo-solid-right wo-bg">Cantidad</td>
 					<td colspan="4" class="blank"><br></td>
 				</tr>
-				{% if len_i > 0 %}
-					{% for i in range_i %}
+				{% if input_descriptions.validator %}
+					{% for key in input_descriptions.order %}
 					<tr>
-						<td class="wo-solid-left">input_descriptions['input_description_' + str(i+1)]</td>
-						<td class="wo-solid-right">input_quantitys['input_quantity_' + str(i+1)]</td>
+						<td class="wo-solid-left">{{ input_descriptions.entries.key }}</td>
+						<td class="wo-solid-right">{{ input_descriptions.quantitys.key }}</td>
 						<td colspan="4" class="blank"><br></td>
 					</tr>
 					{% endfor %}
