@@ -1,0 +1,10 @@
+<tr class="input_row">
+  <td colspan="2" class="wo-solid-left"><select class="wo-form-select" name="input_description_{{ suffix }}" id="input_description_{{ suffix }}">
+    <option selected value> -- select an option -- </option>
+    {% for entry in input_list %}
+      <option value="{{ entry.input_type }}">{{ entry.input_type }}</option>
+    {% endfor %}
+  </select></td>
+  <td class="wo-solid-right"><input type="number" class="wo-form-text" min="0" name="input_quantity_{{ suffix }}" id="input_quantity_{{ suffix }}"></td>
+  <td colspan="3" class="blank"><br></td>
+</tr>

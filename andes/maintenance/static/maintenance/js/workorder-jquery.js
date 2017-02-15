@@ -1,21 +1,74 @@
 $(document).ready(function() {
-/*  $(".spare_part_number").change(function() {
-    var id = $(this).val();
-    $(".spare_part_description").text( id );
-    alert( id );
-  });*/
+  $("#work_description_add_row").on( "click", function () {
+    var suffix = $("tr.work_description_row:last td:first input").attr("name").match(/\d+/);
+    $.get('/workdescription/' + suffix, {}, function (data) {
+      $('tr.work_description_row:last').after( data );
+      $("#work_description_" + suffix).attr("required", "required");
+    });
+  });
+  $("#work_description_del_row").on("click", function () {
+    var suffix = $("tr.work_description_row:last td:first input").attr("name").match(/\d+/);
+    if ( parseInt(suffix) > 1 ) {
+      $("tr.work_description_row:last").remove();
+      $("#work_description_" + (parseInt(suffix)-1).toString()).removeAttr("required");
+    };
+  });
   $("#spare_part_add_row").on( "click", function () {
     var suffix = $("tr.spare_part_row:last td:first select").attr("name").match(/\d+/);
     $.get('/sparepartlist/' + suffix, {}, function (data) {
       $('tr.spare_part_row:last').after( data );
+      $("#spare_part_number_" + suffix).attr("required", "required");
+      $("#spare_part_quantity_" + suffix).attr("required", "required");
     });
-    $("#spare_part_number_" + suffix).attr("required", "required");
   });
   $("#spare_part_del_row").on("click", function () {
     var suffix = $("tr.spare_part_row:last td:first select").attr("name").match(/\d+/);
-    if ( suffix > 1 ) {
+    if ( parseInt(suffix) > 1 ) {
       $("tr.spare_part_row:last").remove();
       $("#spare_part_number_" + (parseInt(suffix)-1).toString()).removeAttr("required");
+      $("#spare_part_quantity_" + (parseInt(suffix)-1).toString()).removeAttr("required");
+    };
+  });
+  $(".wo-table").on("change", "tr.spare_part_row td select", function() {
+    var id = ($(this).val()).toString();
+    var suffix = $(this).attr("name").match(/\d+/);
+    var last_suffix = $("tr.spare_part_row:last td:first select").attr("name").match(/\d+/);
+    if (id == "") {
+      $("#spare_part_description_" + suffix).html( "<br>" );
+      if (parseInt(suffix) == parseInt(last_suffix)) {
+        $("#spare_part_quantity_" + suffix).removeAttr("required");
+      };
+    } else {
+      $.get('/spareparttype/' + id, {}, function (data) {
+        $("#spare_part_description_" + suffix).html( data );
+        $("#spare_part_quantity_" + suffix).attr("required", "required");
+      });
+    };
+  });
+  $("#input_add_row").on( "click", function () {
+    var suffix = $("tr.input_row:last td:first select").attr("name").match(/\d+/);
+    $.get('/inputlist/' + suffix, {}, function (data) {
+      $('tr.input_row:last').after( data );
+      $("#input_description_" + suffix).attr("required", "required");
+      $("#input_quantity_" + suffix).attr("required", "required");
+    });
+  });
+  $("#input_del_row").on("click", function () {
+    var suffix = $("tr.input_row:last td:first select").attr("name").match(/\d+/);
+    if ( parseInt(suffix) > 1 ) {
+      $("tr.input_row:last").remove();
+      $("#input_description_" + (parseInt(suffix)-1).toString()).removeAttr("required");
+      $("#input_quantity_" + (parseInt(suffix)-1).toString()).removeAttr("required");
+    };
+  });
+  $(".wo-table").on("change", "tr.input_row td select", function() {
+    var id = ($(this).val()).toString();
+    var suffix = $(this).attr("name").match(/\d+/);
+    var last_suffix = $("tr.input_row:last td:first select").attr("name").match(/\d+/);
+    if (id == "" && parseInt(suffix) == parseInt(last_suffix)) {
+      $("#input_quantity_" + suffix).removeAttr("required");
+    } else {
+      $("#input_quantity_" + suffix).attr("required", "required");
     };
   });
 });

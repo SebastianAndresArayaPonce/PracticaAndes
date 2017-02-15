@@ -90,7 +90,7 @@
 					</td>
 					<td class="wo-bg">Ingreso</td>
 					<td>{{ workorder.in_datetime|date:"Y-m-d"}}</td>
-					<td>{{ workorder.in_datetime|date:"H:i" }}</td>
+					<td class="wo-solid-right">{{ workorder.in_datetime|date:"H:i" }}</td>
 				</tr>
 				<tr>
 					<td class="blank wo-solid-left"><br></td>
@@ -119,11 +119,15 @@
 					<td colspan="6" class="blank"><b>Diagnóstico / Intervención.</b></td>
 				</tr>
 				<tr>
-					<td colspan="6" class="wo-solid-top wo-solid-right wo-solid-left wo-bg">Descripción de trabajo / falla</td>
+					<td colspan="3" class="blank wo-solid-top wo-solid-left wo-bg">Descripción de trabajo / falla</td>
+					<td colspan="3" class="blank center wo-solid-top wo-solid-right wo-bg">
+						<button type="button" name="add_description" id="work_description_add_row">Add another Description</button>
+						<button type="button" name="del_description" id="work_description_del_row">Remove last Description</button>
+					</td>
 				</tr>
-				<tr>
+				<tr class="work_description_row">
 					<td colspan="6" class="wo-solid-right wo-solid-left">
-						<input class="wo-form-text" type="text" name="work_description_1">
+						<input class="wo-form-text" type="text" name="work_description_1" id="work_description_1">
 					</td>
 				</tr>
 				<tr>
@@ -149,26 +153,24 @@
 					<td colspan="6" class="blank"><b>Repuestos Empleados.</b></td>
 				</tr>
 				<tr>
-					<td colspan="6" class="blank">
-						<button type="button" name="add_row" id="spare_part_add_row">Add another Spare Part</button>
-					</td>
-				</tr>
-				<tr>
 					<td class="wo-solid-top wo-solid-left wo-bg">N° Parte</td>
 					<td class="wo-solid-top wo-bg">Descripción</td>
 					<td class="wo-solid-top wo-solid-right wo-bg">Cantidad</td>
-					<td colspan="3" class="blank"><br></td>
+					<td colspan="3" class="blank center">
+						<button type="button" name="add_spare_part" id="spare_part_add_row">Add another Spare Part</button>
+						<button type="button" name="del_spare_part" id="spare_part_del_row">Remove last Spare Part</button>
+					</td>
 				</tr>
 				<tr class="spare_part_row">
-					<td class="wo-solid-left"><select class="wo-form-select wo-spare-part-select" id="spare_part_number_1" name="spare_part_number_1">
+					<td class="wo-solid-left"><select class="wo-form-select" name="spare_part_number_1" id="spare_part_number_1">
 						<option selected value> -- select an option -- </option>
 						{% for entry in spare_parts %}
 							<option value="{{entry.id}}">F: {{ entry.factory_number }} / S: {{ entry.sage_number }}</option>
 						{% endfor %}
 					</select></td>
-					<td class="wo-spare-part-description" id="spare_part_description_1"><br></td>
-					<td class="wo-solid-right wo-spare-part-quantity" id="spare_part_quantity_1">
-						<input class="wo-form-text" type="text" name="spare_part_quantity_1">
+					<td id="spare_part_description_1"><br></td>
+					<td class="wo-solid-right">
+						<input class="wo-form-text" type="number" min="0" name="spare_part_quantity_1" id="spare_part_quantity_1">
 					</td>
 					<td colspan="3" class="blank"><br></td>
 				</tr>
@@ -177,58 +179,30 @@
 					<td colspan="3" class="blank"><br></td>
 				</tr>
 				<tr>
-					<td colspan="6" class="blank">
-						<button type="button" name="DelRow" id="spare_part_del_row">Remove last Spare Part</button>
+					<td colspan="6" class="blank"><b>Lubricantes Empleados.</b></td>
+				</tr>
+				<tr>
+					<td colspan="2" class="wo-solid-top wo-solid-left wo-bg">Descripción</td>
+					<td class="wo-solid-top wo-solid-right wo-bg">Cantidad</td>
+					<td colspan="3" class="blank center">
+						<button type="button" name="add_input" id="input_add_row">Add another Input</button>
+						<button type="button" name="del_input" id="input_del_row">Remove last Input</button>
 					</td>
 				</tr>
-				<tr>
-					<td colspan="6" class="blank"><b>Lubricantes Empleados.</b></td>
-					</tr>
-				<tr>
-					<td class="wo-solid-top wo-solid-left wo-bg">Descripción</td>
-					<td class="wo-solid-top wo-solid-right wo-bg">Cantidad</td>
-					<td colspan="4" class="blank"><br></td>
-				</tr>
-				<tr>
-					<td class="wo-solid-left"><select class="wo-form-select" name="input_1">
+				<tr class="input_row">
+					<td colspan="2" class="wo-solid-left"><select class="wo-form-select" name="input_description_1" id="input_description_1">
 						<option selected value> -- select an option -- </option>
 						{% for entry in inputs %}
 							<option value="{{ entry.input_type }}">{{ entry.input_type }}</option>
 						{% endfor %}
 					</select></td>
-					<td class="wo-solid-right"><input type="number" class="wo-form-text" name="input_quantity_1" min="0"></td>
-					<td colspan="4" class="blank"><br></td>
+					<td class="wo-solid-right"><input type="number" class="wo-form-text" min="0" name="input_quantity_1" id="input_quantity_1"></td>
+					<td colspan="3" class="blank"><br></td>
 				</tr>
 				<tr>
 					<td colspan="6" class="blank"><br></td>
 				</tr>
-				<tr>
-					<td colspan="6" class="blank"><b>Control de Salida.</b></td>
-				</tr>
-				<tr>
-					<td colspan="2" class="blank wo-solid-top wo-solid-left"><br></td>
-					<td class="wo-solid-top wo-bg">Fecha salida</td>
-					<td class="wo-solid-top"><br></td>
-					<td class="wo-solid-top wo-bg">Hora salida</td>
-					<td class="wo-solid-top wo-solid-right"><br></td>
-				</tr>
-				<tr>
-					<td colspan="6" class="blank wo-solid-right wo-solid-left"><br></td>
-				</tr>
-				<tr>
-					<td class="blank wo-solid-left">Nombre Mecánico</td>
-					<td colspan="2" class="blank">{{ user.first_name }} {{ user.last_name }}</td>
-					<td class="blank">Firma</td>
-					<td colspan="2" class="blank wo-solid-right">_________________________</td>
-				</tr>
-				<tr>
-					<td class="blank wo-solid-bottom wo-solid-left">Nombre Team Leader</td>
-					<td colspan="2" class="blank wo-solid-bottom">Carlos Orellana / Esteban Morales</td>
-					<td class="blank wo-solid-bottom">Firma</td>
-					<td colspan="2" class="blank wo-solid-right wo-solid-bottom">_________________________</td>
-				</tr>
 			</table>
-			<p></p>
 			<input type="submit" value="Process order">
 		</form>
 		<script src="{% static 'maintenance/js/jquery-3.1.1.js' %}"></script>

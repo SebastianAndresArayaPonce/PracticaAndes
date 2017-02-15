@@ -1,7 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from django.http import Http404, HttpResponseRedirect
-from django.urls import reverse
+from django.http import Http404, HttpResponse
 
 from .models import Machine, SparePart, MachineSparePart, Input, MachineInput, MachineInstruction, WorkOrder, Inventory, Airport
 
@@ -49,7 +48,26 @@ def process_workorder(request):
     return render(request, 'maintenance/index.html', {})
 
 @login_required
+def get_work_description(request, suffix):
+    new_suffix = str(int(suffix) + 1)
+    return render(request, 'maintenance/work_description.html', {'suffix': new_suffix})
+
+@login_required
 def get_spare_part_list(request, suffix):
     spare_part_list = SparePart.objects.all()
     new_suffix = str(int(suffix) + 1)
-    return render(request, 'maintenance/spare_part_list.html', {'spare_part_list': spare_part_list, 'suffix': new_suffix })
+    return render(request, 'maintenance/spare_part_list.html', {'spare_part_list': spare_part_list, 'suffix': new_suffix})
+
+@login_required
+def get_spare_part_type(request, id):
+    try:
+        spare_part_type = SparePart.objects.get(pk=id).spare_part_type
+    except SparePart.DoesNotExist:
+        raise Http404("SparePart does not exist")
+    return HttpResponse(spare_part_type)
+
+@login_required
+def get_input_list(request, suffix):
+    input_list = Input.objects.all()
+    new_suffix = str(int(suffix) + 1)
+    return render(request, 'maintenance/input_list.html', {'input_list': input_list, 'suffix': new_suffix})
