@@ -85,9 +85,6 @@ def confirm_workorder(request, workorder_number):
     inputs = {'types': i_types, 'quantitys': i_quantitys, 'range': range_i, 'validator': is_i_len_greater_than_0}
 
     context = {'workorder': workorder, 'airport_code': airport_code, 'work_descriptions': work_descriptions, 'spare_parts': spare_parts, 'inputs': inputs}
-    #print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
-
-    #print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
     return render(request, 'maintenance/confirm_workorder.html', context)
 
 @login_required

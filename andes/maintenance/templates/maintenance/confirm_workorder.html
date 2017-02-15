@@ -82,7 +82,7 @@
 					</td>
 					<td class="wo-bg">Ingreso</td>
 					<td>{{ workorder.in_datetime|date:"Y-m-d"}}</td>
-					<td>{{ workorder.in_datetime|date:"H:i" }}</td>
+					<td class="wo-solid-right">{{ workorder.in_datetime|date:"H:i" }}</td>
 				</tr>
 				<tr>
 					<td class="blank wo-solid-left"><br></td>
@@ -177,11 +177,11 @@
 						{% if x2 != "" and y2 != "" and z2 != "" %}
 						<td class="wo-double-left">{{ spare_parts.numbers|key:x2 }}</td>
 						<td>{{ spare_parts.descriptions|key:y2 }}</td>
-						<td class="wo-soli-right">{{ spare_parts.quantitys|key:z2 }}</td>
+						<td class="wo-solid-right">{{ spare_parts.quantitys|key:z2 }}</td>
 						{% else %}
 						<td class="wo-double-left"><br></td>
 						<td><br></td>
-						<td class="wo-soli-right"><br></td>
+						<td class="wo-solid-right"><br></td>
 						{% endif %}
 					</tr>
 					{% endfor %}
@@ -222,7 +222,8 @@
 				</tr>
 				{% endif %}
 				<tr>
-					<td colspan="6" class="blank"><br></td>
+					<td colspan="2" class="blank wo-solid-top"><br></td>
+					<td colspan="4" class="blank"><br></td>
 				</tr>
 				<tr>
 					<td colspan="6" class="blank"><b>Control de Salida.</b></td>
@@ -249,8 +250,10 @@
 					<td class="blank wo-solid-bottom">Firma</td>
 					<td colspan="2" class="blank wo-solid-right wo-solid-bottom">_________________________</td>
 				</tr>
+				<tr>
+					<td colspan="6" class="blank wo-solid-top"><br></td>
+				</tr>
 			</table>
-			<p></p>
 			<input type="submit" value="Confirm order">
 		</form>
 		<script src="{% static 'maintenance/js/jquery-3.1.1.js' %}"></script>

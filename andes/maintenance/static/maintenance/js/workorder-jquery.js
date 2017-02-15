@@ -45,6 +45,15 @@ $(document).ready(function() {
       });
     };
   });
+  $(".wo-table").on("blur", "tr.spare_part_row td input", function() {
+    var value = ($(this).val()).toString();
+    var suffix = $(this).attr("name").match(/\d+/);
+    if (value == "") {
+      $("#spare_part_number_" + suffix).removeAttr("required");
+    } else {
+      $("#spare_part_number_" + suffix).attr("required", "required");
+    };
+  });
   $("#input_add_row").on( "click", function () {
     var suffix = $("tr.input_row:last td:first select").attr("name").match(/\d+/);
     $.get('/inputlist/' + suffix, {}, function (data) {
@@ -69,6 +78,15 @@ $(document).ready(function() {
       $("#input_quantity_" + suffix).removeAttr("required");
     } else {
       $("#input_quantity_" + suffix).attr("required", "required");
+    };
+  });
+  $(".wo-table").on("blur", "tr.input_row td input", function() {
+    var value = ($(this).val()).toString();
+    var suffix = $(this).attr("name").match(/\d+/);
+    if (value == "") {
+      $("#input_description_" + suffix).removeAttr("required");
+    } else {
+      $("#input_description_" + suffix).attr("required", "required");
     };
   });
 });
