@@ -206,11 +206,11 @@
 					<td class="wo-solid-top wo-solid-right wo-bg">Cantidad</td>
 					<td colspan="4" class="blank"><br></td>
 				</tr>
-				{% if input_descriptions.validator %}
-					{% for key in input_descriptions.order %}
+				{% if inputs.validator %}
+					{% for x,y in inputs.range %}
 					<tr>
-						<td class="wo-solid-left">{{ input_descriptions.entries|key:key }}</td>
-						<td class="wo-solid-right">{{ input_descriptions.quantitys|key:key }}</td>
+						<td class="wo-solid-left">{{ inputs.types|key:x }}</td>
+						<td class="wo-solid-right">{{ inputs.quantitys|key:y }}</td>
 						<td colspan="4" class="blank"><br></td>
 					</tr>
 					{% endfor %}

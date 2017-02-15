@@ -67,15 +67,24 @@ def confirm_workorder(request, workorder_number):
         range_sp = [(sp_order_numbers[i], sp_order_quantitys[i], sp_order_descriptions[i], sp_order_numbers[i+1], sp_order_quantitys[i+1], sp_order_descriptions[i+1]) for i in xrange(0, len(sp_ids), 2)]
     spare_parts = {'numbers': sp_numbers, 'descriptions': sp_descriptions, 'quantitys': sp_quantitys, 'range': range_sp, 'validator': is_sp_len_greater_than_0}
 
-    i_entries = dict((s,form[s]) for s in form.keys() if "input_description" in s and form[s] != "")
+    i_ids = dict((s,form[s]) for s in form.keys() if "input_description" in s and form[s] != "")
+    i_types = {}
+    #i_descriptions = {}
     i_quantitys = dict((s,form[s]) for s in form.keys() if "input_quantity" in s and form[s] != "")
-    i_order_entries = sorted(i_entries)
+    for key in i_ids:
+        item = Input.objects.get(pk=form[key])
+        i_types[key]= item.input_type
+        #i_descriptions[key]=item.description
+    i_order_types = sorted(i_types)
+    #i_order_descriptions = sorted(i_descriptions)
     i_order_quantitys = sorted(i_quantitys)
-    is_i_len_greater_than_0 = len(i_entries)
-    range_i = [(i_order_entries[i], i_order_quantitys[i]) for i in xrange(len(i_entries))]
-    input_descriptions = {'entries': i_entries, 'quantitys': i_quantitys, 'range': range_i, 'validator': is_i_len_greater_than_0}
+    is_i_len_greater_than_0 = len(i_ids)
+    #range_i = [(i_order_types[i], i_order_descriptions[i], i_order_quantitys[i]) for i in xrange(len(i_ids))]
+    range_i = [(i_order_types[i],i_order_quantitys[i]) for i in xrange(len(i_ids))]
+    #inputs = {'types': i_types, 'descriptions': i_descriptions, 'quantitys': i_quantitys, 'range': range_i, 'validator': is_i_len_greater_than_0}
+    inputs = {'types': i_types, 'quantitys': i_quantitys, 'range': range_i, 'validator': is_i_len_greater_than_0}
 
-    context = {'workorder': workorder, 'airport_code': airport_code, 'work_descriptions': work_descriptions, 'spare_parts': spare_parts, 'input_descriptions': input_descriptions}
+    context = {'workorder': workorder, 'airport_code': airport_code, 'work_descriptions': work_descriptions, 'spare_parts': spare_parts, 'inputs': inputs}
     #print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 
     #print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
