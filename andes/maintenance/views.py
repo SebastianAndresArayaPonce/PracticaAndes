@@ -39,9 +39,25 @@ def confirm_workorder(request, workorder_number):
         workorder = WorkOrder.objects.get(pk=workorder_number)
     except WorkOrder.DoesNotExist:
         raise Http404("WorkOrder does not exist")
-    form = request.POST
     airport_code = (Airport.objects.get(pk=Inventory.objects.filter(machine_number=workorder.machine_number.machine_number).latest('up_date').airport)).code
-    return render(request, 'maintenance/confirm_workorder.html', {'workorder': workorder, 'airport_code': airport_code, 'form': form })
+    form = request.POST
+    work_descriptions = dict((s,form[s]) for s in form.keys() if "work_description" in s)
+    len_w = len(work_descriptions)
+    spare_parts = SparePart.objects.all()
+    spare_part_numbers = dict((s,form[s]) for s in form.keys() if "spare_part_number" in s)
+    spare_part_quantitys = dict((s,form[s]) for s in form.keys() if "spare_part_quantity" in s)
+    len_sp = len(spare_part_numbers)
+    len_sp2 = len_sp/2
+    len_spmod2 = len_sp%2
+    range_sp = range(len_sp)
+    input_descriptions = dict((s,form[s]) for s in form.keys() if "input_description" in s)
+    input_quantitys = dict((s,form[s]) for s in form.keys() if "input_quantity" in s)
+    len_i = len(input_descriptions)
+    range_i = range(len_i)
+    context = {'workorder': workorder, 'airport_code': airport_code, 'work_descriptions': work_descriptions, 'len_w': len_w, 'spare_parts': spare_parts, 'spare_part_numbers': spare_part_numbers, 'spare_part_quantitys': spare_part_quantitys, 'len_sp': len_sp, 'len_sp2': len_sp2, 'len_spmod2': len_spmod2, 'range_sp': range_sp, 'input_descriptions': input_descriptions, 'input_quantitys': input_quantitys, 'len_i': len_i, 'range_i': range_i, 'form': form }
+    #print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+    #print form
+    return render(request, 'maintenance/confirm_workorder.html', context)
 
 @login_required
 def process_workorder(request):

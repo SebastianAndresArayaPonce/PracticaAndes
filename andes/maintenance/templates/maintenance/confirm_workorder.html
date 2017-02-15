@@ -1,18 +1,13 @@
 <!DOCTYPE HTML5>
 
 {% load static %}
-<!--
-{% if user.is_authenticated %}
 
-{% endif %}
--->
 <html>
 	<head>
 		<meta charset=utf-8/>
 		<link rel="stylesheet" type="text/css" href="{% static 'maintenance/stylesheet.css' %}" />
 	</head>
 	<body>
-		{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 		<form action="{% url 'maintenance:process_workorder' %}" method="post">
 			{% csrf_token %}
 			<table class="wo-table">
@@ -70,7 +65,7 @@
 					<td class="wo-bg">Preventivo</td>
 					<td class="center">
 							{% if workorder.work_type.name == "Preventivo" %}
-								<b>X</b>
+							<b>X</b>
 							{% endif %}
 					</td>
 					<td class="blank"><br></td>
@@ -81,7 +76,7 @@
 					<td class="wo-bg">Correctivo</td>
 					<td class="center">
 							{% if workorder.work_type.name == "Correctivo" %}
-								<b>X</b>
+							<b>X</b>
 							{% endif %}
 					</td>
 					<td class="wo-bg">Ingreso</td>
@@ -93,7 +88,7 @@
 					<td class="wo-bg">Falla</td>
 					<td class="center">
 						{% if form.is_falla %}
-							<b>X</b>
+						<b>X</b>
 						{% endif %}
 					</td>
 					<td class="wo-bg">Salida est</td>
@@ -105,7 +100,7 @@
 					<td class="wo-bg">Daños</td>
 					<td class="center">
 						{% if form.is_dannos %}
-							<b>X</b>
+						<b>X</b>
 						{% endif %}
 					</td>
 					<td colspan="3" class="blank wo-solid-right"><br></td>
@@ -129,9 +124,17 @@
 				<tr>
 					<td colspan="6" class="wo-solid-top wo-solid-right wo-solid-left wo-bg">Descripción de trabajo / falla</td>
 				</tr>
+				{% if len_w > 0 %}
+					{% for key in work_descriptions %}
+					<tr>
+						<td colspan="6" class="wo-solid-right wo-solid-left">work_descriptions[key]</td>
+					</tr>
+					{% endfor %}
+				{% else %}
 				<tr>
-					<td colspan="6" class="wo-solid-right wo-solid-left">{{ form.work_description_1 }}</td>
+					<td colspan="6" class="wo-solid-right wo-solid-left"><br></td>
 				</tr>
+				{% endif %}
 				<tr>
 					<td colspan="6" class="wo-solid-right wo-solid-left wo-bg">Trabajo desarrollado</td>
 				</tr>
@@ -141,9 +144,15 @@
 				<tr>
 					<td colspan="6" class="wo-solid-right wo-solid-left wo-bg">Trabajo pendiente</td>
 				</tr>
+				{% if form.pending_job %}
 				<tr>
 					<td colspan="6" class="wo-solid-right wo-solid-left wo-solid-bottom">{{ form.pending_job }}</td>
 				</tr>
+				{% else %}
+				<tr>
+					<td colspan="6" class="wo-solid-right wo-solid-left wo-solid-bottom"><br></td>
+				</tr>
+				{% endif %}
 				<tr>
 					<td colspan="6" class="blank"><br></td>
 				</tr>
@@ -158,50 +167,63 @@
 					<td class="wo-solid-top wo-bg">Descripción</td>
 					<td class="wo-solid-top wo-solid-right wo-bg">Cantidad</td>
 				</tr>
+				{% if len_sp > 0}
+					{% for i in range_sp %}
+					<tr>
+						<td class="wo-solid-left">{{ spare_part_numbers['spare_part_number_'|add: i|add: 1] }}</td>
+						<td>{{ spare_parts['spare_part_number_' + str(i+1)].spare_part_type }}</td>
+						<td class="wo-double-right">{{ spare_part_quantitys['spare_part_quantity_' + str(i+1)] }}</td>
+						<td class="wo-double-left">{{ spare_part_numbers['spare_part_number_' + str(len_sp2 + len_spmod2 +i+1)] }}</td>
+						<td>{{ spare_parts['spare_part_number_' + str(len_sp2 + len_spmod2 +i+1)].spare_part_type }}</td>
+						<td class="wo-soli-right">{{ spare_part_quantitys['spare_part_quantity_' + str(len_sp2 + len_spmod2 +i+1)] }}</td>
+					</tr>
+					{% endfor %}
+					{% if len_sp % 2 == 1 %}
+					<tr>
+						<td class="wo-solid-left">{{ spare_part_numbers['spare_part_number_' + str(len_sp2 +i+1)] }}</td>
+						<td>{{ spare_parts['spare_part_number_' + str(len_sp2 +i+1)].spare_part_type }}</td>
+						<td class="wo-double-right">{{ spare_part_quantitys['spare_part_quantity_' + str(len_sp2 +i+1)] }}</td>
+						<td class="wo-double-left"><br></td>
+						<td><br></td>
+						<td class="wo-soli-right"><br></td>
+					</tr>
+					{% endif %}
+				{% else %}
 				<tr>
-					<td class="wo-solid-left">
-					{% if form.spare_part_number_1 %}
-						{{ form.spare_part_number_1 }}</td>
-						<td>{{ form.spare_part_description_1 }}</td>
-						<td class="wo-double-right">{{ form.spare_part_quantity_1 }}</td>
-					{% else %}
-						<br></td>
-						<td><br></td>
-						<td class="wo-double-right"><br></td>
-					{% endif %}
-					<td class="wo-double-left">
-					{% if form.spare_part_number_2 %}
-						{{ form.spare_part_number_2 }}</td>
-						<td>{{ form.spare_part_description_2 }}</td>
-						<td class="wo-soli-right">{{ form.spare_part_quantity_2 }}</td>
-					{% else %}
-						<br></td>
-						<td><br></td>
-						<td class="wo-solid-right"><br></td>
-					{% endif %}
+					<td class="wo-solid-left"><br></td>
+					<td><br></td>
+					<td class="wo-double-right"><br></td>
+					<td class="wo-double-left"><br></td>
+					<td><br></td>
+					<td class="wo-solid-right"><br></td>
 				</tr>
+				{% endif %}
 				<tr>
 					<td colspan="6" class="blank wo-solid-top"><br></td>
 				</tr>
 				<tr>
 					<td colspan="6" class="blank"><b>Lubricantes Empleados.</b></td>
-					</tr>
+				</tr>
 				<tr>
 					<td class="wo-solid-top wo-solid-left wo-bg">Descripción</td>
 					<td class="wo-solid-top wo-solid-right wo-bg">Cantidad</td>
 					<td colspan="4" class="blank"><br></td>
 				</tr>
+				{% if len_i > 0 %}
+					{% for i in range_i %}
+					<tr>
+						<td class="wo-solid-left">input_descriptions['input_description_' + str(i+1)]</td>
+						<td class="wo-solid-right">input_quantitys['input_quantity_' + str(i+1)]</td>
+						<td colspan="4" class="blank"><br></td>
+					</tr>
+					{% endfor %}
+				{% else %}
 				<tr>
-					<td class="wo-solid-left">
-					{% if form.input_1 %}
-						{{ form.input_1 }}</td>
-						<td class="wo-solid-right">{{ form.input_quantity_1}}</td>
-					{% else %}
-						<br></td>
-						<td class="wo-solid-right"><br></td>
-					{% endif %}
+					<td class="wo-solid-left"><br></td>
+					<td class="wo-solid-right"><br></td>
 					<td colspan="4" class="blank"><br></td>
 				</tr>
+				{% endif %}
 				<tr>
 					<td colspan="6" class="blank"><br></td>
 				</tr>
@@ -235,6 +257,5 @@
 			<input type="submit" value="Confirm order">
 		</form>
 		<script src="{% static 'maintenance/js/jquery-3.1.1.js' %}"></script>
-		<script src="{% static 'maintenance/js/workorder-jquery.js' %}"></script>
 	</body>
 </html>
