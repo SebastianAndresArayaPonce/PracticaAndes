@@ -89,4 +89,7 @@ $(document).ready(function() {
       $("#input_description_" + suffix).attr("required", "required");
     };
   });
+  $("#workorder-form").submit(function () {
+    return confirm("Are you sure? You will not be able to change it later");
+  });
 });

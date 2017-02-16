@@ -9,7 +9,7 @@
 	</head>
 	<body>
 		{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-		<form action="{% url 'maintenance:process_workorder' workorder.order_number %}" method="post" accept-charset="UTF-8">
+		<form action="{% url 'maintenance:process_workorder' workorder.order_number %}" method="post" accept-charset="UTF-8" id="workorder-form">
 			{% csrf_token %}
 			<table class="wo-table">
 				<colgroup>
@@ -200,7 +200,7 @@
 					<td colspan="3" class="blank"><br></td>
 				</tr>
 			</table>
-			<input type="submit" value="Process order">
+			<input type="submit" value="Confirm order">
 		</form>
 		<script src="{% static 'maintenance/js/jquery-3.1.1.js' %}"></script>
 		<script src="{% static 'maintenance/js/workorder-jquery.js' %}"></script>

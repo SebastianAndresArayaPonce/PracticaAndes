@@ -9,253 +9,255 @@
 		<link rel="stylesheet" type="text/css" href="{% static 'maintenance/stylesheet.css' %}" />
 	</head>
 	<body>
-		<form action="{% url 'maintenance:index' %}" method="post" accept-charset="utf-8">
-			{% csrf_token %}
-			<table class="wo-table">
-				<colgroup>
-					<col class="wo-col-1">
-					<col class="wo-col-2">
-					<col class="wo-col-3">
-					<col class="wo-col-4">
-					<col class="wo-col-5">
-					<col class="wo-col-6">
-				</colgroup>
-				<tr>
-					<td rowspan=2 class="blank"><img src="{% static 'maintenance/images/andes.png' %}" width=121 height=48></td>
-					<td colspan="2" class="blank"><br></td>
-					<td class="wo-bg"><b>N° Orden</b></td>
-					<td colspan="2" class="center-left">{{ workorder.order_number }}</td>
-				</tr>
-				<tr>
-					<td colspan="5" class="blank"><br></td>
-				</tr>
-				<tr>
-					<th colspan="6" class="blank">Orden de Trabajo</td>
-				</tr>
-				<tr>
-					<td colspan="6" class="blank"><br></td>
-				</tr>
-				<tr>
-					<td class="wo-solid-top wo-solid-left wo-bg">Familia</td>
-					<td class="wo-solid-top">{{ workorder.machine_number.family.name }}</td>
-					<td class="blank wo-solid-top"><br></td>
-					<td class="wo-solid-top wo-bg">Horómetro</td>
-					<td class="wo-solid-top">{{ request.POST.hourmeter_to_date }}</td>
-					<td class="blank wo-solid-top wo-solid-right"><br></td>
-				</tr>
-				<tr>
-					<td class="wo-solid-left wo-bg">Modelo</td>
-					<td>{{ workorder.machine_number.subfamily.name }}</td>
-					<td colspan="4" class="blank wo-solid-right"><br></td>
-				</tr>
-				<tr>
-					<td class="wo-solid-left wo-bg">N° Equipo</td>
-					<td>{{ workorder.machine_number.machine_number }}</td>
-					<td colspan="4" class="blank wo-solid-right"><br></td>
-				</tr>
-				<tr>
-					<td class="wo-solid-left wo-bg">ATO</td>
-					<td>{{ airport_code }}</td>
-					<td colspan="4" class="blank wo-solid-right"><br></td>
-				</tr>
-				<tr>
-					<td colspan="6" class="blank wo-solid-left wo-solid-right"><br></td>
-				</tr>
-				<tr>
-					<td rowspan="2" class="wo-solid-left wo-bg">Tipo de trabajo<br>(Marcar con una X)</td>
-					<td class="wo-bg">Preventivo</td>
-					<td class="center">
-							{% if workorder.work_type.name == "Preventivo" %}
-							<b>X</b>
-							{% endif %}
-					</td>
-					<td class="blank"><br></td>
-					<td class="wo-bg">Fecha</td>
-					<td class="wo-solid-right wo-bg">Hora</td>
-				</tr>
-				<tr>
-					<td class="wo-bg">Correctivo</td>
-					<td class="center">
-							{% if workorder.work_type.name == "Correctivo" %}
-							<b>X</b>
-							{% endif %}
-					</td>
-					<td class="wo-bg">Ingreso</td>
-					<td>{{ workorder.in_datetime|date:"d/m/Y"}}</td>
-					<td class="wo-solid-right">{{ workorder.in_datetime|date:"H:i" }}</td>
-				</tr>
-				<tr>
-					<td class="blank wo-solid-left"><br></td>
-					<td class="wo-bg">Falla</td>
-					<td class="center">
-						{% if request.POST.is_falla %}
+		<table class="wo-table">
+			<colgroup>
+				<col class="wo-col-1">
+				<col class="wo-col-2">
+				<col class="wo-col-3">
+				<col class="wo-col-4">
+				<col class="wo-col-5">
+				<col class="wo-col-6">
+			</colgroup>
+			<tr>
+				<td rowspan=2 class="blank"><img src="{% static 'maintenance/images/andes.png' %}" width=121 height=48></td>
+				<td colspan="2" class="blank"><br></td>
+				<td class="wo-bg"><b>N° Orden</b></td>
+				<td colspan="2" class="center-left">{{ workorder.order_number }}</td>
+			</tr>
+			<tr>
+				<td colspan="5" class="blank"><br></td>
+			</tr>
+			<tr>
+				<th colspan="6" class="blank">Orden de Trabajo</td>
+			</tr>
+			<tr>
+				<td colspan="6" class="blank"><br></td>
+			</tr>
+			<tr>
+				<td class="wo-solid-top wo-solid-left wo-bg">Familia</td>
+				<td class="wo-solid-top">{{ workorder.machine_number.family.name }}</td>
+				<td class="blank wo-solid-top"><br></td>
+				<td class="wo-solid-top wo-bg">Horómetro</td>
+				<td class="wo-solid-top">{{ request.POST.hourmeter_to_date }}</td>
+				<td class="blank wo-solid-top wo-solid-right"><br></td>
+			</tr>
+			<tr>
+				<td class="wo-solid-left wo-bg">Modelo</td>
+				<td>{{ workorder.machine_number.subfamily.name }}</td>
+				<td colspan="4" class="blank wo-solid-right"><br></td>
+			</tr>
+			<tr>
+				<td class="wo-solid-left wo-bg">N° Equipo</td>
+				<td>{{ workorder.machine_number.machine_number }}</td>
+				<td colspan="4" class="blank wo-solid-right"><br></td>
+			</tr>
+			<tr>
+				<td class="wo-solid-left wo-bg">ATO</td>
+				<td>{{ airport_code }}</td>
+				<td colspan="4" class="blank wo-solid-right"><br></td>
+			</tr>
+			<tr>
+				<td colspan="3" class="blank wo-solid-left"><br></td>
+				<td class="blank"><br></td>
+				<td colspan="2" class="blank wo-solid-right"><br></td>
+			</tr>
+			<tr>
+				<td rowspan="2" class="wo-solid-left wo-bg">Tipo de trabajo<br>(Marcar con una X)</td>
+				<td class="wo-bg">Preventivo</td>
+				<td class="center">
+						{% if workorder.work_type.name == "Preventivo" %}
 						<b>X</b>
-						{% endif %}
-					</td>
-					<td class="wo-bg">Salida est</td>
-					<td>{{ out_datetime|date:"d/m/Y" }}</td>
-					<td class="wo-solid-right">{{ out_datetime|date:"H:i" }}</td>
-				</tr>
-				<tr>
-					<td class="blank wo-solid-left"><br></td>
-					<td class="wo-bg">Daños</td>
-					<td class="center">
-						{% if request.POST.is_dannos %}
-						<b>X</b>
-						{% endif %}
-					</td>
-					<td colspan="3" class="blank wo-solid-right"><br></td>
-				</tr>
-				<tr>
-					<td class="blank wo-solid-bottom wo-solid-left"><br></td>
-					<td class="wo-solid-bottom wo-bg">Modificacion</td>
-					<td class="wo-solid-bottom center">
-						{% if request.POST.is_modificacion %}
-							<b>X</b>
-						{% endif %}
-					</td>
-					<td colspan="3" class="blank wo-solid-right wo-solid-bottom"><br></td>
-				</tr>
-				<tr>
-					<td colspan="6" class="blank"><br></td>
-				</tr>
-				<tr>
-					<td colspan="6" class="blank"><b>Diagnóstico / Intervención.</b></td>
-				</tr>
-				<tr>
-					<td colspan="6" class="wo-solid-top wo-solid-right wo-solid-left wo-bg">Descripción de trabajo / falla</td>
-				</tr>
-				{% if work_descriptions.validator %}
-					{% for key in work_descriptions.order %}
-					<tr>
-						<td colspan="6" class="wo-solid-right wo-solid-left">{{ work_descriptions.entries|key:key }}</td>
-					</tr>
-					{% endfor %}
-				{% else %}
-				<tr>
-					<td colspan="6" class="wo-solid-right wo-solid-left"><br></td>
-				</tr>
-				{% endif %}
-				<tr>
-					<td colspan="6" class="wo-solid-right wo-solid-left wo-bg">Trabajo desarrollado</td>
-				</tr>
-				<tr>
-					<td colspan="6" class="wo-solid-right wo-solid-left">{{ request.POST.developed_work }}</td>
-				</tr>
-				<tr>
-					<td colspan="6" class="wo-solid-right wo-solid-left wo-bg">Trabajo pendiente</td>
-				</tr>
-				{% if request.POST.pending_job %}
-				<tr>
-					<td colspan="6" class="wo-solid-right wo-solid-left wo-solid-bottom">{{ request.POST.pending_job }}</td>
-				</tr>
-				{% else %}
-				<tr>
-					<td colspan="6" class="wo-solid-right wo-solid-left wo-solid-bottom"><br></td>
-				</tr>
-				{% endif %}
-				<tr>
-					<td colspan="6" class="blank"><br></td>
-				</tr>
-				<tr>
-					<td colspan="6" class="blank"><b>Repuestos Empleados.</b></td>
-				</tr>
-				<tr>
-					<td class="wo-solid-top wo-solid-left wo-bg">N° Parte</td>
-					<td class="wo-solid-top wo-bg">Descripción</td>
-					<td class="wo-solid-top wo-double-right wo-bg">Cantidad</td>
-					<td class="wo-solid-top wo-double-left wo-bg">N° Parte</td>
-					<td class="wo-solid-top wo-bg">Descripción</td>
-					<td class="wo-solid-top wo-solid-right wo-bg">Cantidad</td>
-				</tr>
-				{% if spare_parts.validator %}
-					{% for x1,y1,z1,x2,y2,z2 in spare_parts.range %}
-					<tr>
-						<td class="wo-solid-left">{{ spare_parts.numbers|key:x1 }}</td>
-						<td>{{ spare_parts.descriptions|key:y1 }}</td>
-						<td class="wo-double-right">{{ spare_parts.quantitys|key:z1 }}</td>
-						{% if x2 != "" and y2 != "" and z2 != "" %}
-						<td class="wo-double-left">{{ spare_parts.numbers|key:x2 }}</td>
-						<td>{{ spare_parts.descriptions|key:y2 }}</td>
-						<td class="wo-solid-right">{{ spare_parts.quantitys|key:z2 }}</td>
 						{% else %}
-						<td class="wo-double-left"><br></td>
-						<td><br></td>
-						<td class="wo-solid-right"><br></td>
+						<br>
 						{% endif %}
-					</tr>
-					{% endfor %}
-				{% else %}
+				</td>
+				<td class="blank"><br></td>
+				<td class="wo-bg">Fecha</td>
+				<td class="wo-solid-right wo-bg">Hora</td>
+			</tr>
+			<tr>
+				<td class="wo-bg">Correctivo</td>
+				<td class="center">
+						{% if workorder.work_type.name == "Correctivo" %}
+						<b>X</b>
+						{% else %}
+						<br>
+						{% endif %}
+				</td>
+				<td class="wo-bg">Ingreso</td>
+				<td>{{ workorder.in_datetime|date:"d/m/Y"}}</td>
+				<td class="wo-solid-right">{{ workorder.in_datetime|date:"H:i" }}</td>
+			</tr>
+			<tr>
+				<td class="blank wo-solid-left"><br></td>
+				<td class="wo-bg">Falla</td>
+				<td class="center">
+					{% if request.POST.is_falla %}
+					<b>X</b>
+					{% endif %}
+				</td>
+				<td class="wo-bg">Salida est</td>
+				<td>{{ out_datetime|date:"d/m/Y" }}</td>
+				<td class="wo-solid-right">{{ out_datetime|date:"H:i" }}</td>
+			</tr>
+			<tr>
+				<td class="blank wo-solid-left"><br></td>
+				<td class="wo-bg">Daños</td>
+				<td class="center">
+					{% if request.POST.is_dannos %}
+					<b>X</b>
+					{% endif %}
+				</td>
+				<td colspan="3" class="blank wo-solid-right"><br></td>
+			</tr>
+			<tr>
+				<td class="blank wo-solid-bottom wo-solid-left"><br></td>
+				<td class="wo-solid-bottom wo-bg">Modificacion</td>
+				<td class="wo-solid-bottom center">
+					{% if request.POST.is_modificacion %}
+						<b>X</b>
+					{% endif %}
+				</td>
+				<td colspan="3" class="blank wo-solid-right wo-solid-bottom"><br></td>
+			</tr>
+			<tr>
+				<td colspan="6" class="blank"><br></td>
+			</tr>
+			<tr>
+				<td colspan="6" class="blank"><b>Diagnóstico / Intervención.</b></td>
+			</tr>
+			<tr>
+				<td colspan="6" class="wo-solid-top wo-solid-right wo-solid-left wo-bg">Descripción de trabajo / falla</td>
+			</tr>
+			{% if work_descriptions.validator %}
+				{% for key in work_descriptions.order %}
 				<tr>
-					<td class="wo-solid-left"><br></td>
-					<td><br></td>
-					<td class="wo-double-right"><br></td>
+					<td colspan="6" class="wo-solid-right wo-solid-left">{{ work_descriptions.entries|key:key }}</td>
+				</tr>
+				{% endfor %}
+			{% else %}
+			<tr>
+				<td colspan="6" class="wo-solid-right wo-solid-left"><br></td>
+			</tr>
+			{% endif %}
+			<tr>
+				<td colspan="6" class="wo-solid-right wo-solid-left wo-bg">Trabajo desarrollado</td>
+			</tr>
+			<tr>
+				<td colspan="6" class="wo-solid-right wo-solid-left">{{ request.POST.developed_work }}</td>
+			</tr>
+			<tr>
+				<td colspan="6" class="wo-solid-right wo-solid-left wo-bg">Trabajo pendiente</td>
+			</tr>
+			{% if request.POST.pending_job %}
+			<tr>
+				<td colspan="6" class="wo-solid-right wo-solid-left wo-solid-bottom">{{ request.POST.pending_job }}</td>
+			</tr>
+			{% else %}
+			<tr>
+				<td colspan="6" class="wo-solid-right wo-solid-left wo-solid-bottom"><br></td>
+			</tr>
+			{% endif %}
+			<tr>
+				<td colspan="6" class="blank"><br></td>
+			</tr>
+			<tr>
+				<td colspan="6" class="blank"><b>Repuestos Empleados.</b></td>
+			</tr>
+			<tr>
+				<td class="wo-solid-top wo-solid-left wo-bg">N° Parte</td>
+				<td class="wo-solid-top wo-bg">Descripción</td>
+				<td class="wo-solid-top wo-double-right wo-bg">Cantidad</td>
+				<td class="wo-solid-top wo-double-left wo-bg">N° Parte</td>
+				<td class="wo-solid-top wo-bg">Descripción</td>
+				<td class="wo-solid-top wo-solid-right wo-bg">Cantidad</td>
+			</tr>
+			{% if spare_parts.validator %}
+				{% for x1,y1,z1,x2,y2,z2 in spare_parts.range %}
+				<tr>
+					<td class="wo-solid-left">{{ spare_parts.numbers|key:x1 }}</td>
+					<td>{{ spare_parts.descriptions|key:y1 }}</td>
+					<td class="wo-double-right">{{ spare_parts.quantitys|key:z1 }}</td>
+					{% if x2 != "" and y2 != "" and z2 != "" %}
+					<td class="wo-double-left">{{ spare_parts.numbers|key:x2 }}</td>
+					<td>{{ spare_parts.descriptions|key:y2 }}</td>
+					<td class="wo-solid-right">{{ spare_parts.quantitys|key:z2 }}</td>
+					{% else %}
 					<td class="wo-double-left"><br></td>
 					<td><br></td>
 					<td class="wo-solid-right"><br></td>
+					{% endif %}
 				</tr>
-				{% endif %}
+				{% endfor %}
+			{% else %}
+			<tr>
+				<td class="wo-solid-left"><br></td>
+				<td><br></td>
+				<td class="wo-double-right"><br></td>
+				<td class="wo-double-left"><br></td>
+				<td><br></td>
+				<td class="wo-solid-right"><br></td>
+			</tr>
+			{% endif %}
+			<tr>
+				<td colspan="6" class="blank wo-solid-top"><br></td>
+			</tr>
+			<tr>
+				<td colspan="2" class="blank"><b>Lubricantes Empleados.</b></td>
+				<td colspan="4" class="blank"><br></td>
+			</tr>
+			<tr>
+				<td class="wo-solid-top wo-solid-left wo-bg">Descripción</td>
+				<td class="wo-solid-top wo-solid-right wo-bg">Cantidad</td>
+				<td colspan="4" class="blank"><br></td>
+			</tr>
+			{% if inputs.validator %}
+				{% for x,y in inputs.range %}
 				<tr>
-					<td colspan="6" class="blank wo-solid-top"><br></td>
-				</tr>
-				<tr>
-					<td colspan="6" class="blank"><b>Lubricantes Empleados.</b></td>
-				</tr>
-				<tr>
-					<td class="wo-solid-top wo-solid-left wo-bg">Descripción</td>
-					<td class="wo-solid-top wo-solid-right wo-bg">Cantidad</td>
+					<td class="wo-solid-left">{{ inputs.types|key:x }}</td>
+					<td class="wo-solid-right">{{ inputs.quantitys|key:y }}</td>
 					<td colspan="4" class="blank"><br></td>
 				</tr>
-				{% if inputs.validator %}
-					{% for x,y in inputs.range %}
-					<tr>
-						<td class="wo-solid-left">{{ inputs.types|key:x }}</td>
-						<td class="wo-solid-right">{{ inputs.quantitys|key:y }}</td>
-						<td colspan="4" class="blank"><br></td>
-					</tr>
-					{% endfor %}
-				{% else %}
-				<tr>
-					<td class="wo-solid-left"><br></td>
-					<td class="wo-solid-right"><br></td>
-					<td colspan="4" class="blank"><br></td>
-				</tr>
-				{% endif %}
-				<tr>
-					<td colspan="2" class="blank wo-solid-top"><br></td>
-					<td colspan="4" class="blank"><br></td>
-				</tr>
-				<tr>
-					<td colspan="6" class="blank"><b>Control de Salida.</b></td>
-				</tr>
-				<tr>
-					<td colspan="2" class="blank wo-solid-top wo-solid-left"><br></td>
-					<td class="wo-solid-top wo-bg">Fecha salida</td>
-					<td class="wo-solid-top">{{ request.POST.output_date }}</td>
-					<td class="wo-solid-top wo-bg">Hora salida</td>
-					<td class="wo-solid-top wo-solid-right">{{ request.POST.output_time }}</td>
-				</tr>
-				<tr>
-					<td colspan="6" class="blank wo-solid-right wo-solid-left"><br></td>
-				</tr>
-				<tr>
-					<td class="blank wo-solid-left">Nombre Mecánico</td>
-					<td colspan="2" class="blank">{{ user.first_name }} {{ user.last_name }}</td>
-					<td class="blank">Firma</td>
-					<td colspan="2" class="blank wo-solid-right">_________________________</td>
-				</tr>
-				<tr>
-					<td class="blank wo-solid-bottom wo-solid-left">Nombre Team Leader</td>
-					<td colspan="2" class="blank wo-solid-bottom">Carlos Orellana / Esteban Morales</td>
-					<td class="blank wo-solid-bottom">Firma</td>
-					<td colspan="2" class="blank wo-solid-right wo-solid-bottom">_________________________</td>
-				</tr>
-				<tr>
-					<td colspan="6" class="blank wo-solid-top"><br></td>
-				</tr>
-			</table>
-			<input type="submit" value="Confirm order">
-		</form>
-		<script src="{% static 'maintenance/js/jquery-3.1.1.js' %}"></script>
+				{% endfor %}
+			{% else %}
+			<tr>
+				<td class="wo-solid-left"><br></td>
+				<td class="wo-solid-right"><br></td>
+				<td colspan="4" class="blank"><br></td>
+			</tr>
+			{% endif %}
+			<tr>
+				<td colspan="2" class="blank wo-solid-top"><br></td>
+				<td colspan="4" class="blank"><br></td>
+			</tr>
+			<tr>
+				<td colspan="6" class="blank"><b>Control de Salida.</b></td>
+			</tr>
+			<tr>
+				<td colspan="2" class="blank wo-solid-top wo-solid-left"><br></td>
+				<td class="wo-solid-top wo-bg">Fecha salida</td>
+				<td class="wo-solid-top">{{ request.POST.output_date }}</td>
+				<td class="wo-solid-top wo-bg">Hora salida</td>
+				<td class="wo-solid-top wo-solid-right">{{ request.POST.output_time }}</td>
+			</tr>
+			<tr>
+				<td colspan="6" class="blank wo-solid-right wo-solid-left"><br></td>
+			</tr>
+			<tr>
+				<td class="blank wo-solid-left">Nombre Mecánico</td>
+				<td colspan="2" class="blank">{{ user.first_name }} {{ user.last_name }}</td>
+				<td class="blank">Firma</td>
+				<td colspan="2" class="blank wo-solid-right">_________________________</td>
+			</tr>
+			<tr>
+				<td class="blank wo-solid-bottom wo-solid-left">Nombre Team Leader</td>
+				<td colspan="2" class="blank wo-solid-bottom">Carlos Orellana / Esteban Morales</td>
+				<td class="blank wo-solid-bottom">Firma</td>
+				<td colspan="2" class="blank wo-solid-right wo-solid-bottom">_________________________</td>
+			</tr>
+			<tr>
+				<td colspan="6" class="blank wo-solid-top"><br></td>
+			</tr>
+		</table>
 	</body>
 </html>
