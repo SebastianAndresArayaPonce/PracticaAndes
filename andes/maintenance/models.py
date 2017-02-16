@@ -45,7 +45,7 @@ class WorkOrder(models.Model):
     order_number = models.PositiveIntegerField(primary_key=True)
     machine_number = models.ForeignKey(Machine, on_delete=models.PROTECT)
     work_type = models.ForeignKey(WorkType, on_delete=models.PROTECT)
-    level = models.PositiveIntegerField()
+    level = models.PositiveIntegerField(null=True, blank=True)
     in_datetime = models.DateTimeField()
     out_datetime = models.DateTimeField(null=True, blank=True)
     mechanic = models.ForeignKey(User, on_delete=models.PROTECT, null=True, blank=True, related_name='mechanic')
