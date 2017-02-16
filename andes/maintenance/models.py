@@ -45,10 +45,14 @@ class WorkOrder(models.Model):
     order_number = models.PositiveIntegerField(primary_key=True)
     machine_number = models.ForeignKey(Machine, on_delete=models.PROTECT)
     work_type = models.ForeignKey(WorkType, on_delete=models.PROTECT)
+    level = models.PositiveIntegerField()
     in_datetime = models.DateTimeField()
     out_datetime = models.DateTimeField(null=True, blank=True)
     mechanic = models.ForeignKey(User, on_delete=models.PROTECT, null=True, blank=True, related_name='mechanic')
     team_leader = models.ForeignKey(User, on_delete=models.PROTECT, null=True, blank=True, related_name='team_leader')
+    def clean(self):
+        if self.work_type.name == "Preventivo" and self.level == None:
+            raise forms.ValidationError('Field level is required for this type of work')
     def __unicode__(self):
         return u'%s for %s by %s %s' % (self.work_type.name, self.machine_number, self.mechanic, self.out_datetime)
 
