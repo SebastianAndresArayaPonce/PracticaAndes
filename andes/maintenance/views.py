@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.http import Http404, HttpResponse
+from datetime import datetime
 
 from .models import Machine, SparePart, MachineSparePart, Input, MachineInput, MachineInstruction, WorkOrder, Inventory, Airport
 
@@ -39,8 +40,12 @@ def confirm_workorder(request, workorder_number):
         workorder = WorkOrder.objects.get(pk=workorder_number)
     except WorkOrder.DoesNotExist:
         raise Http404("WorkOrder does not exist")
+
     airport_code = (Airport.objects.get(pk=Inventory.objects.filter(machine_number=workorder.machine_number.machine_number).latest('up_date').airport)).code
     form = request.POST
+
+    out = map(int, form['output_date'].split("-") + form['output_time'].split(":"))
+    out_datetime = datetime(out[0], out[1], out[2], out[3], out[4])
 
     w_entries = dict((s,form[s]) for s in form.keys() if "work_description" in s and form[s] != "")
     w_order = sorted(w_entries)
@@ -69,22 +74,17 @@ def confirm_workorder(request, workorder_number):
 
     i_ids = dict((s,form[s]) for s in form.keys() if "input_description" in s and form[s] != "")
     i_types = {}
-    #i_descriptions = {}
     i_quantitys = dict((s,form[s]) for s in form.keys() if "input_quantity" in s and form[s] != "")
     for key in i_ids:
         item = Input.objects.get(pk=form[key])
         i_types[key]= item.input_type
-        #i_descriptions[key]=item.description
     i_order_types = sorted(i_types)
-    #i_order_descriptions = sorted(i_descriptions)
     i_order_quantitys = sorted(i_quantitys)
     is_i_len_greater_than_0 = len(i_ids)
-    #range_i = [(i_order_types[i], i_order_descriptions[i], i_order_quantitys[i]) for i in xrange(len(i_ids))]
     range_i = [(i_order_types[i],i_order_quantitys[i]) for i in xrange(len(i_ids))]
-    #inputs = {'types': i_types, 'descriptions': i_descriptions, 'quantitys': i_quantitys, 'range': range_i, 'validator': is_i_len_greater_than_0}
     inputs = {'types': i_types, 'quantitys': i_quantitys, 'range': range_i, 'validator': is_i_len_greater_than_0}
 
-    context = {'workorder': workorder, 'airport_code': airport_code, 'work_descriptions': work_descriptions, 'spare_parts': spare_parts, 'inputs': inputs}
+    context = {'workorder': workorder, 'airport_code': airport_code, 'out_datetime': out_datetime, 'work_descriptions': work_descriptions, 'spare_parts': spare_parts, 'inputs': inputs}
     return render(request, 'maintenance/confirm_workorder.html', context)
 
 @login_required

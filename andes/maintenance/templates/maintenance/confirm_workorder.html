@@ -81,7 +81,7 @@
 							{% endif %}
 					</td>
 					<td class="wo-bg">Ingreso</td>
-					<td>{{ workorder.in_datetime|date:"Y-m-d"}}</td>
+					<td>{{ workorder.in_datetime|date:"d/m/Y"}}</td>
 					<td class="wo-solid-right">{{ workorder.in_datetime|date:"H:i" }}</td>
 				</tr>
 				<tr>
@@ -93,8 +93,8 @@
 						{% endif %}
 					</td>
 					<td class="wo-bg">Salida est</td>
-					<td>{{ request.POST.output_date }}</td>
-					<td class="wo-solid-right">{{ request.POST.output_time }}</td>
+					<td>{{ out_datetime|date:"d/m/Y" }}</td>
+					<td class="wo-solid-right">{{ out_datetime|date:"H:i" }}</td>
 				</tr>
 				<tr>
 					<td class="blank wo-solid-left"><br></td>
