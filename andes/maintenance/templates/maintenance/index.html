@@ -1,25 +1,12 @@
 <!DOCTYPE html>
 
-{% load static %}
-
 <html>
   <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="{% static 'maintenance/stylesheet.css' %}" />
     <title>Index</title>
   </head>
   <body>
 
-
-{% if machine_list %}
-    <ul>
-    {% for machine in machine_list %}
-        <li>{{ machine.machine_number }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No machines are available.</p>
-{% endif %}
 
 <div title="header" class="header">
 	<table width="614" cellpadding="7" cellspacing="0">
