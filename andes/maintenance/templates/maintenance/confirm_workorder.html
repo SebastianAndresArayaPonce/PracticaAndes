@@ -5,11 +5,11 @@
 
 <html>
 	<head>
-		<meta charset=utf-8/>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<link rel="stylesheet" type="text/css" href="{% static 'maintenance/stylesheet.css' %}" />
 	</head>
 	<body>
-		<form action="{% url 'maintenance:process_workorder' %}" method="post">
+		<form action="{% url 'maintenance:process_workorder' %}" method="post" accept-charset="utf-8">
 			{% csrf_token %}
 			<table class="wo-table">
 				<colgroup>

@@ -1,7 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.http import Http404, HttpResponse
+from wkhtmltopdf.views import PDFTemplateResponse
 from datetime import datetime
+
 
 from .models import Machine, SparePart, MachineSparePart, Input, MachineInput, MachineInstruction, WorkOrder, Inventory, Airport
 
@@ -59,7 +61,7 @@ def confirm_workorder(request, workorder_number):
     for key in sp_ids:
         item = SparePart.objects.get(pk=form[key])
         sp_numbers[key]="F:%s S:%s" % (item.factory_number, item.sage_number)
-        sp_descriptions[key]=item.spare_part_type
+        sp_descriptions[key.replace("number", "description")]=item.spare_part_type
     sp_order_numbers = sorted(sp_numbers)
     sp_order_quantitys = sorted(sp_quantitys)
     sp_order_descriptions = sorted(sp_descriptions)
@@ -69,23 +71,26 @@ def confirm_workorder(request, workorder_number):
         range_sp = [(sp_order_numbers[i], sp_order_descriptions[i], sp_order_quantitys[i], sp_order_numbers[i+1], sp_order_descriptions[i+1], sp_order_quantitys[i+1]) for i in xrange(0, len(sp_ids)-1, 2)]
         range_sp.append((sp_order_numbers[len(sp_ids)-1], sp_order_descriptions[len(sp_ids)-1], sp_order_quantitys[len(sp_ids)-1], "", "", ""))
     else:
-        range_sp = [(sp_order_numbers[i], sp_order_quantitys[i], sp_order_descriptions[i], sp_order_numbers[i+1], sp_order_quantitys[i+1], sp_order_descriptions[i+1]) for i in xrange(0, len(sp_ids), 2)]
+        range_sp = [(sp_order_numbers[i], sp_order_descriptions[i], sp_order_quantitys[i], sp_order_numbers[i+1], sp_order_descriptions[i+1], sp_order_quantitys[i+1]) for i in xrange(0, len(sp_ids), 2)]
     spare_parts = {'numbers': sp_numbers, 'descriptions': sp_descriptions, 'quantitys': sp_quantitys, 'range': range_sp, 'validator': is_sp_len_greater_than_0}
 
     i_ids = dict((s,form[s]) for s in form.keys() if "input_description" in s and form[s] != "")
     i_types = {}
     i_quantitys = dict((s,form[s]) for s in form.keys() if "input_quantity" in s and form[s] != "")
     for key in i_ids:
-        item = Input.objects.get(pk=form[key])
-        i_types[key]= item.input_type
+        i_types[key]= Input.objects.get(pk=form[key]).input_type
     i_order_types = sorted(i_types)
     i_order_quantitys = sorted(i_quantitys)
     is_i_len_greater_than_0 = len(i_ids)
     range_i = [(i_order_types[i],i_order_quantitys[i]) for i in xrange(len(i_ids))]
     inputs = {'types': i_types, 'quantitys': i_quantitys, 'range': range_i, 'validator': is_i_len_greater_than_0}
 
+    template = 'maintenance/confirm_workorder.html'
     context = {'workorder': workorder, 'airport_code': airport_code, 'out_datetime': out_datetime, 'work_descriptions': work_descriptions, 'spare_parts': spare_parts, 'inputs': inputs}
-    return render(request, 'maintenance/confirm_workorder.html', context)
+    #filename = str(workorder.machine_number.machine_number) + " " + str(out_datetime)
+
+    return render(request, template, context)
+    #return PDFTemplateResponse(request=request, template=template, filename=filename, context=context, show_content_in_browser=True)
 
 @login_required
 def process_workorder(request):
