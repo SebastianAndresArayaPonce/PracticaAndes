@@ -37,7 +37,7 @@ def workorder(request, workorder_number):
     return render(request, 'maintenance/workorder.html', {'workorder': workorder, 'airport': airport, 'inputs': inputs, 'spare_parts': spare_parts})
 
 @login_required
-def confirm_workorder(request, workorder_number):
+def process_workorder(request, workorder_number):
     try:
         workorder = WorkOrder.objects.get(pk=workorder_number)
     except WorkOrder.DoesNotExist:
@@ -85,16 +85,12 @@ def confirm_workorder(request, workorder_number):
     range_i = [(i_order_types[i],i_order_quantitys[i]) for i in xrange(len(i_ids))]
     inputs = {'types': i_types, 'quantitys': i_quantitys, 'range': range_i, 'validator': is_i_len_greater_than_0}
 
-    template = 'maintenance/confirm_workorder.html'
+    template = 'maintenance/process_workorder.html'
     context = {'workorder': workorder, 'airport_code': airport_code, 'out_datetime': out_datetime, 'work_descriptions': work_descriptions, 'spare_parts': spare_parts, 'inputs': inputs}
-    #filename = str(workorder.machine_number.machine_number) + " " + str(out_datetime)
+    filename = str(workorder.machine_number.machine_number) + " " + str(out_datetime)
 
-    return render(request, template, context)
-    #return PDFTemplateResponse(request=request, template=template, filename=filename, context=context, show_content_in_browser=True)
-
-@login_required
-def process_workorder(request):
-    return render(request, 'maintenance/index.html', {})
+    #return render(request, template, context)
+    return PDFTemplateResponse(request=request, template=template, filename=filename, context=context, show_content_in_browser=True)
 
 @login_required
 def get_work_description(request, suffix):

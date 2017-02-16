@@ -9,7 +9,7 @@
 		<link rel="stylesheet" type="text/css" href="{% static 'maintenance/stylesheet.css' %}" />
 	</head>
 	<body>
-		<form action="{% url 'maintenance:process_workorder' %}" method="post" accept-charset="utf-8">
+		<form action="{% url 'maintenance:index' %}" method="post" accept-charset="utf-8">
 			{% csrf_token %}
 			<table class="wo-table">
 				<colgroup>

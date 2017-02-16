@@ -9,7 +9,7 @@
 	</head>
 	<body>
 		{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-		<form action="{% url 'maintenance:confirm_workorder' workorder.order_number %}" method="post" accept-charset="UTF-8">
+		<form action="{% url 'maintenance:process_workorder' workorder.order_number %}" method="post" accept-charset="UTF-8">
 			{% csrf_token %}
 			<table class="wo-table">
 				<colgroup>
