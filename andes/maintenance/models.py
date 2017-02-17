@@ -49,7 +49,7 @@ class WorkOrder(models.Model):
     in_datetime = models.DateTimeField()
     out_datetime = models.DateTimeField(null=True, blank=True)
     mechanic = models.ForeignKey(User, on_delete=models.PROTECT, null=True, blank=True, related_name='mechanic')
-    team_leader = models.ForeignKey(User, on_delete=models.PROTECT, null=True, blank=True, related_name='team_leader')
+    team_leader = models.ForeignKey(User, on_delete=models.PROTECT, related_name='team_leader')
     def clean(self):
         if self.work_type.name == "Preventivo" and self.level == None:
             raise forms.ValidationError('Field level is required for this type of work')
@@ -114,8 +114,11 @@ class MachineInstruction(models.Model):
     machine_number = models.ForeignKey(Machine, on_delete=models.PROTECT)
     instruction_number = models.ForeignKey(Instruction, on_delete=models.PROTECT)
     level = models.PositiveIntegerField()
+    instruction_type = models.ForeignKey(InstructionType, on_delete=models.PROTECT)
     class Meta:
         unique_together = ('machine_number', 'instruction_number', 'level')
+    def clean(self):
+        instruction_type = instruction_number.instruction_type
     def __unicode__(self):
         return '%s Level %s: %s' % (self.machine_number, self.level, self.instruction_number.description)
 
