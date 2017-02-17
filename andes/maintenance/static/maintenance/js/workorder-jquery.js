@@ -1,5 +1,8 @@
 $(document).ready(function() {
-  $("#work_description_add_row").on( "click", function () {
+  $("#wo-hourmeter").on("blur", function () {
+    $(".gl-hourmeter").html("Horómetro " + $("#wo-hourmeter").val().toString());
+  });
+  $("#work_description_add_row").on("click", function () {
     var suffix = $("tr.work_description_row:last td:first input").attr("name").match(/\d+/);
     $.get('/workdescription/' + suffix, {}, function (data) {
       $('tr.work_description_row:last').after( data );
@@ -13,7 +16,7 @@ $(document).ready(function() {
       $("#work_description_" + (parseInt(suffix)-1).toString()).removeAttr("required");
     };
   });
-  $("#spare_part_add_row").on( "click", function () {
+  $("#spare_part_add_row").on("click", function () {
     var suffix = $("tr.spare_part_row:last td:first select").attr("name").match(/\d+/);
     $.get('/sparepartlist/' + suffix, {}, function (data) {
       $('tr.spare_part_row:last').after( data );
@@ -54,7 +57,7 @@ $(document).ready(function() {
       $("#spare_part_number_" + suffix).attr("required", "required");
     };
   });
-  $("#input_add_row").on( "click", function () {
+  $("#input_add_row").on("click", function () {
     var suffix = $("tr.input_row:last td:first select").attr("name").match(/\d+/);
     $.get('/inputlist/' + suffix, {}, function (data) {
       $('tr.input_row:last').after( data );
