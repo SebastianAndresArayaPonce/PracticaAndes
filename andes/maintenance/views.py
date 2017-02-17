@@ -47,6 +47,10 @@ def workorder(request, workorder_number):
         context['last_instruction_list'] = machine_instruction_list.filter(instruction_type="Last")
         machine_instruction_list = machine_instruction_list.exclude(instruction_type="Last")
         context['machine_instruction_list'] = machine_instruction_list
+        instruction_types = set()
+        for i in machine_instruction_list:
+            instruction_types.add(i.instruction_type.name)
+        context['instruction_types'] = list(instruction_types)
         context['today'] = datetime.today()
     return render(request, template, context)
 

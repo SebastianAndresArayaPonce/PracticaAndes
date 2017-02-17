@@ -1,6 +1,7 @@
 <!DOCTYPE HTML5>
 
 {% load static %}
+{% load workorder_extras %}
 
 <html>
 	<head>
@@ -350,6 +351,20 @@
 								<td class="center"><input type="checkbox" required></td>
 								<td class="center"><input type="checkbox" required></td>
 							</tr>
+							{% endfor %}
+							{% for i_type in instruction_types %}
+							<tr>
+								<td class="blank"><b>{{ i_type }}</b></td>
+								<td class="blank center">MEC</td>
+								<td class="blank center">TL</td>
+							</tr>
+								{% for instruction in machine_instruction_list|ifilter:i_type %}
+									<tr>
+										<td>{{ instruction.instruction_number.description }}</td>
+										<td class="center"><input type="checkbox" required></td>
+										<td class="center"><input type="checkbox" required></td>
+									</tr>
+								{% endfor %}
 							{% endfor %}
 						</table>
 					</div>
