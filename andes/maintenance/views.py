@@ -42,13 +42,12 @@ def workorder(request, workorder_number):
         context['machine_spare_part_list'] = MachineSparePart.objects.filter(machine_number=workorder.machine_number, level=workorder.level)
         context['machine_input_list'] = MachineInput.objects.filter(machine_number=workorder.machine_number, level=workorder.level)
         machine_instruction_list = MachineInstruction.objects.filter(machine_number=workorder.machine_number, level=workorder.level)
-        initial_instruction_list = machine_instruction_list.filter()
+        context['first_instruction_list'] = machine_instruction_list.filter(instruction_type="First")
+        machine_instruction_list = machine_instruction_list.exclude(instruction_type="First")
+        context['last_instruction_list'] = machine_instruction_list.filter(instruction_type="Last")
+        machine_instruction_list = machine_instruction_list.exclude(instruction_type="Last")
         context['machine_instruction_list'] = machine_instruction_list
         context['today'] = datetime.today()
-        print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
-        print initial_instruction_list
-        #print context['machine_instruction_list'][0].instruction_number.instruction_type.name
-        print "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
     return render(request, template, context)
 
 @login_required

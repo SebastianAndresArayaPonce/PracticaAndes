@@ -344,11 +344,13 @@
 								<td class="blank center">MEC</td>
 								<td class="blank center">TL</td>
 							</tr>
+							{% for instruction in first_instruction_list %}
 							<tr>
-								<td>Anotar lectura horómetro</td>
+								<td>{{ instruction.instruction_number.description }}</td>
 								<td class="center"><input type="checkbox" required></td>
 								<td class="center"><input type="checkbox" required></td>
 							</tr>
+							{% endfor %}
 						</table>
 					</div>
 				</div>
@@ -375,20 +377,24 @@
 					</table>
 				</div>
 				<div>
-					<p><b>Checklist de Salida</b></p>
 					<table class="gl-table">
+						<tr>
+							<th class="blank">Checklist de Salida</th>
+						</tr>
 						<tr>
 							<td class="blank">Item</td>
 							<td class="blank">Descripción</td>
 							<td>Ticket de mecánico</td>
 							<td>Ticket de Team Leader</td>
 						</tr>
+						{% for instruction in last_instruction_list %}
 						<tr>
-							<td class="blank">1</td>
-							<td class="blank">Extinguidor</td>
-							<td><br></td>
-							<td><br></td>
+							<td class="blank">{{ forloop.counter }}</td>
+							<td class="blank">{{ instruction.instruction_number.description }}</td>
+							<td class="center"><input type="checkbox" required></td>
+							<td class="center"><input type="checkbox" required></td>
 						</tr>
+						{% endfor %}
 						<tr>
 							<td colspan="4" class="blank"><br></td>
 						</tr>

@@ -117,8 +117,9 @@ class MachineInstruction(models.Model):
     instruction_type = models.ForeignKey(InstructionType, on_delete=models.PROTECT)
     class Meta:
         unique_together = ('machine_number', 'instruction_number', 'level')
-    def clean(self):
-        instruction_type = instruction_number.instruction_type
+    def save(self, *args, **kwargs):
+        self.instruction_type = self.instruction_number.instruction_type
+        super(MachineInstruction, self).save(*args, **kwargs)
     def __unicode__(self):
         return '%s Level %s: %s' % (self.machine_number, self.level, self.instruction_number.description)
 

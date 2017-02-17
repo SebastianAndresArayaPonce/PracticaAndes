@@ -5,6 +5,11 @@ from django.contrib.auth.models import User
 from .models import *
 
 # Register your models here.
+
+class MachineInstructionAdmin(admin.ModelAdmin):
+    fields = ['machine_number', 'instruction_number', 'level']
+
+
 admin.site.register(Family)
 admin.site.register(Subfamily)
 admin.site.register(Category)
@@ -16,7 +21,7 @@ admin.site.register(Input)
 admin.site.register(MachineInput)
 admin.site.register(InstructionType)
 admin.site.register(Instruction)
-admin.site.register(MachineInstruction)
+admin.site.register(MachineInstruction, MachineInstructionAdmin)
 admin.site.register(WorkType)
 admin.site.register(WorkOrder)
 admin.site.register(Airport)
@@ -25,6 +30,7 @@ admin.site.register(Inventory)
 #admin.site.register(History)
 #admin.site.register(Area)
 #admin.site.register(PurchaseOrder)
+
 
 class ProfileInline(admin.StackedInline):
     model = Profile
