@@ -162,6 +162,16 @@
 							<button type="button" name="del_spare_part" id="spare_part_del_row">Remove last Spare Part</button>
 						</td>
 					</tr>
+					{% if workorder.work_type.name == 'Preventivo' %}
+						{% for machine_spare_part in machine_spare_part_list %}
+						<tr class="spare_part_row">
+							<td class="wo-solid-left">F: {{ machine_spare_part.spare_part.factory_number }} / S: {{ machine_spare_part.spare_part.sage_number }}</td>
+							<td>{{ machine_spare_part.spare_part.spare_part_type }}</td>
+							<td class="wo-solid-right">{{ machine_spare_part.quantity }}</td>
+							<td colspan="3" class="blank"><br></td>
+						</tr>
+						{% endfor %}
+					{% endif %}
 					<tr class="spare_part_row">
 						<td class="wo-solid-left"><select class="wo-form-select" name="spare_part_number_1" id="spare_part_number_1">
 							<option selected value> -- select an option -- </option>

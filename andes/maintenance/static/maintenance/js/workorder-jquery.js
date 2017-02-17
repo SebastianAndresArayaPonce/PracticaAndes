@@ -11,7 +11,7 @@ $(document).ready(function() {
   });
   $("#work_description_del_row").on("click", function () {
     var suffix = $("tr.work_description_row:last td:first input").attr("name").match(/\d+/);
-    if ( parseInt(suffix) > 1 ) {
+    if ( parseInt(suffix) > 1 and !$(this).hasClass("preventivo") ) {
       $("tr.work_description_row:last").remove();
       $("#work_description_" + (parseInt(suffix)-1).toString()).removeAttr("required");
     };
@@ -26,7 +26,7 @@ $(document).ready(function() {
   });
   $("#spare_part_del_row").on("click", function () {
     var suffix = $("tr.spare_part_row:last td:first select").attr("name").match(/\d+/);
-    if ( parseInt(suffix) > 1 ) {
+    if ( parseInt(suffix) > 1 and !$(this).hasClass("preventivo") ) {
       $("tr.spare_part_row:last").remove();
       $("#spare_part_number_" + (parseInt(suffix)-1).toString()).removeAttr("required");
       $("#spare_part_quantity_" + (parseInt(suffix)-1).toString()).removeAttr("required");
@@ -67,7 +67,7 @@ $(document).ready(function() {
   });
   $("#input_del_row").on("click", function () {
     var suffix = $("tr.input_row:last td:first select").attr("name").match(/\d+/);
-    if ( parseInt(suffix) > 1 ) {
+    if ( parseInt(suffix) > 1 and !$(this).hasClass("preventivo") ) {
       $("tr.input_row:last").remove();
       $("#input_description_" + (parseInt(suffix)-1).toString()).removeAttr("required");
       $("#input_quantity_" + (parseInt(suffix)-1).toString()).removeAttr("required");
