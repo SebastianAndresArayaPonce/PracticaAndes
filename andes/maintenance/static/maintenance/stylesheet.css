@@ -42,6 +42,10 @@ input[type=number] {
   width: 720px;
 }
 
+.gl-form-table {
+  width: 100%;
+}
+
 .gl-header-top {
   padding: 10px 0px 10px 0px;;
   margin: 100px;
@@ -70,6 +74,10 @@ input[type=number] {
 
 .wo-table {
   width: 800px;
+}
+
+.wo-form-table {
+  width: 100%;
 }
 
 .wo-col-1, .wo-col-4, .wo-col-5 {

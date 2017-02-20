@@ -13,18 +13,10 @@
 		<form action="{% url 'maintenance:process_workorder' workorder.order_number %}" method="post" accept-charset="UTF-8" id="workorder-form">
 			{% csrf_token %}
 			{% if workorder.work_type.name == 'Preventivo' %}
-			<button type="button" id="switch_button" name="switch_button">Switch between views</button>
+			<p class="center"><button type="button" class="switch_button" name="switch_button">Switch between views</button></p>
 			{% endif %}
 			<div id="workorder">
-				<table class="wo-table">
-					<colgroup>
-						<col class="wo-col-1">
-						<col class="wo-col-2">
-						<col class="wo-col-3">
-						<col class="wo-col-4">
-						<col class="wo-col-5">
-						<col class="wo-col-6">
-					</colgroup>
+				<table class="wo-form-table">
 					<tr>
 						<td rowspan=2 class="blank"><img src="{% static 'maintenance/images/andes.png' %}" width=121 height=48></td>
 						<td colspan="2" class="blank"><br></td>
@@ -226,11 +218,9 @@
 				</table>
 			</div>
 			{% if workorder.work_type.name == 'Preventivo' %}
-			<!--
-			<div id="guideline" hidden>-->
-			<div id="guideline">
+			<div id="guideline" hidden>
 				<div>
-					<table class="gl-table">
+					<table class="gl-form-table">
 						<tr>
 							<th colspan="2" class="gl-title">
 								<p>Inspección Preventiva – M{{ workorder.level }}</p>
@@ -253,7 +243,7 @@
 				</div>
 				<div>
 					<p><b>Repuestos Necesarios</b></p>
-					<table class="gl-table">
+					<table class="gl-form-table">
 						<tr>
 							<td>Tipo</td>
 							<td>Cant.</td>
@@ -274,7 +264,7 @@
 				</div>
 				<div>
 					<p><b>Herramientas a utilizar</b></p>
-					<table class="gl-table">
+					<table class="gl-form-table">
 						<tr>
 							<td>N°</td>
 							<td>Descripción</td>
@@ -289,7 +279,7 @@
 				</div>
 				<div>
 					<p><b>Insumos</b></p>
-					<table class="gl-table">
+					<table class="gl-form-table">
 						<tr>
 							<td>Tipo</td>
 							<td>Descripción</td>
@@ -308,7 +298,7 @@
 				</div>
 				<div>
 					<p><b>Observaciones</b></p>
-					<table class="gl-table">
+					<table class="gl-form-table">
 						<tr>
 							<td><br></td>
 						</tr>
@@ -316,7 +306,7 @@
 				</div>
 				<div>
 					<p><b>Control de salida</b></p>
-					<table class="gl-table">
+					<table class="gl-form-table">
 						<tr>
 							<td class="gl-out-date">Fecha de salida:</td>
 							<td>Nombre Team Leader: {{ workorder.team_leader.first_name }} {{ workorder.team_leader.last_name }}</td>
@@ -328,7 +318,7 @@
 					</table>
 				</div>
 				<div>
-					<table class="gl-table">
+					<table class="gl-form-table">
 						<tr>
 							<th class="blank">
 								<p>Lista de Inspección – {{ workorder.machine_number.family.name }} – M{{ workorder.level }}</p>
@@ -341,7 +331,7 @@
 					</table>
 					<div>
 						<p><b>Identificación del Equipo</b></p>
-						<table class="gl-table">
+						<table class="gl-form-table">
 							<tr>
 								<td>Numero: {{ workorder.machine_number.machine_number }}</td>
 							</tr>
@@ -350,7 +340,7 @@
 							</tr>
 						</table>
 						<p><br></p>
-						<table class="gl-table">
+						<table class="gl-form-table">
 							<tr>
 								<td>Nombre Mecánico Ejecutante: {{ user.first_name }} {{ user.last_name }}</td>
 							</tr>
@@ -360,7 +350,7 @@
 						</table>
 					</div>
 					<div>
-						<table class="gl-table">
+						<table class="gl-form-table">
 							<tr>
 								<td class="blank"><b>Inspección Inicial</b></td>
 								<td class="blank center">MEC</td>
@@ -399,19 +389,20 @@
 						<img src="{{ machine_lubrication_chart.lubrication_chart.image.url }}"/>
 					</p>
 					{% endfor %}
-					<table class="gl-table">
+					<table class="gl-form-table">
+						{% for number, description in lubrication_chart_descriptions %}
 						<tr>
-							<td>***1***</td>
-							<td>***Varillaje del freno***</td>
-							<td>***12**</td>
-							<td>***Tapón de llenado de aceite y el medidor de nivel de aceite***</td>
+							<td>{{ number }}</td>
+							<td>{{ description }}</td>
+							<td class="center"><input type="checkbox" required></td>
 						</tr>
+						{% endfor %}
 					</table>
 				</div>
 				<div>
-					<table class="gl-table">
+					<table class="gl-form-table">
 						<tr>
-							<th class="blank">Checklist de Salida</th>
+							<th colspan="4" class="blank">Checklist de Salida</th>
 						</tr>
 						<tr>
 							<td class="blank">Item</td>
@@ -439,7 +430,7 @@
 					</table>
 				</div>
 				<div>
-					<table class="gl-table">
+					<table class="gl-form-table">
 						<colgroup>
 							<col class="gl-exit-col-1">
 							<col class="gl-exit-col-2">
@@ -479,7 +470,14 @@
 				</div>
 			</div>
 			{% endif %}
-			<input type="submit" value="Confirm order">
+			{% if workorder.work_type.name == 'Preventivo' %}
+			<p class="center">
+				<button type="button" class="switch_button" name="switch_button">Switch between views</button>
+				<input type="submit" value="Confirm order">
+			</p>
+			{% else %}
+			<p class="center"><input type="submit" value="Confirm order"></p>
+			{% endif %}
 		</form>
 		<script src="{% static 'maintenance/js/jquery-3.1.1.js' %}"></script>
 		<script src="{% static 'maintenance/js/workorder-jquery.js' %}"></script>

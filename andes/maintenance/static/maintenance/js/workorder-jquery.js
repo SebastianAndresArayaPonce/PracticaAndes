@@ -8,7 +8,7 @@ $(document).ready(function() {
   $("#wo-out-time").on("blur", function () {
     $(".gl-out-time").html("Hora de salida:" + $("#wo-out-time").val().toString());
   });
-  $("#switch_button").on("click", function () {
+  $(".switch_button").on("click", function () {
     if ($("#guideline").is("[hidden]")) {
       $("#workorder").attr("hidden", "hidden");
       $("#guideline").removeAttr("hidden");
