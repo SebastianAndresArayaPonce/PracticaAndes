@@ -57,15 +57,15 @@ input[type=number] {
 }
 
 .gl-exit-col-1, .gl-exit-col-5 {
-  width: 29px;
+  width: 4%;
 }
 
 .gl-exit-col-2, .gl-exit-col-4 {
-  width: 246px;
+  width: 34%;
 }
 
 .gl-exit-col-3 {
-  width: 170px;
+  width: 24%;
 }
 
 .gl-solid-top {
