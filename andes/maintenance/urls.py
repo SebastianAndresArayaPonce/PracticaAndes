@@ -1,5 +1,6 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.conf.urls import url
-from wkhtmltopdf.views import PDFTemplateView
 
 from . import views
 
@@ -14,3 +15,6 @@ urlpatterns = [
     url(r'^spareparttype/(?P<id>[0-9]+)$', views.get_spare_part_type, name="spare_part_type"),
     url(r'^inputlist/(?P<suffix>[0-9]+)$', views.get_input_list, name="input_list"),
 ]
+
+if settings.DEBUG is True:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -5,7 +5,7 @@ from wkhtmltopdf.views import PDFTemplateResponse
 from datetime import datetime
 
 
-from .models import Machine, SparePart, MachineSparePart, Input, MachineInput, MachineInstruction, WorkOrder, Inventory, Airport
+from .models import *
 
 # Create your views here.
 def index(request):
@@ -51,6 +51,13 @@ def workorder(request, workorder_number):
         for i in machine_instruction_list:
             instruction_types.add(i.instruction_type.name)
         context['instruction_types'] = list(instruction_types)
+        machine_lubrication_chart_list = MachineLubricationChart.objects.filter(machine_number=workorder.machine_number, level=workorder.level)
+        context['machine_lubrication_chart_list'] = machine_lubrication_chart_list
+        lubrication_chart_descriptions = []
+        for i in machine_lubrication_chart_list:
+            for j in LubricationChartDescription.objects.filter(lubrication_chart=i.id):
+                lubrication_chart_descriptions.append((j.number, j.description))
+        context['lubrication_chart_descriptions'] = sorted(lubrication_chart_descriptions)
         context['today'] = datetime.today()
     return render(request, template, context)
 
