@@ -123,6 +123,28 @@ class MachineInstruction(models.Model):
     def __unicode__(self):
         return '%s Level %s: %s' % (self.machine_number, self.level, self.instruction_number.description)
 
+class LubricationChart(models.Model):
+    name = models.CharField(max_length=100)
+    image = models.ImageField()
+    def __unicode__(self):
+        return self.name
+
+class LubricationChartDescription(models.Model):
+    lubrication_chart = models.ForeignKey(LubricationChart, on_delete=models.PROTECT)
+    number = models.PositiveIntegerField()
+    description = models.CharField(max_length=100)
+    def __unicode__(self):
+        return "%s %s" % (self.lubrication_chart, self.number)
+
+class MachineLubricationChart(models.Model):
+    machine_number = models.ForeignKey(Machine, on_delete=models.PROTECT)
+    lubrication_chart = models.ForeignKey(LubricationChart, on_delete=models.PROTECT)
+    level = models.PositiveIntegerField()
+    class Meta:
+        unique_together = ('machine_number', 'lubrication_chart', 'level')
+    def __unicode__(self):
+        return "%s Level %s: %s" % (self.machine_number, self.level, self.lubrication_chart)
+
 class Airport(models.Model):
     code = models.CharField(max_length=10, primary_key=True)
     name = models.CharField(max_length=100)
