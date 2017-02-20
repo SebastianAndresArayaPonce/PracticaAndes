@@ -45,7 +45,7 @@
 						<td class="wo-solid-top">{{ workorder.machine_number.family.name }}</td>
 						<td class="blank wo-solid-top"><br></td>
 						<td class="wo-solid-top wo-bg">Horómetro</td>
-						<td class="wo-solid-top"><input type="number" min="0" name="hourmeter_to_date" id="wo-hourmeter" required></td>
+						<td class="wo-solid-top"><input class="wo-form-number" type="number" min="0" name="hourmeter_to_date" id="wo-hourmeter" required></td>
 						<td class="blank wo-solid-top wo-solid-right"><br></td>
 					</tr>
 					<tr>
@@ -181,7 +181,7 @@
 						</select></td>
 						<td id="spare_part_description_1"><br></td>
 						<td class="wo-solid-right">
-							<input type="number" min="0" name="spare_part_quantity_1" id="spare_part_quantity_1">
+							<input class="wo-form-number" type="number" min="0" name="spare_part_quantity_1" id="spare_part_quantity_1">
 						</td>
 						<td colspan="3" class="blank"><br></td>
 					</tr>
@@ -216,7 +216,7 @@
 							<option value="{{ entry.input_type }}">{{ entry.input_type }}</option>
 							{% endfor %}
 						</select></td>
-						<td class="wo-solid-right"><input type="number" min="0" name="input_quantity_1" id="input_quantity_1"></td>
+						<td class="wo-solid-right"><input class="wo-form-number" type="number" min="0" name="input_quantity_1" id="input_quantity_1"></td>
 						<td colspan="3" class="blank"><br></td>
 					</tr>
 					<tr>
@@ -226,7 +226,9 @@
 				</table>
 			</div>
 			{% if workorder.work_type.name == 'Preventivo' %}
-			<div id="guideline" hidden>
+			<!--
+			<div id="guideline" hidden>-->
+			<div id="guideline">
 				<div>
 					<table class="gl-table">
 						<tr>

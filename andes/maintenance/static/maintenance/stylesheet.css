@@ -115,7 +115,7 @@ input[type=number] {
   background-color: #4F81BD;
 }
 
-.wo-form-textarea, .wo-form-text, .wo-form-select {
+.wo-form-textarea, .wo-form-text, .wo-form-number, .wo-form-select {
   height: 100%;
   width: 100%;
 }
