@@ -2,6 +2,21 @@ $(document).ready(function() {
   $("#wo-hourmeter").on("blur", function () {
     $(".gl-hourmeter").html("Horómetro " + $("#wo-hourmeter").val().toString());
   });
+  $("#wo-out-date").on("blur", function () {
+    $(".gl-out-date").html("Fecha de salida: " + $("#wo-out-date").val().toString());
+  });
+  $("#wo-out-time").on("blur", function () {
+    $(".gl-out-time").html("Hora de salida:" + $("#wo-out-time").val().toString());
+  });
+  $("#switch_button").on("click", function () {
+    if ($("#guideline").is("[hidden]")) {
+      $("#workorder").attr("hidden", "hidden");
+      $("#guideline").removeAttr("hidden");
+    } else {
+      $("#guideline").attr("hidden", "hidden");
+      $("#workorder").removeAttr("hidden");
+    };
+  });
   $("#work_description_add_row").on("click", function () {
     var suffix = $("tr.work_description_row:last td:first input").attr("name").match(/\d+/);
     $.get('/workdescription/' + suffix, {}, function (data) {
@@ -11,7 +26,7 @@ $(document).ready(function() {
   });
   $("#work_description_del_row").on("click", function () {
     var suffix = $("tr.work_description_row:last td:first input").attr("name").match(/\d+/);
-    if ( parseInt(suffix) > 1 and !$(this).hasClass("preventivo") ) {
+    if ( parseInt(suffix) > 1) {
       $("tr.work_description_row:last").remove();
       $("#work_description_" + (parseInt(suffix)-1).toString()).removeAttr("required");
     };
@@ -26,7 +41,7 @@ $(document).ready(function() {
   });
   $("#spare_part_del_row").on("click", function () {
     var suffix = $("tr.spare_part_row:last td:first select").attr("name").match(/\d+/);
-    if ( parseInt(suffix) > 1 and !$(this).hasClass("preventivo") ) {
+    if ( parseInt(suffix) > 1) {
       $("tr.spare_part_row:last").remove();
       $("#spare_part_number_" + (parseInt(suffix)-1).toString()).removeAttr("required");
       $("#spare_part_quantity_" + (parseInt(suffix)-1).toString()).removeAttr("required");
@@ -67,7 +82,7 @@ $(document).ready(function() {
   });
   $("#input_del_row").on("click", function () {
     var suffix = $("tr.input_row:last td:first select").attr("name").match(/\d+/);
-    if ( parseInt(suffix) > 1 and !$(this).hasClass("preventivo") ) {
+    if ( parseInt(suffix) > 1) {
       $("tr.input_row:last").remove();
       $("#input_description_" + (parseInt(suffix)-1).toString()).removeAttr("required");
       $("#input_quantity_" + (parseInt(suffix)-1).toString()).removeAttr("required");
