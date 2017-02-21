@@ -161,11 +161,11 @@ def process_workorder(request, workorder_number):
     stylesheet = 'maintenance/stylesheet.css'
     #header_template = 'maintenance/guideline_header.html'
     #header_template = 'maintenance/index.html'
-    cmd_options = {'footer-right': 'Pagina [page] de [topage]', 'page-size': 'Letter', 'user-style-sheet': stylesheet}
+    cmd_options = {'footer-right': 'Pagina [page] de [topage]', 'page-size': 'Letter', 'user-style-sheet': stylesheet, 'print-media-type': True}
     filename = str(workorder.machine_number.machine_number) + " " + str(out_datetime)
 
     #return PDFTemplateResponse(request=request, template=template, filename=filename, context=context, show_content_in_browser=True)
-    return PDFTemplateResponse(request=request, template=template, filename=filename, context=context, show_content_in_browser=True, cmd_options=cmd_options)
+    return PDFTemplateResponse(request=request, template=template, filename=filename, context=context, cmd_options=cmd_options)
     #return PDFTemplateResponse(request=request, template=template, header_template=header_template, filename=filename, context=context, show_content_in_browser=True, cmd_options=cmd_options)
 
 @login_required

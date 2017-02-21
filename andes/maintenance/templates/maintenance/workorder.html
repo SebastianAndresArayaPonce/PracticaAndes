@@ -328,29 +328,25 @@
 									Inspección Preventiva M{{ workorder.level }}
 								</th>
 							</tr>
+						</table>
+					</div>
+					<div>
+						<table class="gl-form-table">
 							<tr>
-								<td class="blank"><b>Instrucciones:</b> Siga cuidadosamente la pauta, cumpliendo con todos los ítems de la revisión. Sí tuviera dudas al respecto de algún ítem de la pauta, consulte con su Team Leader</p></td>
+								<td class="blank"><b>Instrucciones:</b> Siga cuidadosamente la pauta, cumpliendo con todos los ítems de la revisión. Sí tuviera dudas al respecto de algún ítem de la pauta, consulte con su Team Leader</td>
 							</tr>
 						</table>
 					</div>
 					<div>
-						<p><b>Identificación del Equipo</b></p>
+						<b>Identificación del Equipo</b>
 						<table class="gl-form-table">
-							<tr>
-								<td>Numero: {{ workorder.machine_number.machine_number }}</td>
-							</tr>
-							<tr>
-								<td class="gl-hourmeter">Horómetro:</td>
-							</tr>
+							<tr><td>Numero: {{ workorder.machine_number.machine_number }}</td></tr>
+							<tr><td class="gl-hourmeter">Horómetro:</td></tr>
 						</table>
-						<p><br></p>
+						<br>
 						<table class="gl-form-table">
-							<tr>
-								<td>Nombre Mecánico Ejecutante: {{ user.first_name }} {{ user.last_name }}</td>
-							</tr>
-							<tr>
-								<td>Fecha de Ejecución: {{ today|date:"d/m/Y" }}</td>
-							</tr>
+							<tr><td>Nombre Mecánico Ejecutante: {{ user.first_name }} {{ user.last_name }}</td></tr>
+							<tr><td>Fecha de Ejecución: {{ today|date:"d/m/Y" }}</td></tr>
 						</table>
 					</div>
 					<div>
@@ -384,22 +380,28 @@
 						</table>
 					</div>
 				</div>
-				<div>
-					<p><b>Carta de Lubricación</b></p>
-					{% for machine_lubrication_chart in machine_lubrication_chart_list %}
-					<p><img src="{{ machine_lubrication_chart.lubrication_chart.image.url }}"/></p>
-					{% endfor %}
-					<table class="gl-form-table">
-						{% for number, description in lubrication_chart_descriptions %}
-						<tr>
-							<td>{{ number }}</td>
-							<td>{{ description }}</td>
-							<td class="center"><input type="checkbox" required></td>
-						</tr>
-						{% endfor %}
-					</table>
+				<div id="gl-lubrication-chart">
+					<div>
+						<table class="gl-table">
+							<tr><td class="blank"><b>Carta de Lubricación</b></td></tr>
+							{% for machine_lubrication_chart in machine_lubrication_chart_list %}
+							<tr><td class="blank"><img src="{{ machine_lubrication_chart.lubrication_chart.image.url }}"/></td></tr>
+							{% endfor %}
+						</table>
+					</div>
+					<div>
+						<table class="gl-form-table">
+							{% for number, description in lubrication_chart_descriptions %}
+							<tr>
+								<td>{{ number }}</td>
+								<td>{{ description }}</td>
+								<td class="center"><input type="checkbox" required></td>
+							</tr>
+							{% endfor %}
+						</table>
+					</div>
 				</div>
-				<div>
+				<div id="gl-last-page">
 					<table class="gl-form-table">
 						<tr>
 							<th colspan="4" class="blank">Checklist de Salida</th>
@@ -428,8 +430,6 @@
 							<td colspan="4"><br></td>
 						</tr>
 					</table>
-				</div>
-				<div>
 					<table class="gl-form-table">
 						<colgroup>
 							<col class="gl-exit-col-1">
