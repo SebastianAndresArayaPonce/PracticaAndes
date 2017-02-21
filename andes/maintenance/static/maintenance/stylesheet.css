@@ -81,15 +81,15 @@ input[type=number] {
 }
 
 .wo-col-1, .wo-col-4, .wo-col-5 {
-  width: 17%;
+  width: 140px;
 }
 
 .wo-col-2 {
-  width: 25%;
+  width: 190px;
 }
 
 .wo-col-3, .wo-col-6 {
-  width: 12%;
+  width: 95px;
 }
 
 .wo-solid-top {
@@ -123,7 +123,8 @@ input[type=number] {
   background-color: #4F81BD;
 }
 
-.wo-form-textarea, .wo-form-text, .wo-form-number, .wo-form-select {
+.wo-form-textarea, .wo-form-text, .wo-form-number, .wo-form-select, .wo-form-date, .wo-form-time {
   height: 100%;
   width: 100%;
+  box-sizing: border-box;
 }
