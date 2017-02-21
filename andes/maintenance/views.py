@@ -6,6 +6,7 @@ from django.http import Http404, HttpResponse
 from wkhtmltopdf.views import PDFTemplateResponse
 from datetime import datetime
 
+
 from .models import *
 
 # Create your views here.
@@ -157,8 +158,7 @@ def process_workorder(request, workorder_number):
 
     template = 'maintenance/process_workorder.html'
     #template = 'maintenance/guideline.html'
-    #stylesheet = os.path.join(BASE_DIR, 'static/maintenance/stylesheet.css')
-    stylesheet = os.path.join(BASE_DIR, 'static/maintenance/stylesheet.css')
+    stylesheet = 'maintenance/stylesheet.css'
     #header_template = 'maintenance/guideline_header.html'
     #header_template = 'maintenance/index.html'
     cmd_options = {'footer-right': 'Pagina [page] de [topage]', 'page-size': 'Letter', 'user-style-sheet': stylesheet}
