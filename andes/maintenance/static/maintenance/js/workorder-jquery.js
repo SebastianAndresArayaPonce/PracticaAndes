@@ -47,7 +47,7 @@ $(document).ready(function() {
       $("#spare_part_quantity_" + (parseInt(suffix)-1).toString()).removeAttr("required");
     };
   });
-  $(".wo-table").on("change", "tr.spare_part_row td select", function() {
+  $(".wo-form-table").on("change", "tr.spare_part_row td select", function() {
     var id = ($(this).val()).toString();
     var suffix = $(this).attr("name").match(/\d+/);
     var last_suffix = $("tr.spare_part_row:last td:first select").attr("name").match(/\d+/);
@@ -63,7 +63,7 @@ $(document).ready(function() {
       });
     };
   });
-  $(".wo-table").on("blur", "tr.spare_part_row td input", function() {
+  $(".wo-form-table").on("blur", "tr.spare_part_row td input", function() {
     var value = ($(this).val()).toString();
     var suffix = $(this).attr("name").match(/\d+/);
     if (value == "") {
@@ -88,7 +88,7 @@ $(document).ready(function() {
       $("#input_quantity_" + (parseInt(suffix)-1).toString()).removeAttr("required");
     };
   });
-  $(".wo-table").on("change", "tr.input_row td select", function() {
+  $(".wo-form-table").on("change", "tr.input_row td select", function() {
     var id = ($(this).val()).toString();
     var suffix = $(this).attr("name").match(/\d+/);
     var last_suffix = $("tr.input_row:last td:first select").attr("name").match(/\d+/);
@@ -98,7 +98,7 @@ $(document).ready(function() {
       $("#input_quantity_" + suffix).attr("required", "required");
     };
   });
-  $(".wo-table").on("blur", "tr.input_row td input", function() {
+  $(".wo-form-table").on("blur", "tr.input_row td input", function() {
     var value = ($(this).val()).toString();
     var suffix = $(this).attr("name").match(/\d+/);
     if (value == "") {
