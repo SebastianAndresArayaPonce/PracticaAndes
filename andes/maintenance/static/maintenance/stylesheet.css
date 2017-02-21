@@ -81,15 +81,15 @@ input[type=number] {
 }
 
 .wo-col-1, .wo-col-4, .wo-col-5 {
-  width: 140px;
+  width: 17%;
 }
 
 .wo-col-2 {
-  width: 190px;
+  width: 25%;
 }
 
 .wo-col-3, .wo-col-6 {
-  width: 95px;
+  width: 12%;
 }
 
 .wo-solid-top {

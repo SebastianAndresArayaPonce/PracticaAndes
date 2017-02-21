@@ -13,8 +13,12 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+#BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
+
+def ABS_DIR(rel):
+    return os.path.join(BASE_DIR, rel.replace('/', os.path.sep))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
@@ -79,7 +83,8 @@ LOGIN_URL = "/login/"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'maintenance/db.sqlite3'),
     }
 }
 
@@ -120,7 +125,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'maintenance/static/')
+#STATIC_ROOT = os.path.join(BASE_DIR, 'maintenance/static/')
+STATIC_ROOT = ABS_DIR('maintenance/static/')
 STATIC_URL = '/static/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'maintenance/media/')
+#MEDIA_ROOT = os.path.join(BASE_DIR, 'maintenance/media/')
+MEDIA_ROOT = ABS_DIR('maintenance/media/')
 MEDIA_URL = '/media/'
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
+STATICFILES_DIRS = (
+    ABS_DIR('project_static'),
+)

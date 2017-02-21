@@ -1,4 +1,4 @@
-<!DOCTYPE HTML5>
+<!DOCTYPE HTML>
 
 {% load static %}
 {% load workorder_extras %}
@@ -9,256 +9,269 @@
 		<link rel="stylesheet" type="text/css" href="{% static 'maintenance/stylesheet.css' %}" />
 	</head>
 	<body>
-		<div>
-			<table class="gl-table">
-				<tr>
-					<th colspan="2" class="gl-title">
-						<p>Inspección Preventiva – M{{ workorder.level }}</p>
-						<p>Familia {{ workorder.machine_number.family.code }} - {{ workorder.machine_number.subfamily.name }}</p>
-					</th>
-				</tr>
-				<tr>
-					<td>N° Equipo: {{ workorder.machine_number.machine_number }}</td>
-					<td>Fecha de Ingreso: {{ workorder.in_datetime|date:"d/m/Y" }}</td>
-				</tr>
-				<tr>
-					<td>N° Orden: {{ workorder.order_number }}</td>
-					<td>Hora de Ingreso: {{ workorder.in_datetime|date:"H:i"}}</td>
-				</tr>
-				<tr>
-					<td>Horómetro: {{ request.POST.hourmeter_to_date }}</td>
-					<td>Nombre Mecánico: {{ user.first_name }} {{ user.last_name }}</td>
-				</tr>
-			</table>
-		</div>
-		<div>
-			<p><b>Repuestos Necesarios</b></p>
-			<table class="gl-table">
-				<tr>
-					<td>Tipo</p></td>
-					<td>Cant.</td>
-					<td>P/N FABRICA</td>
-					<td>P/N SAGE</td>
-				</tr>
-			{% if machine_spare_part_list %}
-				{% for machine_spare_part in machine_spare_part_list %}
-				<tr>
-					<td>{{ machine_spare_part.spare_part.spare_part_type }}</td>
-					<td>{{ machine_spare_part.quantity }}</td>
-					<td>{{ machine_spare_part.spare_part.factory_number }}</td>
-					<td>{{ machine_spare_part.spare_part.sage_number }}</td>
-				</tr>
-				{% endfor %}
-			{% endif %}
-			</table>
-		</div>
-		<div>
-			<p><b>Herramientas a utilizar</b></p>
-			<table class="gl-table">
-				<tr>
-					<td>N°</td>
-					<td>Descripción</td>
-					<td>Cantidad</td>
-				</tr>
-				<tr>
-					<td><br></td>
-					<td><br></td>
-					<td><br></td>
-				</tr>
-			</table>
-		</div>
-		<div>
-			<p><b>Insumos</b></p>
-			<table class="gl-table">
-				<tr>
-					<td>Tipo</td>
-					<td>Descripción</td>
-					<td>Cantidad(Lt)</td>
-				</tr>
-			{% if machine_input_list %}
-				{% for machine_input in machine_input_list %}
-				<tr>
-					<td>{{ machine_input.input_number.input_type }}</td>
-					<td>{{ machine_input.input_number.description }}</td>
-					<td>{{ machine_input.quantity }}</td>
-				</tr>
-				{% endfor %}
-			{% endif %}
-			</table>
-		</div>
-		<div>
-			<p><b>Observaciones</b></p>
-			<table class="gl-table">
-				<tr>
-					<td><br></td>
-				</tr>
-			</table>
-		</div>
-		<div>
-			<p><b>Control de salida</b></p>
-			<table class="gl-table">
-				<tr>
-					<td>Fecha de salida: {{ out_datetime|date:"d/m/Y" }}</td>
-					<td>Nombre Team Leader: {{ workorder.team_leader.first_name }} {{ workorder.team_leader.last_name }}</td>
-				</tr>
-				<tr>
-					<td>Hora de salida: {{ out_datetime|date:"H:i" }}</td>
-					<td>Firma:</td>
-				</tr>
-			</table>
-		</div>
-		<div>
-			<table class="gl-table">
-				<tr>
-					<th class="blank">
-						<p>Lista de Inspección – {{ workorder.machine_number.family.name }} – M{{ workorder.level }}</p>
-						<p>Inspección Preventiva M{{ workorder.level }}</p>
-					</th>
-				</tr>
-				<tr>
-					<td class="blank"><b>Instrucciones:</b> Siga cuidadosamente la pauta, cumpliendo con todos los ítems de la revisión. Sí tuviera dudas al respecto de algún ítem de la pauta, consulte con su Team Leader</td>
-				</tr>
-			</table>
-			<div>
-				<p><b>Identificación del Equipo</b></p>
-				<table class="gl-table">
-					<tr>
-						<td>Numero: {{ workorder.machine_number.machine_number }}</td>
-					</tr>
-					<tr>
-						<td>Horómetro: {{ request.POST.hourmeter_to_date }}</td>
-					</tr>
-				</table>
-				<p><br></p>
-				<table class="gl-table">
-					<tr>
-						<td>Nombre Mecánico Ejecutante: {{ user.first_name }} {{ user.last_name }}</td>
-					</tr>
-					<tr>
-						<td>Fecha de Ejecución: {{ today|date:"d/m/Y" }}</td>
-					</tr>
-				</table>
-			</div>
-			<div>
-				<table class="gl-table">
-					<tr>
-						<td class="blank"><b>Inspección Inicial</b></td>
-						<td class="blank center">MEC</td>
-						<td class="blank center">TL</td>
-					</tr>
-					{% for instruction in first_instruction_list %}
-					<tr>
-						<td>{{ instruction.instruction_number.description }}</td>
-						<td class="center"><b>X</b></td>
-						<td class="center"><b>X</b></td>
-					</tr>
-					{% endfor %}
-					{% for i_type in instruction_types %}
-					<tr>
-						<td class="blank"><b>{{ i_type }}</b></td>
-						<td class="blank center">MEC</td>
-						<td class="blank center">TL</td>
-					</tr>
-						{% for instruction in machine_instruction_list|ifilter:i_type %}
-							<tr>
-								<td>{{ instruction.instruction_number.description }}</td>
-								<td class="center"><b>X</b></td>
-								<td class="center"><b>X</b></td>
-							</tr>
+		<div id="guideline">
+			<div id="gl-first-page">
+				<div>
+					<table class="gl-table">
+						<tr>
+							<th colspan="2" class="gl-title">
+								Inspección Preventiva – M{{ workorder.level }}<br>
+								Familia {{ workorder.machine_number.family.code }} - {{ workorder.machine_number.subfamily.name }}
+							</th>
+						</tr>
+						<tr>
+							<td>N° Equipo: {{ workorder.machine_number.machine_number }}</td>
+							<td>Fecha de Ingreso: {{ workorder.in_datetime|date:"d/m/Y" }}</td>
+						</tr>
+						<tr>
+							<td>N° Orden: {{ workorder.order_number }}</td>
+							<td>Hora de Ingreso: {{ workorder.in_datetime|date:"H:i"}}</td>
+						</tr>
+						<tr>
+							<td>Horómetro: {{ request.POST.hourmeter_to_date }}</td>
+							<td>Nombre Mecánico: {{ user.first_name }} {{ user.last_name }}</td>
+						</tr>
+					</table>
+				</div>
+				<div>
+					<b>Repuestos Necesarios</b>
+					<table class="gl-table">
+						<tr>
+							<th>Tipo</th>
+							<th>Cantidad</th>
+							<th>P/N FABRICA</th>
+							<th>P/N SAGE</th>
+						</tr>
+					{% if machine_spare_part_list %}
+						{% for machine_spare_part in machine_spare_part_list %}
+						<tr>
+							<td>{{ machine_spare_part.spare_part.spare_part_type }}</td>
+							<td class="center">{{ machine_spare_part.quantity }}</td>
+							<td class="center">{{ machine_spare_part.spare_part.factory_number }}</td>
+							<td class="center">{{ machine_spare_part.spare_part.sage_number }}</td>
+						</tr>
 						{% endfor %}
+					{% endif %}
+					</table>
+				</div>
+				<div>
+					<b>Herramientas a utilizar</b>
+					<table class="gl-table">
+						<tr>
+							<td><b>N°</b></td>
+							<td><b>Descripción</b></td>
+							<td class="center"><b>Cantidad</b></td>
+						</tr>
+						<tr>
+							<td><br></td>
+							<td><br></td>
+							<td><br></td>
+						</tr>
+					</table>
+				</div>
+				<div>
+					<b>Insumos</b>
+					<table class="gl-table">
+						<tr>
+							<th>Tipo</th>
+							<th>Descripción</th>
+							<th>Cantidad(Lt)</th>
+						</tr>
+					{% if machine_input_list %}
+						{% for machine_input in machine_input_list %}
+						<tr>
+							<td class="center">{{ machine_input.input_number.input_type }}</td>
+							<td class="center">{{ machine_input.input_number.description }}</td>
+							<td class="center">{{ machine_input.quantity }}</td>
+						</tr>
+						{% endfor %}
+					{% endif %}
+					</table>
+				</div>
+				<div>
+					<b>Observaciones</b>
+					<table class="gl-table">
+						<tr>
+							<td><br></td>
+						</tr>
+					</table>
+				</div>
+				<div>
+					<b>Control de salida</b>
+					<table class="gl-table">
+						<tr>
+							<td>Fecha de salida: {{ out_datetime|date:"d/m/Y" }}</td>
+							<td>Nombre Team Leader: {{ workorder.team_leader.first_name }} {{ workorder.team_leader.last_name }}</td>
+						</tr>
+						<tr>
+							<td>Hora de salida: {{ out_datetime|date:"H:i" }}</td>
+							<td>Firma:</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div id="gl-inspection-list">
+				<div>
+					<!--
+					<table class="gl-table">
+						<tr>
+							<th class="blank">
+								Lista de Inspección – {{ workorder.machine_number.family.name }} – M{{ workorder.level }}<br>
+								Inspección Preventiva M{{ workorder.level }}
+							</th>
+						</tr>
+						<tr>
+							<td class="blank"><b>Instrucciones:</b> Siga cuidadosamente la pauta, cumpliendo con todos los ítems de la revisión. Sí tuviera dudas al respecto de algún ítem de la pauta, consulte con su Team Leader</td>
+						</tr>
+					</table>
+					-->
+					<table>
+						<tr>
+							<td class="blank">hola</td>
+						</tr>
+					</table>
+				</div>
+				<div>
+					<p><b>Identificación del Equipo</b></p>
+					<table class="gl-table">
+						<tr>
+							<td>Numero: {{ workorder.machine_number.machine_number }}</td>
+						</tr>
+						<tr>
+							<td>Horómetro: {{ request.POST.hourmeter_to_date }}</td>
+						</tr>
+					</table>
+					<p><br></p>
+					<table class="gl-table">
+						<tr>
+							<td>Nombre Mecánico Ejecutante: {{ user.first_name }} {{ user.last_name }}</td>
+						</tr>
+						<tr>
+							<td>Fecha de Ejecución: {{ today|date:"d/m/Y" }}</td>
+						</tr>
+					</table>
+				</div>
+				<div>
+					<table class="gl-table">
+						<tr>
+							<td class="blank"><b>Inspección Inicial</b></td>
+							<td class="blank center">MEC</td>
+							<td class="blank center">TL</td>
+						</tr>
+						{% for instruction in first_instruction_list %}
+						<tr>
+							<td>{{ instruction.instruction_number.description }}</td>
+							<td class="center"><b>X</b></td>
+							<td class="center"><b>X</b></td>
+						</tr>
+						{% endfor %}
+						{% for i_type in instruction_types %}
+						<tr>
+							<td class="blank"><b>{{ i_type }}</b></td>
+							<td class="blank center">MEC</td>
+							<td class="blank center">TL</td>
+						</tr>
+						{% for instruction in machine_instruction_list|ifilter:i_type %}
+						<tr>
+							<td>{{ instruction.instruction_number.description }}</td>
+							<td class="center"><b>X</b></td>
+							<td class="center"><b>X</b></td>
+						</tr>
+						{% endfor %}
+						{% endfor %}
+					</table>
+				</div>
+			</div>
+			<div>
+				<p><b>Carta de Lubricación</b></p>
+				{% for machine_lubrication_chart in machine_lubrication_chart_list %}
+				<p><img src="{{ machine_lubrication_chart.lubrication_chart.image.url }}"/></p>
+				{% endfor %}
+				<table class="gl-table">
+					{% for number1, description1, number2, description2 in lubrication_chart_descriptions %}
+					<tr>
+						<td>{{ number1 }}</td>
+						<td>{{ description1 }}</td>
+						{% if number2 == "" and description2 == "" %}
+						<td><br></td>
+						<td><br></td>
+						{% else %}
+						<td>{{ number2 }}</td>
+						<td>{{ description2 }}</td>
+						{% endif %}
+					</tr>
 					{% endfor %}
 				</table>
 			</div>
-		</div>
-		<div>
-			<p><b>Carta de Lubricación</b></p>
-			{% for machine_lubrication_chart in machine_lubrication_chart_list %}
-			<p><img src="{{ machine_lubrication_chart.lubrication_chart.image.url }}"/></p>
-			{% endfor %}
-			<table class="gl-table">
-				{% for number1, description1, number2, description2 in lubrication_chart_descriptions %}
-				<tr>
-					<td>{{ number1 }}</td>
-					<td>{{ description1 }}</td>
-					{% if number2 == "" and description2 == "" %}
-					<td><br></td>
-					<td><br></td>
-					{% else %}
-					<td>{{ number2 }}</td>
-					<td>{{ description2 }}</td>
-					{% endif %}
-				</tr>
-				{% endfor %}
-			</table>
-		</div>
-		<div>
-			<table class="gl-table">
-				<tr>
-					<th colspan="4" class="blank">Checklist de Salida</th>
-				</tr>
-				<tr>
-					<td class="blank">Item</td>
-					<td class="blank">Descripción</td>
-					<td>Ticket de mecánico</td>
-					<td>Ticket de Team Leader</td>
-				</tr>
-				{% for instruction in last_instruction_list %}
-				<tr>
-					<td class="blank">{{ forloop.counter }}</td>
-					<td class="blank">{{ instruction.instruction_number.description }}</td>
-					<td class="center"><b>X</b></td>
-					<td class="center"><b>X</b></td>
-				</tr>
-				{% endfor %}
-				<tr>
-					<td colspan="4" class="blank"><br></td>
-				</tr>
-				<tr>
-					<td colspan="4">Observación</td>
-				</tr>
-				<tr>
-					<td colspan="4"><br></td>
-				</tr>
-			</table>
-		</div>
-		<div>
-			<table class="gl-table">
-				<colgroup>
-					<col class="gl-exit-col-1">
-					<col class="gl-exit-col-2">
-					<col class="gl-exit-col-3">
-					<col class="gl-exit-col-4">
-					<col class="gl-exit-col-5">
-				</colgroup>
-				<tr>
-	        <td class="blank"><br></td>
-	        <td class="blank center">{{ user.first_name }} {{ user.last_name }}</td>
-	        <td class="blank"><br></td>
-	        <td class="blank"><br></td>
-	        <td class="blank"><br></td>
-	      </tr>
-				<tr>
-	        <td class="blank"><br></td>
-	        <th class="blank gl-solid-top">Mecánico</th>
-	        <td class="blank"><br></td>
-	        <th class="blank gl-solid-top">Firma</th>
-	        <td class="blank"><br></td>
-	      </tr>
-				<tr>
-	        <td class="blank"><br></td>
-	        <td class="blank center">{{ workorder.team_leader.first_name }} {{ workorder.team_leader.last_name }}</td>
-	        <td class="blank"><br></td>
-	        <td class="blank"><br></td>
-	        <td class="blank"><br></td>
-	      </tr>
-				<tr>
-	        <td class="blank"><br></td>
-	        <th class="blank gl-solid-top">Team Leader</th>
-	        <td class="blank"><br></td>
-	        <th class="blank gl-solid-top">Firma</th>
-	        <td class="blank"><br></td>
-	      </tr>
-			</table>
+			<div>
+				<table class="gl-table">
+					<tr>
+						<th colspan="4" class="blank">Checklist de Salida</th>
+					</tr>
+					<tr>
+						<td class="blank">Item</td>
+						<td class="blank">Descripción</td>
+						<td>Ticket de mecánico</td>
+						<td>Ticket de Team Leader</td>
+					</tr>
+					{% for instruction in last_instruction_list %}
+					<tr>
+						<td class="blank">{{ forloop.counter }}</td>
+						<td class="blank">{{ instruction.instruction_number.description }}</td>
+						<td class="center"><b>X</b></td>
+						<td class="center"><b>X</b></td>
+					</tr>
+					{% endfor %}
+					<tr>
+						<td colspan="4" class="blank"><br></td>
+					</tr>
+					<tr>
+						<td colspan="4">Observación</td>
+					</tr>
+					<tr>
+						<td colspan="4"><br></td>
+					</tr>
+				</table>
+			</div>
+			<div>
+				<table class="gl-table">
+					<colgroup>
+						<col class="gl-exit-col-1">
+						<col class="gl-exit-col-2">
+						<col class="gl-exit-col-3">
+						<col class="gl-exit-col-4">
+						<col class="gl-exit-col-5">
+					</colgroup>
+					<tr>
+		        <td class="blank"><br></td>
+		        <td class="blank center">{{ user.first_name }} {{ user.last_name }}</td>
+		        <td class="blank"><br></td>
+		        <td class="blank"><br></td>
+		        <td class="blank"><br></td>
+		      </tr>
+					<tr>
+		        <td class="blank"><br></td>
+		        <th class="blank gl-solid-top">Mecánico</th>
+		        <td class="blank"><br></td>
+		        <th class="blank gl-solid-top">Firma</th>
+		        <td class="blank"><br></td>
+		      </tr>
+					<tr>
+		        <td class="blank"><br></td>
+		        <td class="blank center">{{ workorder.team_leader.first_name }} {{ workorder.team_leader.last_name }}</td>
+		        <td class="blank"><br></td>
+		        <td class="blank"><br></td>
+		        <td class="blank"><br></td>
+		      </tr>
+					<tr>
+		        <td class="blank"><br></td>
+		        <th class="blank gl-solid-top">Team Leader</th>
+		        <td class="blank"><br></td>
+		        <th class="blank gl-solid-top">Firma</th>
+		        <td class="blank"><br></td>
+		      </tr>
+				</table>
+			</div>
 		</div>
 	</body>
 </html>
