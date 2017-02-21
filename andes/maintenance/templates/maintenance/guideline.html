@@ -1,6 +1,7 @@
 <!DOCTYPE HTML5>
 
 {% load static %}
+{% load workorder_extras %}
 
 <html>
 	<head>
@@ -13,11 +14,11 @@
 				<tr>
 					<th colspan="2" class="gl-title">
 						<p>Inspección Preventiva – M{{ workorder.level }}</p>
-						<p>Familia {{ machine.family.code }} - {{ machine.subfamily.name }}</p>
+						<p>Familia {{ workorder.machine_number.family.code }} - {{ workorder.machine_number.subfamily.name }}</p>
 					</th>
 				</tr>
 				<tr>
-					<td>N° Equipo: {{ machine.machine_number }}</td>
+					<td>N° Equipo: {{ workorder.machine_number.machine_number }}</td>
 					<td>Fecha de Ingreso: {{ workorder.in_datetime|date:"d/m/Y" }}</td>
 				</tr>
 				<tr>
@@ -25,7 +26,7 @@
 					<td>Hora de Ingreso: {{ workorder.in_datetime|date:"H:i"}}</td>
 				</tr>
 				<tr>
-					<td>Horómetro:</td>
+					<td>Horómetro: {{ request.POST.hourmeter_to_date }}</td>
 					<td>Nombre Mecánico: {{ user.first_name }} {{ user.last_name }}</td>
 				</tr>
 			</table>
@@ -97,11 +98,11 @@
 			<p><b>Control de salida</b></p>
 			<table class="gl-table">
 				<tr>
-					<td>Fecha de salida:</td>
+					<td>Fecha de salida: {{ out_datetime|date:"d/m/Y" }}</td>
 					<td>Nombre Team Leader: {{ workorder.team_leader.first_name }} {{ workorder.team_leader.last_name }}</td>
 				</tr>
 				<tr>
-					<td>Hora de salida:</td>
+					<td>Hora de salida: {{ out_datetime|date:"H:i" }}</td>
 					<td>Firma:</td>
 				</tr>
 			</table>
@@ -125,7 +126,7 @@
 						<td>Numero: {{ workorder.machine_number.machine_number }}</td>
 					</tr>
 					<tr>
-						<td>Horómetro:</td>
+						<td>Horómetro: {{ request.POST.hourmeter_to_date }}</td>
 					</tr>
 				</table>
 				<p><br></p>
@@ -142,27 +143,52 @@
 				<table class="gl-table">
 					<tr>
 						<td class="blank"><b>Inspección Inicial</b></td>
-						<td class="blank">MEC</td>
-						<td class="blank">TL</td>
+						<td class="blank center">MEC</td>
+						<td class="blank center">TL</td>
 					</tr>
+					{% for instruction in first_instruction_list %}
 					<tr>
-						<td>Anotar lectura horómetro</td>
-						<td><br></td>
-						<td><br></td>
+						<td>{{ instruction.instruction_number.description }}</td>
+						<td class="center"><b>X</b></td>
+						<td class="center"><b>X</b></td>
 					</tr>
+					{% endfor %}
+					{% for i_type in instruction_types %}
+					<tr>
+						<td class="blank"><b>{{ i_type }}</b></td>
+						<td class="blank center">MEC</td>
+						<td class="blank center">TL</td>
+					</tr>
+						{% for instruction in machine_instruction_list|ifilter:i_type %}
+							<tr>
+								<td>{{ instruction.instruction_number.description }}</td>
+								<td class="center"><b>X</b></td>
+								<td class="center"><b>X</b></td>
+							</tr>
+						{% endfor %}
+					{% endfor %}
 				</table>
 			</div>
 		</div>
 		<div>
 			<p><b>Carta de Lubricación</b></p>
-
+			{% for machine_lubrication_chart in machine_lubrication_chart_list %}
+			<p><img src="{{ machine_lubrication_chart.lubrication_chart.image.url }}"/></p>
+			{% endfor %}
 			<table class="gl-table">
+				{% for number1, description1, number2, description2 in lubrication_chart_descriptions %}
 				<tr>
-					<td>***1***</td>
-					<td>***Varillaje del freno***</td>
-					<td>***12**</td>
-					<td>***Tapón de llenado de aceite y el medidor de nivel de aceite***</td>
+					<td>{{ number1 }}</td>
+					<td>{{ description1 }}</td>
+					{% if number2 == "" and description2 == "" %}
+					<td><br></td>
+					<td><br></td>
+					{% else %}
+					<td>{{ number2 }}</td>
+					<td>{{ description2 }}</td>
+					{% endif %}
 				</tr>
+				{% endfor %}
 			</table>
 		</div>
 		<div>
@@ -176,12 +202,14 @@
 					<td>Ticket de mecánico</td>
 					<td>Ticket de Team Leader</td>
 				</tr>
+				{% for instruction in last_instruction_list %}
 				<tr>
-					<td class="blank">1</td>
-					<td class="blank">Extinguidor</td>
-					<td><br></td>
-					<td><br></td>
+					<td class="blank">{{ forloop.counter }}</td>
+					<td class="blank">{{ instruction.instruction_number.description }}</td>
+					<td class="center"><b>X</b></td>
+					<td class="center"><b>X</b></td>
 				</tr>
+				{% endfor %}
 				<tr>
 					<td colspan="4" class="blank"><br></td>
 				</tr>

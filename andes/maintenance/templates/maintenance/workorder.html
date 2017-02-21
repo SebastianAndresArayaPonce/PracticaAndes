@@ -381,13 +381,9 @@
 					</div>
 				</div>
 				<div>
-					<p>
-						<b>Carta de Lubricación</b>
-					</p>
+					<p><b>Carta de Lubricación</b></p>
 					{% for machine_lubrication_chart in machine_lubrication_chart_list %}
-					<p>
-						<img src="{{ machine_lubrication_chart.lubrication_chart.image.url }}"/>
-					</p>
+					<p><img src="{{ machine_lubrication_chart.lubrication_chart.image.url }}"/></p>
 					{% endfor %}
 					<table class="gl-form-table">
 						{% for number, description in lubrication_chart_descriptions %}
