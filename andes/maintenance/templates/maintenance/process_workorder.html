@@ -22,7 +22,7 @@
 				<td rowspan=2 class="blank"><img src="{% static 'maintenance/images/andes.png' %}" width=121 height=48></td>
 				<td colspan="2" class="blank"><br></td>
 				<td class="wo-bg"><b>N° Orden</b></td>
-				<td colspan="2" class="center-left">{{ workorder.order_number }}</td>
+				<td colspan="2">{{ workorder.order_number }}</td>
 			</tr>
 			<tr>
 				<td colspan="5" class="blank"><br></td>
@@ -65,26 +65,26 @@
 			<tr>
 				<td rowspan="2" class="wo-solid-left wo-bg">Tipo de trabajo<br>(Marcar con una X)</td>
 				<td class="wo-bg">Preventivo</td>
-				<td class="center">
+				<th>
 						{% if workorder.work_type.name == "Preventivo" %}
-						<b>X</b>
+						X
 						{% else %}
 						<br>
 						{% endif %}
-				</td>
+				</th>
 				<td class="blank"><br></td>
 				<td class="wo-bg">Fecha</td>
 				<td class="wo-solid-right wo-bg">Hora</td>
 			</tr>
 			<tr>
 				<td class="wo-bg">Correctivo</td>
-				<td class="center">
+				<th>
 						{% if workorder.work_type.name == "Correctivo" %}
-						<b>X</b>
+						X
 						{% else %}
 						<br>
 						{% endif %}
-				</td>
+				</th>
 				<td class="wo-bg">Ingreso</td>
 				<td>{{ workorder.in_datetime|date:"d/m/Y"}}</td>
 				<td class="wo-solid-right">{{ workorder.in_datetime|date:"H:i" }}</td>
@@ -92,11 +92,13 @@
 			<tr>
 				<td class="blank wo-solid-left"><br></td>
 				<td class="wo-bg">Falla</td>
-				<td class="center">
+				<th>
 					{% if request.POST.is_falla %}
-					<b>X</b>
+					X
+					{% else %}
+					<br>
 					{% endif %}
-				</td>
+				</th>
 				<td class="wo-bg">Salida est</td>
 				<td>{{ out_datetime|date:"d/m/Y" }}</td>
 				<td class="wo-solid-right">{{ out_datetime|date:"H:i" }}</td>
@@ -104,21 +106,25 @@
 			<tr>
 				<td class="blank wo-solid-left"><br></td>
 				<td class="wo-bg">Daños</td>
-				<td class="center">
+				<th>
 					{% if request.POST.is_dannos %}
-					<b>X</b>
+					X
+					{% else %}
+					<br>
 					{% endif %}
-				</td>
+				</th>
 				<td colspan="3" class="blank wo-solid-right"><br></td>
 			</tr>
 			<tr>
 				<td class="blank wo-solid-bottom wo-solid-left"><br></td>
 				<td class="wo-solid-bottom wo-bg">Modificacion</td>
-				<td class="wo-solid-bottom center">
+				<th class="wo-solid-bottom">
 					{% if request.POST.is_modificacion %}
-						<b>X</b>
+					X
+					{% else %}
+					<br>
 					{% endif %}
-				</td>
+				</th>
 				<td colspan="3" class="blank wo-solid-right wo-solid-bottom"><br></td>
 			</tr>
 			<tr>
@@ -252,7 +258,7 @@
 			</tr>
 			<tr>
 				<td class="blank wo-solid-bottom wo-solid-left">Nombre Team Leader</td>
-				<td colspan="2" class="blank wo-solid-bottom">Carlos Orellana / Esteban Morales</td>
+				<td colspan="2" class="blank wo-solid-bottom">{{ workorder.team_leader.first_name }} {{ workorder.team_leader.last_name }}</td>
 				<td class="blank wo-solid-bottom">Firma</td>
 				<td colspan="2" class="blank wo-solid-right wo-solid-bottom">_________________________</td>
 			</tr>

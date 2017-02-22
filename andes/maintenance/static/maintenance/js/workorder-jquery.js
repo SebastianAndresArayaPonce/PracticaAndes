@@ -4,9 +4,11 @@ $(document).ready(function() {
   });
   $("#wo-out-date").on("blur", function () {
     $(".gl-out-date").html("Fecha de salida: " + $("#wo-out-date").val().toString());
+    $(".wo-exit-out-date").html($("#wo-out-date").val().toString());
   });
   $("#wo-out-time").on("blur", function () {
     $(".gl-out-time").html("Hora de salida:" + $("#wo-out-time").val().toString());
+    $(".wo-exit-out-time").html($("#wo-out-time").val().toString());
   });
   $(".switch_button").on("click", function () {
     if ($("#guideline").is("[hidden]")) {

@@ -17,11 +17,19 @@
 			{% endif %}
 			<div id="workorder">
 				<table class="wo-form-table">
+					<colgroup>
+						<col class="wo-col-1">
+						<col class="wo-col-2">
+						<col class="wo-col-3">
+						<col class="wo-col-4">
+						<col class="wo-col-5">
+						<col class="wo-col-6">
+					</colgroup>
 					<tr>
 						<td rowspan=2 class="blank"><img src="{% static 'maintenance/images/andes.png' %}" width=121 height=48></td>
 						<td colspan="2" class="blank"><br></td>
 						<td class="wo-bg"><b>N° Orden</b></td>
-						<td colspan="2" class="center-left">{{ workorder.order_number }}</td>
+						<td colspan="2">{{ workorder.order_number }}</td>
 					</tr>
 					<tr>
 						<td colspan="5" class="blank"><br></td>
@@ -56,7 +64,10 @@
 						<td colspan="4" class="blank wo-solid-right"><br></td>
 					</tr>
 					<tr>
-						<td colspan="6" class="blank wo-solid-left wo-solid-right"><br></td>
+						<td colspan="2" class="blank wo-solid-left"><br></td>
+						<td class="blank"><br></td>
+						<td class="blank"><br></td>
+						<td colspan="2" class="blank wo-solid-right"><br></td>
 					</tr>
 					<tr>
 						<td rowspan="2" class="wo-solid-left wo-bg">Tipo de trabajo<br>(Marcar con una X)</td>
@@ -182,7 +193,8 @@
 						<td colspan="3" class="blank"><br></td>
 					</tr>
 					<tr>
-						<td colspan="6" class="blank"><b>Lubricantes Empleados.</b></td>
+						<td colspan="3" class="blank"><b>Lubricantes Empleados.</b></td>
+						<td colspan="3" class="blank"><br></td>
 					</tr>
 					<tr>
 						<td colspan="2" class="wo-solid-top wo-solid-left wo-bg">Descripción</td>
@@ -215,6 +227,31 @@
 						<td colspan="3" class="blank wo-solid-top"><br></td>
 						<td colspan="3" class="blank"><br></td>
 					</tr>
+					<tr>
+						<td colspan="6" class="blank"><b>Control de Salida.</b></td>
+					</tr>
+					<tr>
+						<td colspan="2" class="blank wo-solid-top wo-solid-left"><br></td>
+						<td class="wo-solid-top wo-bg">Fecha salida</td>
+						<td class="wo-solid-top wo-exit-out-date"><br></td>
+						<td class="wo-solid-top wo-bg">Hora salida</td>
+						<td class="wo-solid-top wo-solid-right wo-exit-out-time"><br></td>
+					</tr>
+					<tr>
+						<td colspan="6" class="blank wo-solid-right wo-solid-left"><br></td>
+					</tr>
+					<tr>
+						<td class="blank wo-solid-left">Nombre Mecánico</td>
+						<td colspan="2" class="blank">{{ user.first_name }} {{ user.last_name }}</td>
+						<td class="blank">Firma</td>
+						<td colspan="2" class="blank wo-solid-right">_________________________</td>
+					</tr>
+					<tr>
+						<td class="blank wo-solid-bottom wo-solid-left">Nombre Team Leader</td>
+						<td colspan="2" class="blank wo-solid-bottom">{{ workorder.team_leader.first_name }} {{ workorder.team_leader.last_name }}</td>
+						<td class="blank wo-solid-bottom">Firma</td>
+						<td colspan="2" class="blank wo-solid-right wo-solid-bottom">_________________________</td>
+					</tr>
 				</table>
 			</div>
 			{% if workorder.work_type.name == 'Preventivo' %}
@@ -224,8 +261,8 @@
 						<table class="gl-form-table">
 							<tr>
 								<th colspan="2" class="gl-title">
-									Inspección Preventiva – M{{ workorder.level }}<br>
-									Familia {{ workorder.machine_number.family.code }} - {{ workorder.machine_number.subfamily.name }}
+									Inspección Preventiva M{{ workorder.level }}<br>
+									Familia {{ workorder.machine_number.family.code }} {{ workorder.machine_number.subfamily.name }}
 								</th>
 							</tr>
 							<tr>
@@ -243,35 +280,43 @@
 						</table>
 					</div>
 					<div>
-						<b>Repuestos Necesarios</b>
 						<table class="gl-form-table">
+							<tr><td class="blank"><b>Repuestos Necesarios</b></td></tr>
 							<tr>
 								<th>Tipo</th>
 								<th>Cantidad</th>
 								<th>P/N FABRICA</th>
 								<th>P/N SAGE</th>
 							</tr>
-						{% if machine_spare_part_list %}
-							{% for machine_spare_part in machine_spare_part_list %}
-							<tr>
-								<td>{{ machine_spare_part.spare_part.spare_part_type }}</td>
-								<td class="center">{{ machine_spare_part.quantity }}</td>
-								<td class="center">{{ machine_spare_part.spare_part.factory_number }}</td>
-								<td class="center">{{ machine_spare_part.spare_part.sage_number }}</td>
-							</tr>
-							{% endfor %}
-						{% endif %}
+							{% if machine_spare_part_list %}
+								{% for machine_spare_part in machine_spare_part_list %}
+								<tr>
+									<td>{{ machine_spare_part.spare_part.spare_part_type }}</td>
+									<td class="center">{{ machine_spare_part.quantity }}</td>
+									<td class="center">{{ machine_spare_part.spare_part.factory_number }}</td>
+									<td class="center">{{ machine_spare_part.spare_part.sage_number }}</td>
+								</tr>
+								{% endfor %}
+							{% else %}
+								<tr>
+									<td class="center">-</td>
+									<td class="center">-</td>
+									<td class="center">-</td>
+									<td class="center">-</td>
+								</tr>
+							{% endif %}
 						</table>
 					</div>
 					<div>
-						<b>Herramientas a utilizar</b>
 						<table class="gl-form-table">
+							<tr><td class="blank"><b>Herramientas a utilizar</b></td></tr>
 							<tr>
-								<td><b>N°</b></td>
-								<td><b>Descripción</b></td>
-								<td class="center"><b>Cantidad</b></td>
+								<th>N°</th>
+								<th>Descripción</th>
+								<th>Cantidad</th>
 							</tr>
 							<tr>
+								<!-- insert inputs here -->
 								<td><br></td>
 								<td><br></td>
 								<td><br></td>
@@ -279,35 +324,42 @@
 						</table>
 					</div>
 					<div>
-						<b>Insumos</b>
 						<table class="gl-form-table">
+							<tr><td class="blank"><b>Insumos</b></td></tr>
 							<tr>
 								<th>Tipo</th>
 								<th>Descripción</th>
 								<th>Cantidad(Lt)</th>
 							</tr>
-						{% if machine_input_list %}
-							{% for machine_input in machine_input_list %}
-							<tr>
-								<td class="center">{{ machine_input.input_number.input_type }}</td>
-								<td class="center">{{ machine_input.input_number.description }}</td>
-								<td class="center">{{ machine_input.quantity }}</td>
-							</tr>
-							{% endfor %}
-						{% endif %}
+							{% if machine_input_list %}
+								{% for machine_input in machine_input_list %}
+								<tr>
+									<td class="center">{{ machine_input.input_number.input_type }}</td>
+									<td class="center">{{ machine_input.input_number.description }}</td>
+									<td class="center">{{ machine_input.quantity }}</td>
+								</tr>
+								{% endfor %}
+							{% else %}
+								<tr>
+									<td class="center">-</td>
+									<td class="center">-</td>
+									<td class="center">-</td>
+								</tr>
+							{% endif %}
 						</table>
 					</div>
 					<div>
-						<b>Observaciones</b>
 						<table class="gl-form-table">
+							<tr><td class="blank"><b>Observaciones</b></td></tr>
 							<tr>
+								<!-- insert input here -->
 								<td><br></td>
 							</tr>
 						</table>
 					</div>
 					<div>
-						<b>Control de salida</b>
 						<table class="gl-form-table">
+							<tr><td class="blank"><b>Control de salida</b></td></tr>
 							<tr>
 								<td class="gl-out-date">Fecha de salida:</td>
 								<td>Nombre Team Leader: {{ workorder.team_leader.first_name }} {{ workorder.team_leader.last_name }}</td>
@@ -338,8 +390,8 @@
 						</table>
 					</div>
 					<div>
-						<b>Identificación del Equipo</b>
 						<table class="gl-form-table">
+							<tr><td class="blank"><b>Identificación del Equipo</b></td></tr>
 							<tr><td>Numero: {{ workorder.machine_number.machine_number }}</td></tr>
 							<tr><td class="gl-hourmeter">Horómetro:</td></tr>
 						</table>
@@ -353,8 +405,8 @@
 						<table class="gl-form-table">
 							<tr>
 								<td class="blank"><b>Inspección Inicial</b></td>
-								<td class="blank center">MEC</td>
-								<td class="blank center">TL</td>
+								<th class="blank">MEC</th>
+								<th class="blank">TL</th>
 							</tr>
 							{% for instruction in first_instruction_list %}
 							<tr>
@@ -366,8 +418,8 @@
 							{% for i_type in instruction_types %}
 							<tr>
 								<td class="blank"><b>{{ i_type }}</b></td>
-								<td class="blank center">MEC</td>
-								<td class="blank center">TL</td>
+								<th class="blank">MEC</th>
+								<th class="blank">TL</th>
 							</tr>
 								{% for instruction in machine_instruction_list|ifilter:i_type %}
 									<tr>
@@ -382,12 +434,14 @@
 				</div>
 				<div id="gl-lubrication-chart">
 					<div>
+						<!-- revisar esta parte v-->
 						<table class="gl-table">
 							<tr><td class="blank"><b>Carta de Lubricación</b></td></tr>
 							{% for machine_lubrication_chart in machine_lubrication_chart_list %}
 							<tr><td class="blank"><img src="{{ machine_lubrication_chart.lubrication_chart.image.url }}"/></td></tr>
 							{% endfor %}
 						</table>
+						<!-- revisar esta parte ^ -->
 					</div>
 					<div>
 						<table class="gl-form-table">
@@ -409,8 +463,8 @@
 						<tr>
 							<td class="blank">Item</td>
 							<td class="blank">Descripción</td>
-							<td>Ticket de mecánico</td>
-							<td>Ticket de Team Leader</td>
+							<td class="center">Ticket de mecánico</td>
+							<td class="center">Ticket de Team Leader</td>
 						</tr>
 						{% for instruction in last_instruction_list %}
 						<tr>

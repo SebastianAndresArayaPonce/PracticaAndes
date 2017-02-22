@@ -15,8 +15,8 @@
 					<table class="gl-table">
 						<tr>
 							<th colspan="2" class="gl-title">
-								Inspección Preventiva – M{{ workorder.level }}<br>
-								Familia {{ workorder.machine_number.family.code }} - {{ workorder.machine_number.subfamily.name }}
+								Inspección Preventiva M{{ workorder.level }}<br>
+								Familia {{ workorder.machine_number.family.code }} {{ workorder.machine_number.subfamily.name }}
 							</th>
 						</tr>
 						<tr>
@@ -51,6 +51,13 @@
 								<td class="center">{{ machine_spare_part.spare_part.sage_number }}</td>
 							</tr>
 							{% endfor %}
+						{% else %}
+						<tr>
+							<td class="center">-</td>
+							<td class="center">-</td>
+							<td class="center">-</td>
+							<td class="center">-</td>
+						</tr>
 						{% endif %}
 					</table>
 				</div>
@@ -58,11 +65,12 @@
 					<table class="gl-table">
 						<tr><td class="blank"><b>Herramientas a utilizar</b></td></tr>
 						<tr>
-							<td><b>N°</b></td>
-							<td><b>Descripción</b></td>
-							<td class="center"><b>Cantidad</b></td>
+							<th>N°</th>
+							<th>Descripción</th>
+							<th>Cantidad</th>
 						</tr>
 						<tr>
+							<!-- insert tools here -->
 							<td><br></td>
 							<td><br></td>
 							<td><br></td>
@@ -85,6 +93,12 @@
 								<td class="center">{{ machine_input.quantity }}</td>
 							</tr>
 							{% endfor %}
+						{% else %}
+							<tr>
+								<td class="center">-</td>
+								<td class="center">-</td>
+								<td class="center">-</td>
+							</tr>
 						{% endif %}
 					</table>
 				</div>
@@ -92,6 +106,7 @@
 					<table class="gl-table">
 						<tr><td class="blank"><b>Observaciones</b></td></tr>
 						<tr>
+							<!-- insert observations here -->
 							<td><br></td>
 						</tr>
 					</table>
@@ -144,27 +159,27 @@
 					<table class="gl-table">
 						<tr>
 							<td class="blank"><b>Inspección Inicial</b></td>
-							<td class="blank center">MEC</td>
-							<td class="blank center">TL</td>
+							<th class="blank">MEC</th>
+							<th class="blank">TL</th>
 						</tr>
 						{% for instruction in first_instruction_list %}
 						<tr>
 							<td>{{ instruction.instruction_number.description }}</td>
-							<td class="center"><b>X</b></td>
-							<td class="center"><b>X</b></td>
+							<th>X</th>
+							<th>X</th>
 						</tr>
 						{% endfor %}
 						{% for i_type in instruction_types %}
 						<tr>
 							<td class="blank"><b>{{ i_type }}</b></td>
-							<td class="blank center">MEC</td>
-							<td class="blank center">TL</td>
+							<th class="blank">MEC</th>
+							<th class="blank">TL</th>
 						</tr>
 							{% for instruction in machine_instruction_list|ifilter:i_type %}
 							<tr>
 								<td>{{ instruction.instruction_number.description }}</td>
-								<td class="center"><b>X</b></td>
-								<td class="center"><b>X</b></td>
+								<th>X</th>
+								<th>X</th>
 							</tr>
 							{% endfor %}
 						{% endfor %}
@@ -173,14 +188,17 @@
 			</div>
 			<div id="gl-lubrication-chart">
 				<div>
+					<!-- revisar esta parte v-->
 					<table class="gl-table">
 						<tr><td class="blank"><b>Carta de Lubricación</b></td></tr>
 						{% for machine_lubrication_chart in machine_lubrication_chart_list %}
 						<tr><td class="blank"><img src="{{ machine_lubrication_chart.lubrication_chart.image.url }}"/></td></tr>
 						{% endfor %}
 					</table>
+					<!-- revisar esta parte ^ -->
 				</div>
 				<div>
+					<!-- revisar esta parte v -->
 					<table class="gl-table">
 						{% for number1, description1, number2, description2 in lubrication_chart_descriptions %}
 						<tr>
@@ -196,6 +214,7 @@
 						</tr>
 						{% endfor %}
 					</table>
+					<!-- revisar esta parte ^ -->
 				</div>
 			</div>
 			<div id="gl-last-page">
@@ -206,15 +225,15 @@
 					<tr>
 						<td class="blank">Item</td>
 						<td class="blank">Descripción</td>
-						<td>Ticket de mecánico</td>
-						<td>Ticket de Team Leader</td>
+						<td class="center">Ticket de mecánico</td>
+						<td class="center">Ticket de Team Leader</td>
 					</tr>
 					{% for instruction in last_instruction_list %}
 					<tr>
 						<td class="blank">{{ forloop.counter }}</td>
 						<td class="blank">{{ instruction.instruction_number.description }}</td>
-						<td class="center"><b>X</b></td>
-						<td class="center"><b>X</b></td>
+						<th>X</th>
+						<th>X</th>
 					</tr>
 					{% endfor %}
 					<tr>
