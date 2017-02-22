@@ -2,22 +2,22 @@
 
 {% load static %}
 
-<header>
-  <table class="gl-table">
-    <tr>
-      <td class="gl-header-top" colspan="2"></td>
-      <td class="gl-header-top"></td>
-    </tr>
-    <tr>
-      <th>
-        <p><img src="{% static 'maintenance/images/latam.png' %}" name="latam" width="160" height="49"/><br></p>
-      </th>
-      <th>
-        <p>PAUTA DE MANTENIMIENTO PREVENTIVO</p>
-      </th>
-      <th>
-        <p><img src="{% static 'maintenance/images/andes.png' %}" name="andes" width="145" height="46"/></p>
-      </th>
-    </tr>
-  </table>
-</header>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'maintenance/stylesheet.css' %}" />
+  </head>
+  <header id="gl-header">
+    <table class="gl-table">
+      <tr>
+        <td colspan="2"><br></td>
+        <td><br></td>
+      </tr>
+      <tr>
+        <th><img src="{% static 'maintenance/images/latam.png' %}" name="latam" width="160" height="49"/></th>
+        <th>PAUTA DE MANTENIMIENTO PREVENTIVO</th>
+        <th><img src="{% static 'maintenance/images/andes.png' %}" name="andes" width="145" height="46"/></th>
+      </tr>
+    </table>
+  </header>
+</html>

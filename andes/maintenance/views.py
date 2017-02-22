@@ -90,7 +90,9 @@ def process_workorder(request, workorder_number):
     w_entries = dict((s,form[s]) for s in form.keys() if "work_description" in s and form[s] != "")
     w_order = sorted(w_entries)
     is_w_len_greater_than_0 = len(w_entries) > 0
-    context['work_descriptions'] = {'entries': w_entries, 'order': w_order, 'validator': is_w_len_greater_than_0}
+    context['work_descriptions'] = {'entries': w_entries,
+                                    'order': w_order,
+                                    'validator': is_w_len_greater_than_0}
 
     sp_ids = dict((s,form[s]) for s in form.keys() if "spare_part_number" in s and form[s] != "")
     sp_numbers = {}
@@ -110,7 +112,11 @@ def process_workorder(request, workorder_number):
         range_sp.append((sp_order_numbers[len(sp_ids)-1], sp_order_descriptions[len(sp_ids)-1], sp_order_quantitys[len(sp_ids)-1], "", "", ""))
     else:
         range_sp = [(sp_order_numbers[i], sp_order_descriptions[i], sp_order_quantitys[i], sp_order_numbers[i+1], sp_order_descriptions[i+1], sp_order_quantitys[i+1]) for i in xrange(0, len(sp_ids), 2)]
-    context['spare_parts'] = {'numbers': sp_numbers, 'descriptions': sp_descriptions, 'quantitys': sp_quantitys, 'range': range_sp, 'validator': is_sp_len_greater_than_0}
+    context['spare_parts'] = {'numbers': sp_numbers,
+                            'descriptions': sp_descriptions,
+                            'quantitys': sp_quantitys,
+                            'range': range_sp,
+                            'validator': is_sp_len_greater_than_0}
 
     i_ids = dict((s,form[s]) for s in form.keys() if "input_description" in s and form[s] != "")
     i_types = {}
@@ -121,7 +127,10 @@ def process_workorder(request, workorder_number):
     i_order_quantitys = sorted(i_quantitys)
     is_i_len_greater_than_0 = len(i_ids)
     range_i = [(i_order_types[i],i_order_quantitys[i]) for i in xrange(len(i_ids))]
-    context['inputs'] = {'types': i_types, 'quantitys': i_quantitys, 'range': range_i, 'validator': is_i_len_greater_than_0}
+    context['inputs'] = {'types': i_types,
+                        'quantitys': i_quantitys,
+                        'range': range_i,
+                        'validator': is_i_len_greater_than_0}
 
     if workorder.work_type.name == 'Preventivo':
         context['machine_spare_part_list'] = MachineSparePart.objects.filter(machine_number=workorder.machine_number, level=workorder.level)
@@ -156,17 +165,20 @@ def process_workorder(request, workorder_number):
 
         context['today'] = datetime.today()
 
-    template = 'maintenance/process_workorder.html'
-    #template = 'maintenance/guideline.html'
+    #template = 'maintenance/process_workorder.html'
+    template = 'maintenance/guideline.html'
     stylesheet = 'maintenance/stylesheet.css'
-    #header_template = 'maintenance/guideline_header.html'
-    #header_template = 'maintenance/index.html'
-    cmd_options = {'footer-right': 'Pagina [page] de [topage]', 'page-size': 'Letter', 'user-style-sheet': stylesheet, 'print-media-type': True}
+    header_template = 'maintenance/guideline_header.html'
+    footer_template = 'maintenance/guideline_footer.html'
+    cmd_options = { 'encoding': 'utf8',
+                    'quiet': True,
+                    'page-size': 'Letter',
+                    'user-style-sheet': stylesheet,
+                    'print-media-type': True
+                    }
     filename = str(workorder.machine_number.machine_number) + " " + str(out_datetime)
 
-    #return PDFTemplateResponse(request=request, template=template, filename=filename, context=context, show_content_in_browser=True)
-    return PDFTemplateResponse(request=request, template=template, filename=filename, context=context, cmd_options=cmd_options)
-    #return PDFTemplateResponse(request=request, template=template, header_template=header_template, filename=filename, context=context, show_content_in_browser=True, cmd_options=cmd_options)
+    return PDFTemplateResponse(request=request, template=template, filename=filename, context=context, cmd_options=cmd_options, header_template=header_template, footer_template=footer_template)
 
 @login_required
 def get_work_description(request, suffix):

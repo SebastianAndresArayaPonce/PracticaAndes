@@ -143,6 +143,11 @@ input[type=number] {
   box-sizing: border-box;
 }
 
+#gl-footer {
+  text-align: right;
+  vertical-align: top;
+}
+
 @media print {
   #gl-first-page {
     page-break-after: always;
