@@ -3,9 +3,6 @@ from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import User
 from django import forms
-#from django.db.models.signals import post_save
-#from django.dispatch import receiver
-#from datetime import date
 
 # Create your models here.
 
@@ -55,6 +52,15 @@ class WorkOrder(models.Model):
             raise forms.ValidationError('Field level is required for this type of work')
     def __unicode__(self):
         return u'%s for %s by %s %s' % (self.work_type.name, self.machine_number, self.mechanic, self.out_datetime)
+
+class WorkDescription(models.Model):
+    description = models.CharField(max_length=100)
+    def __unicode__(self):
+        return self.description
+
+class WorkOrderWorkDescription(models.Model):
+    order_number = models.ForeignKey(WorkOrder, on_delete=models.PROTECT)
+    id_work_description = models.ForeignKey(WorkDescription, on_delete=models.PROTECT)
 
 class SparePart(models.Model):
     factory_number = models.PositiveIntegerField(null=True, blank=True, unique=True)
@@ -125,7 +131,7 @@ class MachineInstruction(models.Model):
 
 class LubricationChart(models.Model):
     name = models.CharField(max_length=100)
-    image = models.ImageField()
+    image = models.ImageField(upload_to="images/")
     def __unicode__(self):
         return self.name
 
@@ -188,20 +194,6 @@ class Profile(models.Model):
     area = models.ForeignKey(Area, on_delete=models.PROTECT)
     def __unicode__(self):
         return self.user.username
-
-#@receiver(post_save, sender=User)
-#def create_user_profile(sender, instance, created, **kwargs):
-    #print "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
-    #print sender.profile
-    #print instance
-    #print kwargs
-    #if created:
-    #    Profile.objects.create(user=instance)
-
-#@receiver(post_save, sender=User)
-#def save_user_profile(sender, instance, **kwargs):
-    #print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
-    #instance.profile.save()
 
 class History(models.Model):
     machine_number = models.ForeignKey(Machine, on_delete=models.PROTECT)

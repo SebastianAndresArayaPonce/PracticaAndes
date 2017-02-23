@@ -136,10 +136,15 @@
 			<tr>
 				<td colspan="6" class="wo-solid-top wo-solid-right wo-solid-left wo-bg">Descripción de trabajo / falla</td>
 			</tr>
-			{% if work_descriptions.validator %}
-				{% for key in work_descriptions.order %}
+			{% if workorder.work_type.name == "Preventivo" %}
+			<tr>
+				<td colspan="6" class="center wo-solid-right wo-solid-left">M{{ workorder.level }}</td>
+			</tr>
+			{% endif %}
+			{% if workorder_work_description_list %}
+				{% for workorder_work_description in workorder_work_description_list %}
 				<tr>
-					<td colspan="6" class="wo-solid-right wo-solid-left">{{ work_descriptions.entries|key:key }}</td>
+					<td colspan="6" class="center wo-solid-right wo-solid-left">{{ workorder_work_description.id_work_description.description }}</td>
 				</tr>
 				{% endfor %}
 			{% else %}

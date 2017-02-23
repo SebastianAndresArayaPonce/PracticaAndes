@@ -27,6 +27,7 @@ def workorder(request, workorder_number):
     context['airport'] = Airport.objects.get(pk=Inventory.objects.filter(machine_number=workorder.machine_number.machine_number).latest('up_date').airport)
     context['inputs'] = Input.objects.all()
     context['spare_parts'] = SparePart.objects.all()
+    context['workorder_work_description_list'] = WorkOrderWorkDescription.objects.filter(order_number=workorder.order_number)
 
     if workorder.work_type.name == 'Preventivo':
         context['machine_spare_part_list'] = MachineSparePart.objects.filter(machine_number=workorder.machine_number, level=workorder.level)
@@ -68,6 +69,7 @@ def process_workorder(request, workorder_number):
     context = {}
     context['workorder'] = workorder
     context['airport_code'] = (Airport.objects.get(pk=Inventory.objects.filter(machine_number=workorder.machine_number.machine_number).latest('up_date').airport)).code
+    context['workorder_work_description_list'] = WorkOrderWorkDescription.objects.filter(order_number=workorder.order_number)
     form = request.POST
 
     out = map(int, form['output_date'].split("-") + form['output_time'].split(":"))
@@ -152,11 +154,11 @@ def process_workorder(request, workorder_number):
 
         context['today'] = datetime.today()
 
-    #template = 'maintenance/process_workorder.html'
-    template = 'maintenance/guideline.html'
+    template = 'maintenance/process_workorder.html'
+    #template = 'maintenance/guideline.html'
     stylesheet = 'maintenance/stylesheet.css'
-    header_template = 'maintenance/guideline_header.html'
-    footer_template = 'maintenance/guideline_footer.html'
+    #header_template = 'maintenance/guideline_header.html'
+    #footer_template = 'maintenance/guideline_footer.html'
     cmd_options = { 'encoding': 'utf8',
                     'quiet': True,
                     'page-size': 'Letter',
@@ -165,7 +167,8 @@ def process_workorder(request, workorder_number):
                     }
     filename = str(workorder.machine_number.machine_number) + " " + str(out_datetime)
 
-    return PDFTemplateResponse(request=request, template=template, filename=filename, context=context, cmd_options=cmd_options, header_template=header_template, footer_template=footer_template)
+    #return PDFTemplateResponse(request=request, template=template, filename=filename, context=context, cmd_options=cmd_options, header_template=header_template, footer_template=footer_template)
+    return PDFTemplateResponse(request=request, template=template, filename=filename, context=context, cmd_options=cmd_options)
 
 @login_required
 def get_work_description(request, suffix):
