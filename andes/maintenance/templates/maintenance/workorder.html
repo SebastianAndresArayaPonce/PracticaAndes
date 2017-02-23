@@ -462,78 +462,79 @@
 						</table>
 					</div>
 				</div>
-				<div id="gl-last-page">
-					<table class="gl-form-table">
-						<tr>
-							<th colspan="4" class="blank">Checklist de Salida</th>
-						</tr>
-						<tr>
-							<td class="blank">Item</td>
-							<td class="blank">Descripción</td>
-							<td class="center">Ticket de mecánico</td>
-							<td class="center">Ticket de Team Leader</td>
-						</tr>
-						{% for instruction in last_instruction_list %}
-						<tr>
-							<td class="blank">{{ forloop.counter }}</td>
-							<td class="blank">{{ instruction.instruction_number.description }}</td>
-							<td class="center"><input type="checkbox" required></td>
-							<td class="center"><input type="checkbox" required></td>
-						</tr>
-						{% endfor %}
-						<tr>
-							<td colspan="4" class="blank"><br></td>
-						</tr>
-						<tr>
-							<td colspan="4">Observación</td>
-						</tr>
-						<tr>
-							<td colspan="4"><br></td>
-						</tr>
-					</table>
-					<table class="gl-form-table">
-						<colgroup>
-							<col class="gl-exit-col-1">
-							<col class="gl-exit-col-2">
-							<col class="gl-exit-col-3">
-							<col class="gl-exit-col-4">
-							<col class="gl-exit-col-5">
-						</colgroup>
-						<tr>
-							<td colspan="5" class="blank"><br></td>
-						</tr>
-						<tr>
-							<td class="blank"><br></td>
-							<td class="blank center">{{ user.first_name }} {{ user.last_name }}</td>
-							<td class="blank"><br></td>
-							<td class="blank"><br></td>
-							<td class="blank"><br></td>
-						</tr>
-						<tr>
-							<td class="blank"><br></td>
-							<th class="blank gl-solid-top">Mecánico</th>
-							<td class="blank"><br></td>
-							<th class="blank gl-solid-top">Firma</th>
-							<td class="blank"><br></td>
-						</tr>
-						<tr>
-							<td class="blank"><br></td>
-							<td class="blank center">{{ workorder.team_leader.first_name }} {{ workorder.team_leader.last_name }}</td>
-							<td class="blank"><br></td>
-							<td class="blank"><br></td>
-							<td class="blank"><br></td>
-						</tr>
-						<tr>
-							<td class="blank"><br></td>
-							<th class="blank gl-solid-top">Team Leader</th>
-							<td class="blank"><br></td>
-							<th class="blank gl-solid-top">Firma</th>
-							<td class="blank"><br></td>
-						</tr>
-					</table>
-				</div>
 			</div>
 			{% endif %}
+			<div id="exit-checklist">
+				<table class="gl-form-table">
+					<tr>
+						<th colspan="4" class="blank">Checklist de Salida</th>
+					</tr>
+					<tr>
+						<td class="blank">Item</td>
+						<td class="blank">Descripción</td>
+						<td class="center">Ticket de mecánico</td>
+						<td class="center">Ticket de Team Leader</td>
+					</tr>
+					{% for instruction in last_instruction_list %}
+					<tr>
+						<td class="blank">{{ forloop.counter }}</td>
+						<td class="blank">{{ instruction.instruction_number.description }}</td>
+						<td class="center"><input type="checkbox" required></td>
+						<td class="center"><input type="checkbox" required></td>
+					</tr>
+					{% endfor %}
+					<tr>
+						<td colspan="4" class="blank"><br></td>
+					</tr>
+					<tr>
+						<td colspan="4">Observación</td>
+					</tr>
+					<tr>
+						<!-- insert observations here -->
+						<td colspan="4"><br></td>
+					</tr>
+				</table>
+				<table class="gl-form-table">
+					<colgroup>
+						<col class="gl-exit-col-1">
+						<col class="gl-exit-col-2">
+						<col class="gl-exit-col-3">
+						<col class="gl-exit-col-4">
+						<col class="gl-exit-col-5">
+					</colgroup>
+					<tr>
+						<td colspan="5" class="blank"><br></td>
+					</tr>
+					<tr>
+						<td class="blank"><br></td>
+						<td class="blank center">{{ user.first_name }} {{ user.last_name }}</td>
+						<td class="blank"><br></td>
+						<td class="blank"><br></td>
+						<td class="blank"><br></td>
+					</tr>
+					<tr>
+						<td class="blank"><br></td>
+						<th class="blank gl-solid-top">Mecánico</th>
+						<td class="blank"><br></td>
+						<th class="blank gl-solid-top">Firma</th>
+						<td class="blank"><br></td>
+					</tr>
+					<tr>
+						<td class="blank"><br></td>
+						<td class="blank center">{{ workorder.team_leader.first_name }} {{ workorder.team_leader.last_name }}</td>
+						<td class="blank"><br></td>
+						<td class="blank"><br></td>
+						<td class="blank"><br></td>
+					</tr>
+					<tr>
+						<td class="blank"><br></td>
+						<th class="blank gl-solid-top">Team Leader</th>
+						<td class="blank"><br></td>
+						<th class="blank gl-solid-top">Firma</th>
+						<td class="blank"><br></td>
+					</tr>
+				</table>
+			</div>
 			{% if workorder.work_type.name == 'Preventivo' %}
 			<p class="center">
 				<button type="button" class="switch_button" name="switch_button">Switch between views</button>
@@ -544,6 +545,6 @@
 			{% endif %}
 		</form>
 		<script src="{% static 'maintenance/js/jquery-3.1.1.js' %}"></script>
-		<script src="{% static 'maintenance/js/workorder-jquery.js' %}"></script>
+		<script src="{% static 'maintenance/js/workorder.js' %}"></script>
 	</body>
 </html>

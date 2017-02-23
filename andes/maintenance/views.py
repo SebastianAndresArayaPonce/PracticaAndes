@@ -154,11 +154,12 @@ def process_workorder(request, workorder_number):
 
         context['today'] = datetime.today()
 
-    template = 'maintenance/process_workorder.html'
+    #template = 'maintenance/process_workorder.html'
     #template = 'maintenance/guideline.html'
+    template = 'maintenance/exit_checklist.html'
     stylesheet = 'maintenance/stylesheet.css'
-    #header_template = 'maintenance/guideline_header.html'
-    #footer_template = 'maintenance/guideline_footer.html'
+    header_template = 'maintenance/guideline_header.html'
+    footer_template = 'maintenance/guideline_footer.html'
     cmd_options = { 'encoding': 'utf8',
                     'quiet': True,
                     'page-size': 'Letter',
@@ -167,8 +168,8 @@ def process_workorder(request, workorder_number):
                     }
     filename = str(workorder.machine_number.machine_number) + " " + str(out_datetime)
 
-    #return PDFTemplateResponse(request=request, template=template, filename=filename, context=context, cmd_options=cmd_options, header_template=header_template, footer_template=footer_template)
-    return PDFTemplateResponse(request=request, template=template, filename=filename, context=context, cmd_options=cmd_options)
+    return PDFTemplateResponse(request=request, template=template, filename=filename, context=context, cmd_options=cmd_options, header_template=header_template, footer_template=footer_template)
+    #return PDFTemplateResponse(request=request, template=template, filename=filename, context=context, cmd_options=cmd_options)
 
 @login_required
 def get_work_description(request, suffix):
