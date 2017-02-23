@@ -8,7 +8,6 @@ from . import views
 app_name = 'maintenance'
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^guideline/machine/(?P<machine_number>[0-9]+)/level/(?P<level>[0-9]+)$', views.guideline, name="guideline"),
     url(r'^workorder/(?P<workorder_number>[0-9]+)$', views.workorder, name="workorder"),
     url(r'^workorder/(?P<workorder_number>[0-9]+)/process', views.process_workorder, name="process_workorder"),
     url(r'^workdescription/(?P<suffix>[0-9]+)$', views.get_work_description, name="work_description"),

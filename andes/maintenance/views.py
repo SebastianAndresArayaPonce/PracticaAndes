@@ -17,19 +17,6 @@ def index(request):
     return render(request, 'maintenance/index.html', context)
 
 @login_required
-def guideline(request, machine_number, level):
-    try:
-        machine = Machine.objects.get(pk=machine_number)
-    except Machine.DoesNotExist:
-        raise Http404("Machine does not exist")
-    machine_spare_part_list = MachineSparePart.objects.filter(machine_number=machine_number, level=level)
-    machine_input_list = MachineInput.objects.filter(machine_number=machine_number, level=level)
-    machine_instruction_list = MachineInstruction.objects.filter(machine_number=machine_number, level=level)
-    template = 'maintenance/guideline.html'
-    context = {'machine': machine, 'machine_spare_part_list': machine_spare_part_list, 'machine_input_list': machine_input_list, 'machine_instruction_list': machine_instruction_list}
-    return render(request, template, context)
-
-@login_required
 def workorder(request, workorder_number):
     try:
         workorder = WorkOrder.objects.get(pk=workorder_number)
