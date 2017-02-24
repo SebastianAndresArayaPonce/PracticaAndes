@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
-
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
-from django.http import Http404, HttpResponse
-from wkhtmltopdf.views import PDFTemplateResponse
+import os
 from datetime import datetime
-
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.http import Http404, HttpResponse
+from django.shortcuts import render
+from django.template.loader import get_template
+from PyPDF2 import PdfFileMerger, PdfFileReader
+from wkhtmltopdf.utils import wkhtmltopdf, render_to_temporary_file
+from wkhtmltopdf.views import PDFTemplateResponse
 
 from .models import *
 
@@ -154,9 +157,9 @@ def process_workorder(request, workorder_number):
 
         context['today'] = datetime.today()
 
-    #template = 'maintenance/process_workorder.html'
-    #template = 'maintenance/guideline.html'
-    template = 'maintenance/exit_checklist.html'
+    workorder_template = 'maintenance/process_workorder.html'
+    guideline_template = 'maintenance/guideline.html'
+    exit_checklist_template = 'maintenance/exit_checklist.html'
     stylesheet = 'maintenance/stylesheet.css'
     header_template = 'maintenance/guideline_header.html'
     footer_template = 'maintenance/guideline_footer.html'
@@ -164,12 +167,38 @@ def process_workorder(request, workorder_number):
                     'quiet': True,
                     'page-size': 'Letter',
                     'user-style-sheet': stylesheet,
-                    'print-media-type': True
+                    'print-media-type': True,
                     }
+    directory = settings.MEDIA_ROOT + str(workorder.machine_number.machine_number) + "/"
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    workorder_filename = directory + "workorder"
+
+    workorder_temp_file = render_to_temporary_file(template=get_template(workorder_template), context=context, request=request)
+    wkhtmltopdf(pages=[workorder_temp_file.name], output=workorder_filename, **cmd_options)
+
+    exit_checklist_temp_file = render_to_temporary_file(template=get_template(exit_checklist_template), context=context, request=request)
+    header_temp_file = render_to_temporary_file(template=get_template(header_template), context=context, request=request)
+    footer_temp_file = render_to_temporary_file(template=get_template(footer_template), context=context, request=request)
+    cmd_options['header-html'] = header_temp_file.name
+    cmd_options['footer-html'] = footer_temp_file.name
+    exit_checklist_filename = directory + "exit_checklist"
+    wkhtmltopdf(pages=[exit_checklist_temp_file.name], output=exit_checklist_filename, **cmd_options)
+
+    filename = directory + str(out_datetime)
+    merger = PdfFileMerger()
+    merger.append(PdfFileReader(file(workorder_filename, 'rb')))
+    merger.append(PdfFileReader(file(exit_checklist_filename, 'rb')))
+    merger.write(filename)
+
+    os.remove(workorder_filename)
+    os.remove(exit_checklist_filename)
+
+    workorder.annex = filename
+    workorder.save()
     filename = str(workorder.machine_number.machine_number) + " " + str(out_datetime)
 
-    return PDFTemplateResponse(request=request, template=template, filename=filename, context=context, cmd_options=cmd_options, header_template=header_template, footer_template=footer_template)
-    #return PDFTemplateResponse(request=request, template=template, filename=filename, context=context, cmd_options=cmd_options)
+    return PDFTemplateResponse(request=request, template=guideline_template, filename=filename, context=context, cmd_options=cmd_options, header_template=header_template, footer_template=footer_template)
 
 @login_required
 def get_work_description(request, suffix):
