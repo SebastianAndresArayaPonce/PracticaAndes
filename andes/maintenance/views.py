@@ -169,6 +169,7 @@ def process_workorder(request, workorder_number):
                     'user-style-sheet': stylesheet,
                     'print-media-type': True,
                     }
+
     directory = settings.MEDIA_ROOT + str(workorder.machine_number.machine_number) + "/"
     if not os.path.exists(directory):
         os.makedirs(directory)
@@ -195,6 +196,8 @@ def process_workorder(request, workorder_number):
     os.remove(exit_checklist_filename)
 
     filename = str(workorder.machine_number.machine_number) + "/" + str(out_datetime)
+    workorder.out_datetime = out_datetime
+    workorder_mechanic = request.user.id
     workorder.annex = filename
     workorder.save()
     filename = str(workorder.machine_number.machine_number) + " " + str(out_datetime)
