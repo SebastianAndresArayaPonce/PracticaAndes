@@ -25,6 +25,7 @@ def workorder(request, workorder_number):
         workorder = WorkOrder.objects.get(pk=workorder_number)
     except WorkOrder.DoesNotExist:
         raise Http404("WorkOrder does not exist")
+
     context = {}
     context['workorder'] = workorder
     context['airport'] = Airport.objects.get(pk=Inventory.objects.filter(machine_number=workorder.machine_number.machine_number).latest('up_date').airport)
@@ -32,15 +33,16 @@ def workorder(request, workorder_number):
     context['spare_parts'] = SparePart.objects.all()
     context['workorder_work_description_list'] = WorkOrderWorkDescription.objects.filter(order_number=workorder.order_number)
 
+    machine_instruction_list = MachineInstruction.objects.filter(machine_number=workorder.machine_number, level=workorder.level)
+    context['last_instruction_list'] = machine_instruction_list.filter(instruction_type="Last")
+    machine_instruction_list = machine_instruction_list.exclude(instruction_type="Last")
+
     if workorder.work_type.name == 'Preventivo':
         context['machine_spare_part_list'] = MachineSparePart.objects.filter(machine_number=workorder.machine_number, level=workorder.level)
         context['machine_input_list'] = MachineInput.objects.filter(machine_number=workorder.machine_number, level=workorder.level)
 
-        machine_instruction_list = MachineInstruction.objects.filter(machine_number=workorder.machine_number, level=workorder.level)
         context['first_instruction_list'] = machine_instruction_list.filter(instruction_type="First")
         machine_instruction_list = machine_instruction_list.exclude(instruction_type="First")
-        context['last_instruction_list'] = machine_instruction_list.filter(instruction_type="Last")
-        machine_instruction_list = machine_instruction_list.exclude(instruction_type="Last")
         context['machine_instruction_list'] = machine_instruction_list
 
         instruction_types = set()
@@ -79,13 +81,6 @@ def process_workorder(request, workorder_number):
     out_datetime = datetime(out[0], out[1], out[2], out[3], out[4])
     context['out_datetime'] = out_datetime
 
-    w_entries = dict((s,form[s]) for s in form.keys() if "work_description" in s and form[s] != "")
-    w_order = sorted(w_entries)
-    is_w_len_greater_than_0 = len(w_entries) > 0
-    context['work_descriptions'] = {'entries': w_entries,
-                                    'order': w_order,
-                                    'validator': is_w_len_greater_than_0}
-
     sp_ids = dict((s,form[s]) for s in form.keys() if "spare_part_number" in s and form[s] != "")
     sp_numbers = {}
     sp_descriptions = {}
@@ -94,21 +89,34 @@ def process_workorder(request, workorder_number):
         item = SparePart.objects.get(pk=form[key])
         sp_numbers[key]="F:%s S:%s" % (item.factory_number, item.sage_number)
         sp_descriptions[key.replace("number", "description")]=item.spare_part_type
+
     sp_order_numbers = sorted(sp_numbers)
-    sp_order_quantitys = sorted(sp_quantitys)
     sp_order_descriptions = sorted(sp_descriptions)
-    is_sp_len_greater_than_0 = len(sp_ids) > 0
-    is_sp_even = len(sp_ids)%2 == 1
+    sp_order_quantitys = sorted(sp_quantitys)
+
+    spare_parts = []
+    if workorder.work_type.name == 'Preventivo':
+        machine_spare_part_list = MachineSparePart.objects.filter(machine_number=workorder.machine_number, level=workorder.level)
+        for machine_spare_part in machine_spare_part_list:
+            msp_number = "F:%s S:%s" % (machine_spare_part.spare_part.factory_number, machine_spare_part.spare_part.sage_number)
+            msp_description = machine_spare_part.spare_part.spare_part_type
+            msp_quantity = machine_spare_part.quantity
+            spare_parts.append((msp_number, msp_description, msp_quantity))
+
+    for i in xrange(len(sp_ids)):
+        spare_parts.append((sp_numbers[sp_order_numbers[i]], sp_descriptions[sp_order_descriptions[i]], sp_quantitys[sp_order_quantitys[i]]))
+
+    is_sp_len_greater_than_0 = len(spare_parts) > 0
+    is_sp_even = len(spare_parts)%2 == 1
     if is_sp_even:
-        range_sp = [(sp_order_numbers[i], sp_order_descriptions[i], sp_order_quantitys[i], sp_order_numbers[i+1], sp_order_descriptions[i+1], sp_order_quantitys[i+1]) for i in xrange(0, len(sp_ids)-1, 2)]
-        range_sp.append((sp_order_numbers[len(sp_ids)-1], sp_order_descriptions[len(sp_ids)-1], sp_order_quantitys[len(sp_ids)-1], "", "", ""))
+        range_sp = [(spare_parts[i], spare_parts[i+1]) for i in xrange(0, len(spare_parts)-1, 2)]
+        range_sp.append((spare_parts[len(spare_parts)-1], ("", "", "")))
     else:
-        range_sp = [(sp_order_numbers[i], sp_order_descriptions[i], sp_order_quantitys[i], sp_order_numbers[i+1], sp_order_descriptions[i+1], sp_order_quantitys[i+1]) for i in xrange(0, len(sp_ids), 2)]
-    context['spare_parts'] = {'numbers': sp_numbers,
-                            'descriptions': sp_descriptions,
-                            'quantitys': sp_quantitys,
-                            'range': range_sp,
-                            'validator': is_sp_len_greater_than_0}
+        range_sp = [(spare_parts[i], spare_parts[i+1]) for i in xrange(0, len(spare_parts), 2)]
+
+    context['spare_parts'] = {  'range': range_sp,
+                                'validator': is_sp_len_greater_than_0,
+                            }
 
     i_ids = dict((s,form[s]) for s in form.keys() if "input_description" in s and form[s] != "")
     i_types = {}
@@ -124,15 +132,16 @@ def process_workorder(request, workorder_number):
                         'range': range_i,
                         'validator': is_i_len_greater_than_0}
 
+    machine_instruction_list = MachineInstruction.objects.filter(machine_number=workorder.machine_number, level=workorder.level)
+    context['last_instruction_list'] = machine_instruction_list.filter(instruction_type="Last")
+    machine_instruction_list = machine_instruction_list.exclude(instruction_type="Last")
+
     if workorder.work_type.name == 'Preventivo':
         context['machine_spare_part_list'] = MachineSparePart.objects.filter(machine_number=workorder.machine_number, level=workorder.level)
         context['machine_input_list'] = MachineInput.objects.filter(machine_number=workorder.machine_number, level=workorder.level)
 
-        machine_instruction_list = MachineInstruction.objects.filter(machine_number=workorder.machine_number, level=workorder.level)
         context['first_instruction_list'] = machine_instruction_list.filter(instruction_type="First")
         machine_instruction_list = machine_instruction_list.exclude(instruction_type="First")
-        context['last_instruction_list'] = machine_instruction_list.filter(instruction_type="Last")
-        machine_instruction_list = machine_instruction_list.exclude(instruction_type="Last")
         context['machine_instruction_list'] = machine_instruction_list
 
         instruction_types = set()
