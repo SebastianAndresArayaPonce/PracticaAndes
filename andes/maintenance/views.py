@@ -176,11 +176,9 @@ def process_workorder(request, workorder_number):
         context['today'] = datetime.today()
 
     workorder_template = 'maintenance/process_workorder.html'
-    guideline_template = 'maintenance/guideline.html'
-    exit_checklist_template = 'maintenance/exit_checklist.html'
-    stylesheet = 'maintenance/stylesheet.css'
     header_template = 'maintenance/guideline_header.html'
     footer_template = 'maintenance/guideline_footer.html'
+    stylesheet = 'maintenance/stylesheet.css'
     cmd_options = { 'encoding': 'utf8',
                     'quiet': True,
                     'page-size': 'Letter',
@@ -192,34 +190,48 @@ def process_workorder(request, workorder_number):
     if not os.path.exists(directory):
         os.makedirs(directory)
 
-    workorder_filename = directory + "workorder"
     workorder_temp_file = render_to_temporary_file(template=get_template(workorder_template), context=context, request=request)
-    wkhtmltopdf(pages=[workorder_temp_file.name], output=workorder_filename, **cmd_options)
-
-    exit_checklist_filename = directory + "exit_checklist"
-    exit_checklist_temp_file = render_to_temporary_file(template=get_template(exit_checklist_template), context=context, request=request)
     header_temp_file = render_to_temporary_file(template=get_template(header_template), context=context, request=request)
     footer_temp_file = render_to_temporary_file(template=get_template(footer_template), context=context, request=request)
+
+    workorder_filename = directory + "workorder"
+    wkhtmltopdf(pages=[workorder_temp_file.name], output=workorder_filename, **cmd_options)
     cmd_options['header-html'] = header_temp_file.name
     cmd_options['footer-html'] = footer_temp_file.name
-    wkhtmltopdf(pages=[exit_checklist_temp_file.name], output=exit_checklist_filename, **cmd_options)
+
+    if workorder.work_type.name == 'Preventivo':
+        guideline_template = 'maintenance/guideline.html'
+        guideline_temp_file = render_to_temporary_file(template=get_template(exit_checklist_template), context=context, request=request)
+        guideline_filename = directory + "guideline"
+        wkhtmltopdf(pages=[guideline_temp_file.name], output=guideline_filename, **cmd_options)
+    else:
+        exit_checklist_template = 'maintenance/exit_checklist.html'
+        exit_checklist_temp_file = render_to_temporary_file(template=get_template(exit_checklist_template), context=context, request=request)
+        exit_checklist_filename = directory + "exit_checklist"
+        wkhtmltopdf(pages=[exit_checklist_temp_file.name], output=exit_checklist_filename, **cmd_options)
 
     filename = directory + str(out_datetime)
     merger = PdfFileMerger()
     merger.append(PdfFileReader(file(workorder_filename, 'rb')))
-    merger.append(PdfFileReader(file(exit_checklist_filename, 'rb')))
+    if workorder.work_type.name == 'Preventivo':
+        merger.append(PdfFileReader(file(guideline_filename, 'rb')))
+    else:
+        merger.append(PdfFileReader(file(exit_checklist_filename, 'rb')))
     merger.write(filename)
 
     os.remove(workorder_filename)
-    os.remove(exit_checklist_filename)
+    if workorder.work_type.name == 'Preventivo':
+        os.remove(guideline_filename)
+    else:
+        os.remove(exit_checklist_filename)
 
     filename = str(workorder.machine_number.machine_number) + "/" + str(out_datetime)
     workorder.out_datetime = out_datetime
     workorder_mechanic = request.user.id
     workorder.annex = filename
     workorder.save()
-    filename = str(workorder.machine_number.machine_number) + " " + str(out_datetime)
 
+    filename = str(workorder.machine_number.machine_number) + " " + str(out_datetime)
     cmd_options['header-html'] = None
     cmd_options['footer-html'] = None
     return PDFTemplateResponse(request=request, template=workorder_template, filename=filename, context=context, cmd_options=cmd_options)
