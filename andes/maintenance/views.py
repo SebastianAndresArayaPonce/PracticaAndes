@@ -220,7 +220,7 @@ def process_workorder(request, workorder_number):
 
     filename = str(workorder.machine_number.machine_number) + "/" + str(out_datetime)
     workorder.out_datetime = out_datetime
-    workorder_mechanic = request.user.id
+    workorder.mechanic = User.objects.get(pk=request.user.id)
     workorder.annex = filename
     workorder.save()
 

@@ -87,8 +87,10 @@ class SparePartHistoricPrice(models.Model):
     spare_part = models.ForeignKey(SparePart, on_delete=models.PROTECT)
     date = models.DateField()
     price = models.DecimalField(max_digits=9, decimal_places=2)
+    class Meta:
+        unique_together = ('spare_part', 'date')
     def __unicode__(self):
-        return str(self.spare_part)
+        return '%s at %s cost $%s USD' % (self.spare_part.spare_part_type, self.date, self.price)
 
 class Input(models.Model):
     input_type = models.CharField(max_length=50, primary_key=True)
@@ -140,6 +142,8 @@ class LubricationChartDescription(models.Model):
     lubrication_chart = models.ForeignKey(LubricationChart, on_delete=models.PROTECT)
     number = models.PositiveIntegerField()
     description = models.CharField(max_length=100)
+    class Meta:
+        unique_together = ('lubrication_chart', 'number')
     def __unicode__(self):
         return "%s %s" % (self.lubrication_chart, self.number)
 
@@ -158,6 +162,11 @@ class Airport(models.Model):
     def __unicode__(self):
         return self.code
 
+class Area(models.Model):
+    name = models.CharField(max_length=100, primary_key=True)
+    def __unicode__(self):
+        return self.name
+
 class Inventory(models.Model):
     machine_number = models.ForeignKey(Machine, on_delete=models.PROTECT)
     purchase_value = models.DecimalField(max_digits=9, decimal_places=2)
@@ -168,6 +177,7 @@ class Inventory(models.Model):
     def __unicode__(self):
         return str(self.machine_number)
 
+'''
 class Hourmeter(models.Model):
     machine_number = models.ForeignKey(Machine, on_delete=models.PROTECT)
     datetime = models.DateTimeField()
@@ -182,12 +192,7 @@ class Status(models.Model):
     name = models.CharField(max_length=100, primary_key=True)
     def __unicode__(self):
         return self.name
-
-class Area(models.Model):
-    name = models.CharField(max_length=100, primary_key=True)
-    def __unicode__(self):
-        return self.name
-
+'''
 class Profile(models.Model):
     bp = models.PositiveIntegerField(primary_key=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -195,7 +200,7 @@ class Profile(models.Model):
     area = models.ForeignKey(Area, on_delete=models.PROTECT)
     def __unicode__(self):
         return self.user.username
-
+'''
 class History(models.Model):
     machine_number = models.ForeignKey(Machine, on_delete=models.PROTECT)
     datetime = models.DateTimeField()
@@ -204,7 +209,6 @@ class History(models.Model):
     def __unicode__(self):
         return '%s | %s' % (self.machine_number, self.date)
 
-'''
 class PurchaseOrder(models.Model):
     work_order = models.ForeignKey(WorkOrder, on_delete=models.PROTECT)
     spare_part = models.ForeignKey(SparePart, on_delete=models.PROTECT)
