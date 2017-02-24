@@ -172,17 +172,17 @@ def process_workorder(request, workorder_number):
     directory = settings.MEDIA_ROOT + str(workorder.machine_number.machine_number) + "/"
     if not os.path.exists(directory):
         os.makedirs(directory)
-    workorder_filename = directory + "workorder"
 
+    workorder_filename = directory + "workorder"
     workorder_temp_file = render_to_temporary_file(template=get_template(workorder_template), context=context, request=request)
     wkhtmltopdf(pages=[workorder_temp_file.name], output=workorder_filename, **cmd_options)
 
+    exit_checklist_filename = directory + "exit_checklist"
     exit_checklist_temp_file = render_to_temporary_file(template=get_template(exit_checklist_template), context=context, request=request)
     header_temp_file = render_to_temporary_file(template=get_template(header_template), context=context, request=request)
     footer_temp_file = render_to_temporary_file(template=get_template(footer_template), context=context, request=request)
     cmd_options['header-html'] = header_temp_file.name
     cmd_options['footer-html'] = footer_temp_file.name
-    exit_checklist_filename = directory + "exit_checklist"
     wkhtmltopdf(pages=[exit_checklist_temp_file.name], output=exit_checklist_filename, **cmd_options)
 
     filename = directory + str(out_datetime)
@@ -194,6 +194,7 @@ def process_workorder(request, workorder_number):
     os.remove(workorder_filename)
     os.remove(exit_checklist_filename)
 
+    filename = str(workorder.machine_number.machine_number) + "/" + str(out_datetime)
     workorder.annex = filename
     workorder.save()
     filename = str(workorder.machine_number.machine_number) + " " + str(out_datetime)
