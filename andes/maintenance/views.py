@@ -160,18 +160,11 @@ def process_workorder(request, workorder_number):
 
         machine_lubrication_chart_list = MachineLubricationChart.objects.filter(machine_number=workorder.machine_number, level=workorder.level)
         context['machine_lubrication_chart_list'] = machine_lubrication_chart_list
-        lc_descriptions = []
+        lubrication_chart_descriptions = []
         for i in machine_lubrication_chart_list:
             for j in LubricationChartDescription.objects.filter(lubrication_chart=i.id):
-                lc_descriptions.append((j.number, j.description))
-        len_lcd = len(lc_descriptions)
-        lc_descriptions = sorted(lc_descriptions)
-        if len_lcd%2 == 1:
-            range_lcd = [(lc_descriptions[i][0],lc_descriptions[i][1], lc_descriptions[(len_lcd/2)+i+1][0], lc_descriptions[(len_lcd/2)+i+1][1]) for i in xrange(0, len_lcd/2)]
-            range_lcd.append((lc_descriptions[len_lcd/2][0], lc_descriptions[len_lcd/2][1], "", ""))
-        else:
-            range_lcd = [(lc_descriptions[i][0],lc_descriptions[i][1], lc_descriptions[(len_lcd/2)+i][0], lc_descriptions[(len_lcd/2)+i][1]) for i in xrange(0, len_lcd/2)]
-        context['lubrication_chart_descriptions'] = range_lcd
+                lubrication_chart_descriptions.append((j.number, j.description))
+        context['lubrication_chart_descriptions'] = sorted(lubrication_chart_descriptions)
 
         context['today'] = datetime.today()
 

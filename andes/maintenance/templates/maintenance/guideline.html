@@ -106,8 +106,7 @@
 					<table class="gl-table">
 						<tr><td class="blank"><b>Observaciones</b></td></tr>
 						<tr>
-							<!-- insert observations here -->
-							<td><br></td>
+							<td>{{ request.POST.initial_observations }}</td>
 						</tr>
 					</table>
 				</div>
@@ -198,23 +197,15 @@
 					<!-- revisar esta parte ^ -->
 				</div>
 				<div>
-					<!-- revisar esta parte v -->
 					<table class="gl-table">
-						{% for number1, description1, number2, description2 in lubrication_chart_descriptions %}
+						{% for number, description in lubrication_chart_descriptions %}
 						<tr>
-							<td>{{ number1 }}</td>
-							<td>{{ description1 }}</td>
-							{% if number2 == "" and description2 == "" %}
-							<td><br></td>
-							<td><br></td>
-							{% else %}
-							<td>{{ number2 }}</td>
-							<td>{{ description2 }}</td>
-							{% endif %}
+							<td>{{ number }}</td>
+							<td>{{ description }}</td>
+							<th>X</th>
 						</tr>
 						{% endfor %}
 					</table>
-					<!-- revisar esta parte ^ -->
 				</div>
 			</div>
 			<div id="exit-checklist">
@@ -243,7 +234,7 @@
 						<td colspan="4">Observación</td>
 					</tr>
 					<tr>
-						<td colspan="4"><br></td>
+						<td colspan="4">{{ request.POST.final_observations }}</td>
 					</tr>
 				</table>
 				<table class="gl-table">
