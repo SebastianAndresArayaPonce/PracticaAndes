@@ -201,7 +201,7 @@ def process_workorder(request, workorder_number):
 
     if workorder.work_type.name == 'Preventivo':
         guideline_template = 'maintenance/guideline.html'
-        guideline_temp_file = render_to_temporary_file(template=get_template(exit_checklist_template), context=context, request=request)
+        guideline_temp_file = render_to_temporary_file(template=get_template(guideline_template), context=context, request=request)
         guideline_filename = directory + "guideline"
         wkhtmltopdf(pages=[guideline_temp_file.name], output=guideline_filename, **cmd_options)
     else:
