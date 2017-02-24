@@ -123,14 +123,23 @@ def process_workorder(request, workorder_number):
     i_quantitys = dict((s,form[s]) for s in form.keys() if "input_quantity" in s and form[s] != "")
     for key in i_ids:
         i_types[key]= Input.objects.get(pk=form[key]).input_type
+
     i_order_types = sorted(i_types)
     i_order_quantitys = sorted(i_quantitys)
-    is_i_len_greater_than_0 = len(i_ids)
-    range_i = [(i_order_types[i],i_order_quantitys[i]) for i in xrange(len(i_ids))]
-    context['inputs'] = {'types': i_types,
-                        'quantitys': i_quantitys,
-                        'range': range_i,
-                        'validator': is_i_len_greater_than_0}
+
+    inputs = []
+    if workorder.work_type.name == 'Preventivo':
+        machine_input_list = MachineInput.objects.filter(machine_number=workorder.machine_number, level=workorder.level)
+        for machine_input in machine_input_list:
+            inputs.append((machine_input.input_number.input_type, machine_input.quantity))
+
+    for i in xrange(len(i_ids)):
+        inputs.append((i_types[i_order_types[i]], i_quantitys[i_order_quantitys[i]]))
+
+    is_i_len_greater_than_0 = len(inputs)
+    context['inputs'] = {   'range': inputs,
+                            'validator': is_i_len_greater_than_0
+                        }
 
     machine_instruction_list = MachineInstruction.objects.filter(machine_number=workorder.machine_number, level=workorder.level)
     context['last_instruction_list'] = machine_instruction_list.filter(instruction_type="Last")
@@ -211,7 +220,10 @@ def process_workorder(request, workorder_number):
     workorder.save()
     filename = str(workorder.machine_number.machine_number) + " " + str(out_datetime)
 
-    return PDFTemplateResponse(request=request, template=guideline_template, filename=filename, context=context, cmd_options=cmd_options, header_template=header_template, footer_template=footer_template)
+    cmd_options['header-html'] = None
+    cmd_options['footer-html'] = None
+    return PDFTemplateResponse(request=request, template=workorder_template, filename=filename, context=context, cmd_options=cmd_options)
+    #return PDFTemplateResponse(request=request, template=guideline_template, filename=filename, context=context, cmd_options=cmd_options, header_template=header_template, footer_template=footer_template)
 
 @login_required
 def get_work_description(request, suffix):
