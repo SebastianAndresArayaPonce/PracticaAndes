@@ -47,8 +47,16 @@
 							<tr>
 								<td>{{ machine_spare_part.spare_part.spare_part_type }}</td>
 								<td class="center">{{ machine_spare_part.quantity }}</td>
+								{% if machine_spare_part.spare_part.factory_number == None %}
+								<td class="center">-</td>
+								{% else %}
 								<td class="center">{{ machine_spare_part.spare_part.factory_number }}</td>
+								{% endif %}
+								{% if machine_spare_part.spare_part.sage_number == None %}
+								<td class="center">-</td>
+								{% else %}
 								<td class="center">{{ machine_spare_part.spare_part.sage_number }}</td>
+								{% endif %}
 							</tr>
 							{% endfor %}
 						{% else %}

@@ -147,7 +147,7 @@
 					<td colspan="6" class="center wo-solid-right wo-solid-left">{{ workorder_work_description.id_work_description.description }}</td>
 				</tr>
 				{% endfor %}
-			{% else %}
+			{% else if workorder.work_type.name != "Preventivo"%}
 			<tr>
 				<td colspan="6" class="wo-solid-right wo-solid-left"><br></td>
 			</tr>

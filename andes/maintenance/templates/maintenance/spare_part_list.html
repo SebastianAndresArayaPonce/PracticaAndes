@@ -2,7 +2,13 @@
   <td class="wo-solid-left"><select class="wo-form-select" id="spare_part_number_{{ suffix }}" name="spare_part_number_{{ suffix }}">
     <option selected value> -- select an option -- </option>
     {% for entry in spare_part_list %}
+      {% if entry.factory_number == None %}
+      <option value="{{entry.id}}">F: - / S: {{ entry.sage_number }}</option>
+      {% else if entry.sage_number == None %}
+      <option value="{{entry.id}}">F: {{ entry.factory_number }} / S: -</option>
+      {% else %}
       <option value="{{entry.id}}">F: {{ entry.factory_number }} / S: {{ entry.sage_number }}</option>
+      {% endif %}
     {% endfor %}
   </select></td>
   <td id="spare_part_description_{{ suffix }}"><br></td>

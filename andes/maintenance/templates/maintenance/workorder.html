@@ -1,7 +1,6 @@
 <!DOCTYPE HTML>
 
 {% load static %}
-{% load workorder_extras %}
 
 <html>
 	<head>
@@ -136,7 +135,7 @@
 							<td colspan="6" class="center wo-solid-right wo-solid-left">{{ workorder_work_description.id_work_description.description }}</td>
 						</tr>
 						{% endfor %}
-					{% else %}
+					{% else if workorder.work_type.name != "Preventivo" %}
 					<tr>
 						<td colspan="6" class="wo-solid-right wo-solid-left"><br></td>
 					</tr>
@@ -175,7 +174,13 @@
 					{% if workorder.work_type.name == 'Preventivo' %}
 						{% for machine_spare_part in machine_spare_part_list %}
 						<tr class="spare_part_row">
+							{% if machine_spare_part.spare_part.factory_number == None %}
+							<td class="wo-solid-left">F: - / S: {{ machine_spare_part.spare_part.sage_number }}</td>
+							{% else if machine_spare_part.spare_part.sage_number == None %}
+							<td class="wo-solid-left">F: {{ machine_spare_part.spare_part.factory_number }} / S: -</td>
+							{% else %}
 							<td class="wo-solid-left">F: {{ machine_spare_part.spare_part.factory_number }} / S: {{ machine_spare_part.spare_part.sage_number }}</td>
+							{% endif %}
 							<td>{{ machine_spare_part.spare_part.spare_part_type }}</td>
 							<td class="wo-solid-right">{{ machine_spare_part.quantity }}</td>
 							<td colspan="3" class="blank"><br></td>
@@ -186,7 +191,13 @@
 						<td class="wo-solid-left"><select class="wo-form-select" name="spare_part_number_1" id="spare_part_number_1">
 							<option selected value> -- select an option -- </option>
 							{% for entry in spare_parts %}
-							<option value="{{entry.id}}">F: {{ entry.factory_number }} / S: {{ entry.sage_number }}</option>
+								{% if entry.factory_number == None %}
+					      <option value="{{entry.id}}">F: - / S: {{ entry.sage_number }}</option>
+					      {% else if entry.sage_number == None %}
+					      <option value="{{entry.id}}">F: {{ entry.factory_number }} / S: -</option>
+					      {% else %}
+					      <option value="{{entry.id}}">F: {{ entry.factory_number }} / S: {{ entry.sage_number }}</option>
+					      {% endif %}
 							{% endfor %}
 						</select></td>
 						<td id="spare_part_description_1"><br></td>
@@ -300,8 +311,16 @@
 								<tr>
 									<td>{{ machine_spare_part.spare_part.spare_part_type }}</td>
 									<td class="center">{{ machine_spare_part.quantity }}</td>
+									{% if machine_spare_part.spare_part.factory_number == None %}
+									<td class="center">-</td>
+									{% else %}
 									<td class="center">{{ machine_spare_part.spare_part.factory_number }}</td>
+									{% endif %}
+									{% if machine_spare_part.spare_part.sage_number == None %}
+									<td class="center">-</td>
+									{% else %}
 									<td class="center">{{ machine_spare_part.spare_part.sage_number }}</td>
+									{% endif %}
 								</tr>
 								{% endfor %}
 							{% else %}
@@ -360,7 +379,7 @@
 							<tr><td class="blank"><b>Observaciones</b></td></tr>
 							<tr>
 								<td>
-									<textarea class="gl-form-textarea" name="initial_observations" rows="4" required></textarea>
+									<textarea class="gl-form-textarea" name="initial_observations" rows="4"></textarea>
 								</td>
 							</tr>
 						</table>
@@ -492,7 +511,7 @@
 					</tr>
 					<tr>
 						<td colspan="4">
-							<textarea class="gl-form-textarea" name="final_observations" rows="4" required></textarea>
+							<textarea class="gl-form-textarea" name="final_observations" rows="4"></textarea>
 						</td>
 					</tr>
 				</table>
