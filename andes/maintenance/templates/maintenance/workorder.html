@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 
 {% load static %}
+{% load workorder_extras%}
 
 <html>
 	<head>
@@ -135,10 +136,11 @@
 							<td colspan="6" class="center wo-solid-right wo-solid-left">{{ workorder_work_description.id_work_description.description }}</td>
 						</tr>
 						{% endfor %}
-					{% else if workorder.work_type.name != "Preventivo" %}
+					{% elif workorder.work_type.name != "Preventivo" %}
 					<tr>
 						<td colspan="6" class="wo-solid-right wo-solid-left"><br></td>
 					</tr>
+					{% else %}
 					{% endif %}
 					<tr>
 						<td colspan="6" class="wo-solid-right wo-solid-left wo-bg">Trabajo desarrollado</td>
@@ -176,7 +178,7 @@
 						<tr class="spare_part_row">
 							{% if machine_spare_part.spare_part.factory_number == None %}
 							<td class="wo-solid-left">F: - / S: {{ machine_spare_part.spare_part.sage_number }}</td>
-							{% else if machine_spare_part.spare_part.sage_number == None %}
+							{% elif machine_spare_part.spare_part.sage_number == None %}
 							<td class="wo-solid-left">F: {{ machine_spare_part.spare_part.factory_number }} / S: -</td>
 							{% else %}
 							<td class="wo-solid-left">F: {{ machine_spare_part.spare_part.factory_number }} / S: {{ machine_spare_part.spare_part.sage_number }}</td>
@@ -193,7 +195,7 @@
 							{% for entry in spare_parts %}
 								{% if entry.factory_number == None %}
 					      <option value="{{entry.id}}">F: - / S: {{ entry.sage_number }}</option>
-					      {% else if entry.sage_number == None %}
+					      {% elif entry.sage_number == None %}
 					      <option value="{{entry.id}}">F: {{ entry.factory_number }} / S: -</option>
 					      {% else %}
 					      <option value="{{entry.id}}">F: {{ entry.factory_number }} / S: {{ entry.sage_number }}</option>

@@ -15,9 +15,15 @@ from .models import *
 # Create your views here.
 def index(request):
     template = 'maintenance/index.html'
-    machine_list = Machine.objects.all()
-    context = {'machine_list': machine_list}
-    return render(request, 'maintenance/index.html', context)
+    context = {}
+    return render(request, template, context)
+
+@login_required
+def dashboard(request):
+    template = 'maintenance/dashboard.html'
+    workorder_list = WorkOrder.objects.all()
+    context = {'workorder_list': workorder_list}
+    return render(request, template, context)
 
 @login_required
 def workorder(request, workorder_number):
