@@ -183,11 +183,6 @@ class Hourmeter(models.Model):
     datetime = models.DateTimeField()
     hourmeter_to_date = models.PositiveIntegerField()
 
-class Odometer(models.Model):
-    machine_number = models.ForeignKey(Machine, on_delete=models.PROTECT)
-    datetime = models.DateTimeField()
-    odometer_to_date = models.PositiveIntegerField()
-
 class Status(models.Model):
     name = models.CharField(max_length=100, primary_key=True)
     def __unicode__(self):
