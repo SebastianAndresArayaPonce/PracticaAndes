@@ -1,5 +1,5 @@
-maintenance/media/*
-!maintenance/media/images/*
+andes/maintenance/media/*
+!andes/maintenance/media/images/*
 *.pyc
 *.pyo
 *.sqlite3
