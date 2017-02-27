@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+
+{% load static %}
+{% load workorder_extras %}
+
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link rel="stylesheet" type="text/css" href="{% static 'maintenance/stylesheet.css' %}" />
+	</head>
+	<body>
+    <div class="purchase_order">
+      <div class="purchase_order_spare_part">
+        <table>
+          <tr>
+            <td>Factory/Sage Code</td>
+            <td>Description</td>
+            <td>Quantity</td>
+            <td>Currency</td>
+            <td>Total</td>
+          </tr>
+          {% if spare_parts.validator %}
+            {% for x, y, z in spare_parts.list %}
+            <tr>
+              <td>{{ x }}</td>
+              <td>{{ y }}</td>
+              <td>{{ z }}</td>
+              <td>USD</td>
+              <td>{{ total_costs|key:forloop.counter0 }}</td>
+            </tr>
+            {% endfor %}
+          {% else %}
+          <tr>
+            <td><br></td>
+            <td><br></td>
+            <td><br></td>
+            <td><br></td>
+            <td><br></td>
+            <td><br></td>
+          </tr>
+          {% endif %}
+        </table>
+      </div>
+    </div>
+	</body>
+</html>

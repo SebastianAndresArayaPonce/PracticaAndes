@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 import os
 from datetime import datetime
+from decimal import Decimal
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponseForbidden, HttpResponse
 from django.shortcuts import render
 from django.template.loader import get_template
 from PyPDF2 import PdfFileMerger, PdfFileReader
@@ -29,8 +30,10 @@ def dashboard(request):
 def workorder(request, workorder_number):
     try:
         workorder = WorkOrder.objects.get(pk=workorder_number)
+        if workorder.is_closed:
+            return HttpResponseForbidden("This WorkOrder is already closed")
     except WorkOrder.DoesNotExist:
-        raise Http404("WorkOrder does not exist")
+        return Http404("This WorkOrder does not exist")
 
     context = {}
     context['workorder'] = workorder
@@ -74,8 +77,10 @@ def workorder(request, workorder_number):
 def process_workorder(request, workorder_number):
     try:
         workorder = WorkOrder.objects.get(pk=workorder_number)
+        if workorder.is_closed:
+            return HttpResponseForbidden("This WorkOrder is already closed")
     except WorkOrder.DoesNotExist:
-        raise Http404("WorkOrder does not exist")
+        return Http404("This WorkOrder does not exist")
 
     context = {}
     context['workorder'] = workorder
@@ -88,29 +93,41 @@ def process_workorder(request, workorder_number):
     context['out_datetime'] = out_datetime
 
     sp_ids = dict((s,form[s]) for s in form.keys() if "spare_part_number" in s and form[s] != "")
+    sp_prices = {}
     sp_numbers = {}
     sp_descriptions = {}
     sp_quantitys = dict((s,form[s]) for s in form.keys() if "spare_part_quantity" in s and form[s] != "")
     for key in sp_ids:
         item = SparePart.objects.get(pk=form[key])
+        sp_prices[key]=SparePartHistoricPrice.objects.filter(pk=item.id).latest('date').price
         sp_numbers[key]="F:%s S:%s" % (item.factory_number, item.sage_number)
         sp_descriptions[key.replace("number", "description")]=item.spare_part_type
 
     sp_order_numbers = sorted(sp_numbers)
     sp_order_descriptions = sorted(sp_descriptions)
     sp_order_quantitys = sorted(sp_quantitys)
+    sp_order_prices = sorted(sp_prices)
 
     spare_parts = []
+    spare_part_prices = []
+    total_costs = []
     if workorder.work_type.name == 'Preventivo':
         machine_spare_part_list = MachineSparePart.objects.filter(machine_number=workorder.machine_number, level=workorder.level)
         for machine_spare_part in machine_spare_part_list:
             msp_number = "F:%s S:%s" % (machine_spare_part.spare_part.factory_number, machine_spare_part.spare_part.sage_number)
             msp_description = machine_spare_part.spare_part.spare_part_type
             msp_quantity = machine_spare_part.quantity
+            msp_price = SparePartHistoricPrice.objects.filter(spare_part=machine_spare_part.spare_part.id).latest('date').price
+            msp_total_price = msp_price * Decimal(msp_quantity)
             spare_parts.append((msp_number, msp_description, msp_quantity))
+            spare_part_prices.append(msp_price)
+            total_costs.append(msp_total_price)
 
     for i in xrange(len(sp_ids)):
+        sp_total_price = sp_prices[sp_order_prices[i]] * Decimal(sp_quantitys[sp_order_quantitys[i]])
         spare_parts.append((sp_numbers[sp_order_numbers[i]], sp_descriptions[sp_order_descriptions[i]], sp_quantitys[sp_order_quantitys[i]]))
+        spare_part_prices.append(sp_prices[sp_order_prices[i]])
+        total_costs.append(sp_total_price)
 
     is_sp_len_greater_than_0 = len(spare_parts) > 0
     is_sp_even = len(spare_parts)%2 == 1
@@ -144,7 +161,7 @@ def process_workorder(request, workorder_number):
 
     is_i_len_greater_than_0 = len(inputs)
     context['inputs'] = {   'range': inputs,
-                            'validator': is_i_len_greater_than_0
+                            'validator': is_i_len_greater_than_0,
                         }
 
     machine_instruction_list = MachineInstruction.objects.filter(machine_number=workorder.machine_number, level=workorder.level)
@@ -228,11 +245,29 @@ def process_workorder(request, workorder_number):
     workorder.out_datetime = out_datetime
     workorder.mechanic = User.objects.get(pk=request.user.id)
     workorder.annex = filename
+    workorder.is_closed = True
     workorder.save()
 
-    filename = str(workorder.machine_number.machine_number) + " " + str(out_datetime)
     cmd_options['header-html'] = None
     cmd_options['footer-html'] = None
+
+    context['spare_parts'] = {  'list': spare_parts,
+                                'validator': is_sp_len_greater_than_0,
+                                }
+    context['total_costs'] = total_costs
+    subdirectory = directory + "purchase_order/"
+    if not os.path.exists(subdirectory):
+        os.makedirs(subdirectory)
+
+    purchase_order_template = 'maintenance/purchase_order.html'
+    purchase_order_temp_file = render_to_temporary_file(template=get_template(purchase_order_template), context=context, request=request)
+    purchase_order_filename = subdirectory + str(out_datetime)
+    short_purchase_order_filename = str(workorder.machine_number.machine_number) + "/purchase_order/" + str(out_datetime)
+    wkhtmltopdf(pages=[purchase_order_temp_file.name], output=purchase_order_filename, **cmd_options)
+    purchase_order = PurchaseOrder(work_order=workorder, estimate = short_purchase_order_filename)
+    purchase_order.save()
+
+    filename = str(workorder.machine_number.machine_number) + " " + str(out_datetime)
     return PDFTemplateResponse(request=request, template=workorder_template, filename=filename, context=context, cmd_options=cmd_options)
 
 @login_required
@@ -255,7 +290,7 @@ def get_spare_part_type(request, id):
     try:
         spare_part_type = SparePart.objects.get(pk=id).spare_part_type
     except SparePart.DoesNotExist:
-        raise Http404("SparePart does not exist")
+        return Http404("SparePart does not exist")
     return HttpResponse(spare_part_type)
 
 @login_required

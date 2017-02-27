@@ -48,6 +48,7 @@ class WorkOrder(models.Model):
     out_datetime = models.DateTimeField(null=True, blank=True)
     mechanic = models.ForeignKey(User, on_delete=models.PROTECT, null=True, blank=True, related_name='mechanic')
     team_leader = models.ForeignKey(User, on_delete=models.PROTECT, related_name='team_leader')
+    is_closed = models.BooleanField(default=False)
     def clean(self):
         if self.work_type.name == "Preventivo" and self.level == None:
             raise forms.ValidationError('Field level is required for this type of work')
@@ -204,11 +205,9 @@ class History(models.Model):
     def __unicode__(self):
         return '%s | %s' % (self.machine_number, self.date)
 
+'''
 class PurchaseOrder(models.Model):
-    work_order = models.ForeignKey(WorkOrder, on_delete=models.PROTECT)
-    spare_part = models.ForeignKey(SparePart, on_delete=models.PROTECT)
-    unit_cost = models.DecimalField(max_digits=9, decimal_places=2)
-    quantity = models.PositiveIntegerField()
+    work_order = models.OneToOneField(WorkOrder, on_delete=models.PROTECT)
+    estimate = models.FileField()
     def __unicode__(self):
         return str(self.work_order)
-'''
