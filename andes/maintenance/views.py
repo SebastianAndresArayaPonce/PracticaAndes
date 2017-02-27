@@ -228,7 +228,6 @@ def process_workorder(request, workorder_number):
     cmd_options['header-html'] = None
     cmd_options['footer-html'] = None
     return PDFTemplateResponse(request=request, template=workorder_template, filename=filename, context=context, cmd_options=cmd_options)
-    #return PDFTemplateResponse(request=request, template=guideline_template, filename=filename, context=context, cmd_options=cmd_options, header_template=header_template, footer_template=footer_template)
 
 @login_required
 def get_work_description(request, suffix):
