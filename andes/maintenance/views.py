@@ -241,11 +241,6 @@ def process_workorder(request, workorder_number):
     else:
         os.remove(exit_checklist_filename)
 
-    with open( filename , 'r') as pdf:
-        response = HttpResponse(pdf.read(), content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename=' + str(workorder.machine_number.machine_number) + "/" + str(out_datetime)
-    pdf.closed
-
     filename = str(workorder.machine_number.machine_number) + "/" + str(out_datetime)
     workorder.out_datetime = out_datetime
     workorder.mechanic = User.objects.get(pk=request.user.id)
@@ -272,7 +267,9 @@ def process_workorder(request, workorder_number):
     purchase_order = PurchaseOrder(work_order=workorder, estimate = short_purchase_order_filename)
     purchase_order.save()
 
-    return response
+    download_template = 'maintenance/download.html'
+    download_context = {'pdf_url': str(workorder.machine_number.machine_number) + "/" + str(out_datetime)}
+    return render (request, download_template, download_context)
 
 @login_required
 def get_work_description(request, suffix):

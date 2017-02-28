@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+
+{% load static %}
+
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link rel="stylesheet" type="text/css" href="{% static 'maintenance/stylesheet.css' %}" />
+	</head>
+	<body>
+    <div class="index">
+      <h3>Gran trabajo. ahora descarga e imprime el documento para terminar.</h3>
+      <p>Descárgalo <a href="/media/{{ pdf_url }}">aquí</a></p>
+      <p><a href="/dashboard/">Volver</a></p>
+    </div>
+	</body>
+</html>
