@@ -4,7 +4,7 @@
     {% for entry in spare_part_list %}
       {% if entry.factory_number == None %}
       <option value="{{entry.id}}">F: - / S: {{ entry.sage_number }}</option>
-      {% else if entry.sage_number == None %}
+      {% elif entry.sage_number == None %}
       <option value="{{entry.id}}">F: {{ entry.factory_number }} / S: -</option>
       {% else %}
       <option value="{{entry.id}}">F: {{ entry.factory_number }} / S: {{ entry.sage_number }}</option>

@@ -19,13 +19,15 @@
             <td><br></td>
           </tr>
           {% for workorder in workorder_list %}
-          <tr>
-            <td>{{ workorder.machine_number.machine_number }}</td>
-            <td>{{ workorder.machine_number.family.name }}</td>
-            <td>{{ workorder.in_datetime }}</td>
-            <td>{{ workorder.work_type.name }}</td>
-            <td><a href="/workorder/{{ workorder.order_number }}">I want this!</a></td>
-          </tr>
+						{% if workorder.is_closed == False %}
+	          <tr>
+	            <td>{{ workorder.machine_number.machine_number }}</td>
+	            <td>{{ workorder.machine_number.family.name }}</td>
+	            <td>{{ workorder.in_datetime }}</td>
+	            <td>{{ workorder.work_type.name }}</td>
+	            <td><a href="/workorder/{{ workorder.order_number }}">I want this!</a></td>
+	          </tr>
+						{% endif %}
           {% endfor %}
         </table>
       </div>

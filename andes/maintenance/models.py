@@ -178,6 +178,19 @@ class Inventory(models.Model):
     def __unicode__(self):
         return str(self.machine_number)
 
+class Profile(models.Model):
+    bp = models.PositiveIntegerField(primary_key=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    airport = models.ForeignKey(Airport, on_delete=models.PROTECT)
+    area = models.ForeignKey(Area, on_delete=models.PROTECT)
+    def __unicode__(self):
+        return self.user.username
+
+class PurchaseOrder(models.Model):
+    work_order = models.OneToOneField(WorkOrder, on_delete=models.PROTECT)
+    estimate = models.FileField()
+    def __unicode__(self):
+        return str(self.work_order)
 '''
 class Hourmeter(models.Model):
     machine_number = models.ForeignKey(Machine, on_delete=models.PROTECT)
@@ -188,15 +201,7 @@ class Status(models.Model):
     name = models.CharField(max_length=100, primary_key=True)
     def __unicode__(self):
         return self.name
-'''
-class Profile(models.Model):
-    bp = models.PositiveIntegerField(primary_key=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    airport = models.ForeignKey(Airport, on_delete=models.PROTECT)
-    area = models.ForeignKey(Area, on_delete=models.PROTECT)
-    def __unicode__(self):
-        return self.user.username
-'''
+
 class History(models.Model):
     machine_number = models.ForeignKey(Machine, on_delete=models.PROTECT)
     datetime = models.DateTimeField()
@@ -206,8 +211,3 @@ class History(models.Model):
         return '%s | %s' % (self.machine_number, self.date)
 
 '''
-class PurchaseOrder(models.Model):
-    work_order = models.OneToOneField(WorkOrder, on_delete=models.PROTECT)
-    estimate = models.FileField()
-    def __unicode__(self):
-        return str(self.work_order)

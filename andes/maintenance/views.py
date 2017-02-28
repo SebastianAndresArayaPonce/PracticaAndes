@@ -241,6 +241,11 @@ def process_workorder(request, workorder_number):
     else:
         os.remove(exit_checklist_filename)
 
+    with open( filename , 'r') as pdf:
+        response = HttpResponse(pdf.read(), content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename=' + str(workorder.machine_number.machine_number) + "/" + str(out_datetime)
+    pdf.closed
+
     filename = str(workorder.machine_number.machine_number) + "/" + str(out_datetime)
     workorder.out_datetime = out_datetime
     workorder.mechanic = User.objects.get(pk=request.user.id)
@@ -267,8 +272,7 @@ def process_workorder(request, workorder_number):
     purchase_order = PurchaseOrder(work_order=workorder, estimate = short_purchase_order_filename)
     purchase_order.save()
 
-    filename = str(workorder.machine_number.machine_number) + " " + str(out_datetime)
-    return PDFTemplateResponse(request=request, template=workorder_template, filename=filename, context=context, cmd_options=cmd_options)
+    return response
 
 @login_required
 def get_work_description(request, suffix):
@@ -279,8 +283,8 @@ def get_work_description(request, suffix):
 
 @login_required
 def get_spare_part_list(request, suffix):
-    new_suffix = str(int(suffix) + 1)
     spare_part_list = SparePart.objects.all()
+    new_suffix = str(int(suffix) + 1)
     template = 'maintenance/spare_part_list.html'
     context = {'spare_part_list': spare_part_list, 'suffix': new_suffix}
     return render(request, template, context)
